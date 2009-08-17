@@ -22,13 +22,6 @@
  ******************************************************************************/
 package org.gatein.wci.spi;
 
-import org.gatein.wci.RequestDispatchCallback;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import java.io.IOException;
 
 /**
  * Defines the service provider interface for a servlet container. It is an attempt to abstract the non

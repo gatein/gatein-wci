@@ -29,13 +29,13 @@ import javax.servlet.ServletException;
 
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
-import org.exoplatform.container.PortalContainer;
 import org.gatein.wci.command.CommandServlet;
 
 /**
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
  * @version $Revision: 1.1 $
  */
+@SuppressWarnings("serial")
 public class GenericBootstrapServlet extends CommandServlet
 {
 

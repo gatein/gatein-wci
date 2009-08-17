@@ -181,7 +181,7 @@ public class EndPointResponse extends AbstractWebResponse
          boolean first = true;
          if (parameters != null)
          {
-            for (Map.Entry parameter: parameters.entrySet())
+            for (Map.Entry<String, String[]> parameter: parameters.entrySet())
             {
                String name = (String)parameter.getKey();
 

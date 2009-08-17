@@ -40,6 +40,7 @@ import java.io.IOException;
  * @author <a href="mailto:julien@jboss-portal.org">Julien Viet</a>
  * @version $Revision: 630 $
  */
+@SuppressWarnings("serial")
 public class WebPathTestCase extends EndPointTestCase
 {
 

@@ -38,7 +38,6 @@ import org.exoplatform.container.ExoContainerContext;
 import org.gatein.wci.RequestDispatchCallback;
 import org.gatein.wci.ServletContainer;
 import org.gatein.wci.command.CommandDispatcher;
-import org.gatein.wci.impl.DefaultServletContainerFactory;
 import org.gatein.wci.spi.ServletContainerContext;
 
 import javax.servlet.ServletContext;

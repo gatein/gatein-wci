@@ -39,6 +39,7 @@ import java.lang.reflect.Method;
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
  * @version $Revision: 1.1 $
  */
+@SuppressWarnings({"serial", "unchecked"})
 public class CommandServlet extends HttpServlet
 {
 
@@ -49,7 +50,7 @@ public class CommandServlet extends HttpServlet
    private static final ThreadLocal localResponse = new ThreadLocal();
 
    /** . */
-   private static final ThreadLocal localThrowable = new ThreadLocal();
+   private static final ThreadLocal<Throwable> localThrowable = new ThreadLocal<Throwable>();
 
    /**
     * <p>Execute a command after having performed a request dispatch in the target servlet context.</p>

@@ -54,6 +54,7 @@ import java.io.ByteArrayInputStream;
  * @author <a href="mailto:julien@jboss-portal.org">Julien Viet</a>
  * @version $Revision: 630 $
  */
+@SuppressWarnings("serial")
 public abstract class EndPointServlet extends HttpServlet
 {
 

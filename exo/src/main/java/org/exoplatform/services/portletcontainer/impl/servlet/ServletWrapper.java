@@ -35,6 +35,7 @@ import org.gatein.wci.command.CommandServlet;
  * @author <a href="mailto:mwringe@redhat.com">Matt Wringe</a>
  * @version $Revision$
  */
+@SuppressWarnings("serial")
 public class ServletWrapper extends CommandServlet
 {
 
