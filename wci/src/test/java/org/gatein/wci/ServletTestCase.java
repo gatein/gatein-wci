@@ -45,6 +45,7 @@ import java.util.Collections;
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
  * @version $Revision: 1.1 $
  */
+@SuppressWarnings("serial")
 public abstract class ServletTestCase extends AbstractTestDriver implements RemoteTestDriver, TestCaseInfo
 {
 

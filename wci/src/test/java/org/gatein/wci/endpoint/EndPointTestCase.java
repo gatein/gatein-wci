@@ -29,6 +29,7 @@ import org.gatein.wci.endpoint.EndPointServlet;
  * @author <a href="mailto:julien@jboss-portal.org">Julien Viet</a>
  * @version $Revision: 630 $
  */
+@SuppressWarnings("serial")
 public abstract class EndPointTestCase extends ServletTestCase
 {
 

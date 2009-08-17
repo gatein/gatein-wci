@@ -32,7 +32,6 @@ import org.gatein.wci.WebApp;
 import org.gatein.wci.WebAppRegistry;
 import org.gatein.wci.WebRequest;
 import org.gatein.wci.WebResponse;
-import org.gatein.wci.impl.DefaultServletContainerFactory;
 import org.gatein.wci.spi.callbacks.ExceptionCallback;
 import org.gatein.wci.spi.callbacks.NormalCallback;
 import org.jboss.unit.driver.DriverResponse;
@@ -55,6 +54,7 @@ import java.util.HashSet;
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
  * @version $Revision: 1.1 $
  */
+@SuppressWarnings("serial")
 public class SPITestCase extends ServletTestCase
 {
 
@@ -166,7 +166,7 @@ public class SPITestCase extends ServletTestCase
       else if (getRequestCount() == 0)
       {
          // Compute the difference with the previous deployed web apps
-         Set diff = new HashSet<String>(registry.getKeys());
+         Set<String> diff = new HashSet<String>(registry.getKeys());
          diff.removeAll(keys);
 
          // It should be 1

@@ -56,6 +56,7 @@ public class RequestDecoder
    /** . */
    private final Body body;
 
+   @SuppressWarnings("unchecked")
    public RequestDecoder(HttpServletRequest request) throws UnsupportedEncodingException
    {
       if (request == null)

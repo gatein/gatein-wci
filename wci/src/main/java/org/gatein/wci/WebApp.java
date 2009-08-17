@@ -22,10 +22,10 @@
  ******************************************************************************/
 package org.gatein.wci;
 
-import javax.servlet.ServletContext;
-import java.net.URL;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
+
+import javax.servlet.ServletContext;
 
 /**
  * Abstraction of a web application.

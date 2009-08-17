@@ -22,16 +22,7 @@
  ******************************************************************************/
 package org.gatein.wci.impl.generic;
 
-import org.gatein.wci.RequestDispatchCallback;
-import org.gatein.wci.command.CommandDispatcher;
-import org.gatein.wci.impl.DefaultServletContainerFactory;
 import org.gatein.wci.spi.ServletContainerContext;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
@@ -58,9 +49,6 @@ public class GenericServletContainerContext implements ServletContainerContext
          registration.unregisterWebApp(webAppId);
       }
    }
-
-   /** . */
-   private final CommandDispatcher dispatcher = new CommandDispatcher();
 
    public void setCallback(Registration registration)
    {

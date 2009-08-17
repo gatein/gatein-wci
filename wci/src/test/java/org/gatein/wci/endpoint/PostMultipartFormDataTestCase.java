@@ -26,7 +26,6 @@ import org.gatein.wci.Body;
 import org.gatein.wci.TestServlet;
 import org.gatein.wci.WebRequest;
 import org.gatein.wci.WebResponse;
-import org.jboss.portal.common.text.FastURLEncoder;
 import org.jboss.portal.common.io.IOTools;
 import org.jboss.unit.driver.DriverResponse;
 import org.jboss.unit.driver.DriverCommand;
@@ -49,12 +48,9 @@ import java.util.Map;
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
  * @version $Revision: 1.1 $
  */
+@SuppressWarnings("serial")
 public class PostMultipartFormDataTestCase extends EndPointTestCase
 {
-
-   /** . */
-   private final FastURLEncoder encoder = FastURLEncoder.getUTF8Instance();
-
    public PostMultipartFormDataTestCase()
    {
    }

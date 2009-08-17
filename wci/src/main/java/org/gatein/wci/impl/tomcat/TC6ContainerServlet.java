@@ -34,6 +34,7 @@ import javax.servlet.ServletException;
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
  * @version $Revision: 1.1 $
  */
+@SuppressWarnings("serial")
 public class TC6ContainerServlet extends HttpServlet implements ContainerServlet
 {
 

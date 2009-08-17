@@ -22,7 +22,6 @@
  ******************************************************************************/
 package org.gatein.wci.impl.tomcat;
 
-import org.w3c.dom.Document;
 import org.apache.catalina.Context;
 import org.apache.catalina.Wrapper;
 import org.gatein.wci.command.CommandServlet;
@@ -41,9 +40,6 @@ public class TC6WebAppContext implements WebAppContext
 
    /** The logger. */
 //   protected final Logger log = Logger.getLogger(getClass());
-
-   /** . */
-   private Document descriptor;
 
    /** . */
    private ServletContext servletContext;

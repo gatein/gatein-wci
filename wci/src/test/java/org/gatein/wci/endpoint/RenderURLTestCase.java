@@ -44,6 +44,7 @@ import java.util.Map;
  * @author <a href="mailto:julien@jboss-portal.org">Julien Viet</a>
  * @version $Revision: 630 $
  */
+@SuppressWarnings("serial")
 public class RenderURLTestCase extends EndPointTestCase
 {
 
