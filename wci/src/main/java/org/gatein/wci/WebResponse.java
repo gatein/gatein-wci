@@ -22,7 +22,7 @@
  ******************************************************************************/
 package org.gatein.wci;
 
-import org.jboss.portal.common.servlet.URLFormat;
+import org.gatein.common.servlet.URLFormat;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
@@ -58,7 +58,7 @@ public interface WebResponse extends HttpServletResponse
    /**
     * Renders an URL in the provided writer.
     *
-    * @see org.gatein.wci.WebResponse#renderURL(String, java.util.Map, org.jboss.portal.common.servlet.URLFormat)
+    * @see org.gatein.wci.WebResponse#renderURL(String, java.util.Map, org.gatein.common.servlet.URLFormat)
     * @param writer the writer
     * @param path the path relative to the web context
     * @param parameters the optional parameter map

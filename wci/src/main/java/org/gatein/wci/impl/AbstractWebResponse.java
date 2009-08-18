@@ -23,7 +23,7 @@
 package org.gatein.wci.impl;
 
 import org.gatein.wci.WebResponse;
-import org.jboss.portal.common.servlet.URLFormat;
+import org.gatein.common.servlet.URLFormat;
 
 import javax.servlet.http.HttpServletResponseWrapper;
 import javax.servlet.http.HttpServletResponse;
@@ -45,7 +45,7 @@ public abstract class AbstractWebResponse extends HttpServletResponseWrapper imp
    }
 
    /**
-    * The implementation renders the URL by delegating to the {@link AbstractWebResponse#renderURL(String, java.util.Map, org.jboss.portal.common.servlet.URLFormat)}
+    * The implementation renders the URL by delegating to the {@link AbstractWebResponse#renderURL(String, java.util.Map, org.gatein.common.servlet.URLFormat)}
     * methods and then prints it in the specified writer. The method can be overriden in order to provide a customized implementation. 
     */
    public void renderURL(Writer writer, String path, Map<String, String[]> parameters, URLFormat wantedURLFormat) throws IllegalArgumentException, IOException

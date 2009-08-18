@@ -24,9 +24,9 @@ package org.gatein.wci.util;
 
 import org.gatein.wci.Body;
 import org.gatein.wci.IllegalRequestException;
-import org.jboss.portal.common.http.QueryStringParser;
-import org.jboss.portal.common.net.media.MediaType;
-import org.jboss.portal.common.net.media.ContentType;
+import org.gatein.common.http.QueryStringParser;
+import org.gatein.common.net.media.MediaType;
+import org.gatein.common.net.media.ContentType;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
