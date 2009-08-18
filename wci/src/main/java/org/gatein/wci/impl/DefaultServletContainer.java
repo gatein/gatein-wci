@@ -32,7 +32,7 @@ import org.gatein.wci.WebExecutor;
 import org.gatein.wci.command.CommandDispatcher;
 import org.gatein.wci.spi.ServletContainerContext;
 import org.gatein.wci.spi.WebAppContext;
-import org.jboss.portal.common.NotYetImplemented;
+import org.gatein.common.NotYetImplemented;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletContext;

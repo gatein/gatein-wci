@@ -31,7 +31,7 @@ import org.jboss.unit.driver.DriverResponse;
 import org.jboss.unit.driver.response.FailureResponse;
 import org.jboss.unit.Failure;
 import org.jboss.unit.info.TestInfo;
-import org.jboss.portal.common.mc.bootstrap.WebBootstrap;
+import org.gatein.common.mc.bootstrap.WebBootstrap;
 
 import javax.servlet.ServletException;
 import java.io.IOException;

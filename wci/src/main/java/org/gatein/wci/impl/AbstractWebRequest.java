@@ -26,7 +26,7 @@ import org.gatein.wci.Body;
 import org.gatein.wci.IllegalRequestException;
 import org.gatein.wci.WebRequest;
 import org.gatein.wci.util.RequestDecoder;
-import org.jboss.portal.common.net.media.MediaType;
+import org.gatein.common.net.media.MediaType;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;

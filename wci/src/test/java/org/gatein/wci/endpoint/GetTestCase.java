@@ -26,7 +26,7 @@ import org.gatein.wci.IllegalRequestException;
 import org.gatein.wci.TestServlet;
 import org.gatein.wci.WebRequest;
 import org.gatein.wci.WebResponse;
-import org.jboss.portal.common.text.FastURLEncoder;
+import org.gatein.common.text.FastURLEncoder;
 import org.jboss.unit.driver.DriverResponse;
 import org.jboss.unit.driver.DriverCommand;
 import org.jboss.unit.driver.response.EndTestResponse;

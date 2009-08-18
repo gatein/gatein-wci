@@ -28,7 +28,7 @@ import org.gatein.wci.WebAppListener;
 import org.gatein.wci.WebAppRegistry;
 import org.gatein.wci.impl.DefaultServletContainer;
 import org.gatein.wci.spi.ServletContainerContext;
-import org.jboss.portal.common.util.Tools;
+import org.gatein.common.util.Tools;
 import org.jboss.unit.api.pojo.annotations.Test;
 import EDU.oswego.cs.dl.util.concurrent.SynchronizedBoolean;
 

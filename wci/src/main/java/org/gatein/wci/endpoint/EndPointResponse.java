@@ -23,9 +23,9 @@
 package org.gatein.wci.endpoint;
 
 import org.gatein.wci.impl.AbstractWebResponse;
-import org.jboss.portal.common.servlet.URLFormat;
-import org.jboss.portal.common.text.CharBuffer;
-import org.jboss.portal.common.text.FastURLEncoder;
+import org.gatein.common.servlet.URLFormat;
+import org.gatein.common.text.CharBuffer;
+import org.gatein.common.text.FastURLEncoder;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;

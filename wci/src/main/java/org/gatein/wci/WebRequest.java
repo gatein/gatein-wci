@@ -22,7 +22,7 @@
  ******************************************************************************/
 package org.gatein.wci;
 
-import org.jboss.portal.common.net.media.MediaType;
+import org.gatein.common.net.media.MediaType;
 
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.Charset;

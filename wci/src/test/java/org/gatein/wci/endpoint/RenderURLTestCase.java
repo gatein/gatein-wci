@@ -32,8 +32,8 @@ import org.jboss.unit.driver.response.EndTestResponse;
 import org.jboss.unit.remote.driver.handler.http.response.InvokeGetResponse;
 import org.jboss.unit.Failure;
 import static org.jboss.unit.api.Assert.*;
-import org.jboss.portal.common.servlet.URLFormat;
-import org.jboss.portal.common.util.Tools;
+import org.gatein.common.servlet.URLFormat;
+import org.gatein.common.util.Tools;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
