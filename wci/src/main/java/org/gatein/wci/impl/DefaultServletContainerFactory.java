@@ -22,6 +22,8 @@
  ******************************************************************************/
 package org.gatein.wci.impl;
 
+import org.exoplatform.container.ExoContainer;
+import org.exoplatform.container.ExoContainerContext;
 import org.gatein.wci.ServletContainer;
 import org.gatein.wci.ServletContainerFactory;
 import org.gatein.wci.spi.ServletContainerContext;
@@ -51,7 +53,9 @@ public class DefaultServletContainerFactory implements ServletContainerFactory
     */
    public ServletContainer getServletContainer()
    {
-      return container;
+      //return container;
+	   ExoContainer exoContainer = ExoContainerContext.getCurrentContainer();
+	   return (ServletContainer)exoContainer.getComponentInstance(ServletContainer.class); 
    }
 
    /**
