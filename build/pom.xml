@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  This pom functions as a default configuration.  The subproject
+  poms each inherit configuration from this one.
+
+  When adding version information for an artifact please do the following
+  - add a version property for the specific version
+  - add a dependency in the dependencyManagement section which refers to
+    the property
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <groupId>org.jboss.portal</groupId>
+    <artifactId>jboss-portal-parent</artifactId>
+    <version>1.0.0</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.gatein.wci</groupId>
+  <artifactId>module-parent</artifactId>
+  <version>3.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>JBoss Portal Test Module</name>
+  <url>http://www.jboss.com/products/jbossmc</url>
+  <description>JBoss Portal Web Module</description>
+
+   <properties>
+      <version.concurrent>1.3.4</version.concurrent>
+      <version.sun.servlet>2.5</version.sun.servlet>
+      <version.apache.tomcat>6.0.16</version.apache.tomcat>
+      <version.jetty>6.1.7</version.jetty>
+      <version.jboss-logging>2.0.4.GA</version.jboss-logging>
+      <version.apache.log4j>1.2.14</version.apache.log4j>
+      <version.jboss-remoting>2.2.2.SP1</version.jboss-remoting>
+      <version.jboss.portal.common>3.0.0-SNAPSHOT</version.jboss.portal.common>
+      <version.jboss.unit>1.2.2</version.jboss.unit>
+      <version.jboss-reflect>2.0.2.GA</version.jboss-reflect>
+      <version.apache.commons-logging>1.1.0.jboss</version.apache.commons-logging>
+      <version.apache.commons-httpclient>3.0.1</version.apache.commons-httpclient>
+      <version.jboss.microcontainer>2.0.2.GA</version.jboss.microcontainer>
+      <version.cargo>1.0-alpha-6</version.cargo>
+      <version.junit>3.8.2-brew</version.junit>
+      <version.ant>1.7.0</version.ant>
+   </properties>
+
+   <repositories>
+      <repository>
+         <id>repository.jboss.org</id>
+         <name>JBoss Repository</name>
+         <layout>default</layout>
+         <url>http://repository.jboss.org/maven2/</url>
+         <snapshots>
+            <enabled>false</enabled>
+         </snapshots>
+      </repository>
+      <repository>
+         <id>snapshots.jboss.org</id>
+         <name>JBoss Snapshots Repository</name>
+         <layout>default</layout>
+         <url>http://snapshots.jboss.org/maven2/</url>
+         <snapshots>
+            <enabled>true</enabled>
+         </snapshots>
+         <releases>
+            <enabled>false</enabled>
+         </releases>
+      </repository>
+   </repositories>
+
+   <build>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>2.1</version>
+            <configuration>
+              <archive>
+              <manifest>
+               <addClasspath>false</addClasspath>
+             </manifest>
+              </archive>
+            </configuration>
+         </plugin>
+      </plugins>
+   </build>
+   
+   <pluginRepositories>
+      <pluginRepository>
+         <id>java.net maven repository</id>
+         <url>http://download.java.net/maven/2/</url>
+         <snapshots>
+            <enabled>true</enabled>
+         </snapshots>
+      </pluginRepository>
+   </pluginRepositories>
+   
+   <dependencyManagement>
+      <!-- The parent pom manages the inter-dependencies of the modules. -->
+      <dependencies>
+         <dependency>
+            <artifactId>junit</artifactId>
+            <groupId>junit</groupId>
+            <version>${version.junit}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.gatein.common</groupId>
+            <artifactId>common-common</artifactId>
+            <version>${version.jboss.portal.common}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.gatein.common</groupId>
+            <artifactId>common-mc</artifactId>
+            <version>${version.jboss.portal.common}</version>
+         </dependency>
+         <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>${version.sun.servlet}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>catalina</artifactId>
+            <version>${version.apache.tomcat}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty</artifactId>
+            <version>${version.jetty}</version>
+         </dependency>
+         <dependency>
+            <groupId>concurrent</groupId>
+            <artifactId>concurrent</artifactId>
+            <version>${version.concurrent}</version>
+         </dependency>
+         <dependency>
+            <groupId>apache-log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${version.apache.log4j}</version>
+         </dependency>
+
+         <dependency>
+            <groupId>org.jboss.unit</groupId>
+            <artifactId>jboss-unit</artifactId>
+            <version>${version.jboss.unit}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.jboss.unit</groupId>
+            <artifactId>jboss-unit-remote</artifactId>
+            <version>${version.jboss.unit}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.jboss.unit</groupId>
+            <artifactId>jboss-unit-mc</artifactId>
+            <version>${version.jboss.unit}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.jboss.unit</groupId>
+            <artifactId>jboss-unit-tooling-ant</artifactId>
+            <version>${version.jboss.unit}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.jboss.unit</groupId>
+            <artifactId>portal-test</artifactId>
+            <version>${version.jboss.unit}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.jboss.unit</groupId>
+            <artifactId>portal-test-generic</artifactId>
+            <version>${version.jboss.unit}</version>
+         </dependency>
+
+         <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-common-logging-jdk</artifactId>
+            <version>${version.jboss-logging}</version>
+         </dependency>
+         <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-common-logging-log4j</artifactId>
+            <version>${version.jboss-logging}</version>
+         </dependency>
+
+         <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-remoting</artifactId>
+            <version>${version.jboss-remoting}</version>
+         </dependency>
+
+         <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-reflect</artifactId>
+            <version>${version.jboss-reflect}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.jboss.microcontainer</groupId>
+            <artifactId>jboss-dependency</artifactId>
+            <version>${version.jboss.microcontainer}</version>
+         </dependency>
+
+         <dependency>
+            <groupId>concurrent</groupId>
+            <artifactId>concurrent</artifactId>
+            <version>${version.concurrent}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.jboss.microcontainer</groupId>
+            <artifactId>jboss-kernel</artifactId>
+            <version>${version.jboss.microcontainer}</version>
+         </dependency>
+
+         <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>${version.apache.commons-logging}</version>
+         </dependency>
+         <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>${version.apache.commons-httpclient}</version>
+         </dependency>
+         <dependency>
+            <groupId>jaxen</groupId>
+            <artifactId>jaxen</artifactId>
+            <version>1.0-FCS</version>
+         </dependency>
+         <dependency>
+            <groupId>saxpath</groupId>
+            <artifactId>saxpath</artifactId>
+            <version>1.0-FCS</version>
+         </dependency>
+         <dependency>
+            <groupId>cargo</groupId>
+            <artifactId>cargo-manager</artifactId>
+            <type>war</type>
+            <version>0.9-portal</version>
+         </dependency>
+         <dependency>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-jetty-deployer</artifactId>
+            <type>war</type>
+            <version>${version.cargo}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-core-uberjar</artifactId>
+            <version>${version.cargo}</version>
+         </dependency>
+      </dependencies>
+   </dependencyManagement>
+
+</project>
