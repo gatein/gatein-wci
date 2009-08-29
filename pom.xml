@@ -1,0 +1,70 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>org.gatein.wci</groupId>
+   <artifactId>module-aggregator</artifactId>
+   <packaging>pom</packaging>
+   <name>JBoss Portal Web Module</name>
+   <version>3.0.0-SNAPSHOT</version>
+   <url>http://labs.jboss.com/jbossportal</url>
+
+   <dependencies/>
+
+   <distributionManagement>
+      <repository>
+      <!-- Copy the distribution jar file to a local checkout of the maven repository -->
+      <!-- This variable can be set in $MAVEN_HOME/conf/settings.xml -->
+      <id>repository.jboss.org</id>
+      <url>file://${jboss.repository.root}</url>
+      </repository>
+      <snapshotRepository>
+         <id>snapshots.jboss.org</id>
+         <name>JBoss Snapshot Repository</name>
+         <url>dav:https://snapshots.jboss.org/maven2</url>
+         <uniqueVersion>true</uniqueVersion>
+      </snapshotRepository>
+   </distributionManagement>
+
+   <modules>
+      <module>build</module>
+      <module>wci</module>
+   </modules>
+
+   <reporting>
+      <plugins>
+         <plugin>
+           <groupId>org.apache.maven.plugins</groupId>
+           <artifactId>maven-javadoc-plugin</artifactId>
+           <configuration>
+              <aggregate>true</aggregate>
+           </configuration>
+         </plugin>
+      </plugins>
+  </reporting>
+
+<build>
+<plugins>
+<plugin>
+<groupId>org.apache.maven.plugins</groupId>
+<artifactId>maven-surefire-plugin</artifactId>
+</plugin>
+<plugin>
+<groupId>org.apache.maven.plugins</groupId>
+<artifactId>maven-surefire-report-plugin</artifactId>
+<configuration>
+<!--<outputDirectory>/data/reports</outputDirectory>-->
+<aggregate>true</aggregate>
+</configuration>
+<executions>
+<execution>
+<phase>test</phase>
+<goals>
+<goal>report-only</goal>
+</goals>
+</execution>
+</executions>
+</plugin>
+</plugins>
+</build>
+
+</project>
