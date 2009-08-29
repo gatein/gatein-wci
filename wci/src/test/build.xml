@@ -25,7 +25,7 @@
    </target>
 
    <target name="tests.call.all" unless="tests">
-<!--      <antcall target="tests.jboss5"/> -->
+      <antcall target="tests.jboss5"/>
       <antcall target="tests.jboss"/>
       <antcall target="tests.tomcat"/>
 <!--      <antcall target="tests.jetty"/> -->
@@ -100,14 +100,14 @@
             </not>
          </and>
       </condition>
-<!--      <condition property="JBOSS_5_0_HOME" value="${env.JBOSS_5_0_HOME}">
+      <condition property="JBOSS_5_0_HOME" value="${env.JBOSS_5_0_HOME}">
          <and>
             <isset property="env.JBOSS_5_0_HOME"/>
             <not>
                <isset property="JBOSS_5_0_HOME"/>
             </not>
          </and>
-      </condition>  -->
+      </condition>
       <condition property="TOMCAT_6_0_HOME" value="${env.TOMCAT_6_0_HOME}">
          <and>
             <isset property="env.TOMCAT_6_0_HOME"/>
@@ -147,7 +147,7 @@
          </condition>
       </fail>
 
-<!--      <fail message="Please set the environment variable JBOSS_5_0_HOME or use -Dtest.specified.containers to only run tests for containers specified with a HOME variable">
+      <fail message="Please set the environment variable JBOSS_5_0_HOME or use -Dtest.specified.containers to only run tests for containers specified with a HOME variable">
          <condition>
             <and>
                <not>
@@ -158,7 +158,7 @@
                </not>
             </and>
          </condition>
-      </fail> -->
+      </fail>
 
       <fail message="Please set the environment variable TOMCAT_6_0_HOME or use -Dtest.specified.containers to only run tests for containers specified with a HOME variable">
          <condition>
