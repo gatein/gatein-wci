@@ -268,6 +268,7 @@
          <path location="${dependency.activation.jar}"/>
          <path location="${dependency.junit.jar}"/>
          <path location="${target}/wci-wci-${project.version}.jar"/>
+         <path location="${dependency.jboss-serialization.jar}"/>
       </path>
 
       <path id="jetty-6.1">
@@ -597,7 +598,8 @@
 
       <!--Strip cargo manager war filename-->
       <copy file="${dependency.cargo-manager.war}" tofile="${test.temp.lib}/manager.war"/>
-
+      <!-- unjar the war -->
+      <unzip src="${test.temp.lib}/manager.war" dest="${test.temp.lib}/manager"/>
 
    </target>
    
@@ -884,6 +886,7 @@
             <!--<property name="cargo.jvmargs" value="-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000"/>-->
 
             <deployable type="war" file="${test.temp.lib}/manager.war"/>
+            <file file="${test.temp.lib}/manager" todir="webapps/manager"/>
             <deployable type="war" file="${cargo.war}"/>
         </configuration>
       </cargo>

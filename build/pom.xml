@@ -31,16 +31,18 @@
       <version.jetty>6.1.7</version.jetty>
       <version.jboss-logging>2.0.4.GA</version.jboss-logging>
       <version.apache.log4j>1.2.14</version.apache.log4j>
-      <version.jboss-remoting>2.2.2.SP1</version.jboss-remoting>
+      <version.jboss-remoting>2.5.0.GA</version.jboss-remoting>
       <version.jboss.portal.common>3.0.0-SNAPSHOT</version.jboss.portal.common>
       <version.jboss.unit>1.2.2</version.jboss.unit>
       <version.jboss-reflect>2.0.2.GA</version.jboss-reflect>
       <version.apache.commons-logging>1.1.0.jboss</version.apache.commons-logging>
       <version.apache.commons-httpclient>3.0.1</version.apache.commons-httpclient>
       <version.jboss.microcontainer>2.0.2.GA</version.jboss.microcontainer>
-      <version.cargo>1.0-alpha-6</version.cargo>
+      <version.jboss.serialization>1.0.3.GA</version.jboss.serialization>
+      <version.cargo>1.0.1-SNAPSHOT</version.cargo>
       <version.junit>3.8.2-brew</version.junit>
       <version.ant>1.7.0</version.ant>
+      <version.jaxb>2.1</version.jaxb>
    </properties>
 
    <repositories>
@@ -64,6 +66,16 @@
          <releases>
             <enabled>false</enabled>
          </releases>
+      </repository>
+      <repository>
+        <id>codehaus snapshot repository</id>
+        <url>http://snapshots.repository.codehaus.org/</url>
+        <releases>
+          <enabled>true</enabled>
+        </releases>
+        <snapshots>
+          <enabled>true</enabled>
+        </snapshots>
       </repository>
    </repositories>
 
@@ -181,7 +193,7 @@
          </dependency>
 
          <dependency>
-            <groupId>jboss</groupId>
+            <groupId>org.jboss.remoting</groupId>
             <artifactId>jboss-remoting</artifactId>
             <version>${version.jboss-remoting}</version>
          </dependency>
@@ -196,7 +208,12 @@
             <artifactId>jboss-dependency</artifactId>
             <version>${version.jboss.microcontainer}</version>
          </dependency>
-
+         <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-serialization</artifactId>
+            <version>${version.jboss.serialization}</version>
+         </dependency>
+        
          <dependency>
             <groupId>concurrent</groupId>
             <artifactId>concurrent</artifactId>
@@ -207,7 +224,7 @@
             <artifactId>jboss-kernel</artifactId>
             <version>${version.jboss.microcontainer}</version>
          </dependency>
-
+        
          <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
@@ -244,6 +261,11 @@
             <groupId>org.codehaus.cargo</groupId>
             <artifactId>cargo-core-uberjar</artifactId>
             <version>${version.cargo}</version>
+         </dependency>
+         <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>${version.jaxb}</version>
          </dependency>
       </dependencies>
    </dependencyManagement>
