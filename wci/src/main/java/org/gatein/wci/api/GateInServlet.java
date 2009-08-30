@@ -32,7 +32,7 @@ import java.lang.reflect.Method;
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
  * @version $Revision: 1.1 $
  */
-public class BootstrapServlet extends CommandServlet
+public class GateInServlet extends CommandServlet
 {
 
    /** . */
