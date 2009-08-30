@@ -20,73 +20,51 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA         *
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.                   *
  ******************************************************************************/
-package org.gatein.wci.impl.generic;
+package org.gatein.wci.api;
 
-import org.gatein.wci.RequestDispatchCallback;
-import org.gatein.wci.impl.DefaultServletContainerFactory;
-import org.gatein.wci.spi.ServletContainerContext;
-import org.gatein.wci.command.CommandDispatcher;
+import org.gatein.wci.command.CommandServlet;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import javax.servlet.ServletContext;
+import java.lang.reflect.Method;
 
 /**
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
  * @version $Revision: 1.1 $
  */
-public class GenericServletContainerContext implements ServletContainerContext
+public class BootstrapServlet extends CommandServlet
 {
 
    /** . */
-   static final GenericServletContainerContext instance = new GenericServletContainerContext();
+   private String contextPath;
 
-   /** . */
-   private Registration registration;
-
-   static
+   public void init() throws ServletException
    {
-      DefaultServletContainerFactory.registerContext(instance);
-   }
-
-   void register(GenericWebAppContext webAppContext)
-   {
-      if (registration != null)
+      try
       {
-         registration.registerWebApp(webAppContext);
+         Method m = ServletContext.class.getMethod("getContextPath", new Class[0]);
+         ServletContext servletContext = getServletContext();
+
+         //
+         String contextPath = (String)m.invoke(servletContext, new Object[0]);
+         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+         GenericWebAppContext webAppContext = new GenericWebAppContext(servletContext, contextPath, classLoader);
+
+         //
+         GenericServletContainerContext.instance.register(webAppContext);
+         this.contextPath = contextPath;
+      }
+      catch (Exception e)
+      {
+         e.printStackTrace();
       }
    }
 
-   void unregister(String webAppId)
+   public void destroy()
    {
-      if (registration != null)
+      if (contextPath != null)
       {
-         registration.unregisterWebApp(webAppId);
+         GenericServletContainerContext.instance.unregister(contextPath);
       }
-   }
-
-   /** . */
-   private final CommandDispatcher dispatcher = new CommandDispatcher();
-
-   public Object include(
-      ServletContext targetServletContext,
-      HttpServletRequest request,
-      HttpServletResponse response,
-      RequestDispatchCallback callback,
-      Object handback) throws ServletException, IOException
-   {
-      return dispatcher.include(targetServletContext, request, response, callback, handback);
-   }
-
-   public void setCallback(Registration registration)
-   {
-      this.registration = registration;
-   }
-
-   public void unsetCallback(Registration registration)
-   {
-      this.registration = null;
    }
 }

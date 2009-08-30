@@ -75,11 +75,11 @@ public class TC6WebAppContext implements WebAppContext
       try
       {
          commandServlet = context.createWrapper();
-         commandServlet.setName("JBossServlet");
+         commandServlet.setName("GateInServlet");
          commandServlet.setLoadOnStartup(0);
          commandServlet.setServletClass(CommandServlet.class.getName());
          context.addChild(commandServlet);
-         context.addServletMapping("/jbossportlet", "JBossServlet");
+         context.addServletMapping("/gateinservlet", "GateInServlet");
       }
       catch (Exception e)
       {
@@ -99,7 +99,7 @@ public class TC6WebAppContext implements WebAppContext
       {
          try
          {
-            context.removeServletMapping("jbossportlet");
+            context.removeServletMapping("gateinservlet");
             context.removeChild(commandServlet);
          }
          catch (Exception e)
