@@ -75,7 +75,7 @@ public class CommandServlet extends HttpServlet
       try
       {
          localCmd.set(callback);
-         RequestDispatcher switcher = targetContext.getRequestDispatcher("/jbossportlet");
+         RequestDispatcher switcher = targetContext.getRequestDispatcher("/gateinservlet");
          switcher.include(request, response);
 
          //

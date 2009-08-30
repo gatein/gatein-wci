@@ -44,7 +44,7 @@
    </servlet>
    <servlet>
       <servlet-name>BootstrapServlet</servlet-name>
-      <servlet-class>org.gatein.wci.impl.generic.PortletContainerBootstrapServlet</servlet-class>
+      <servlet-class>org.gatein.wci.api.BootstrapServlet</servlet-class>
       <load-on-startup>0</load-on-startup>
    </servlet>
    <servlet-mapping>
@@ -53,6 +53,6 @@
    </servlet-mapping>
    <servlet-mapping>
       <servlet-name>BootstrapServlet</servlet-name>
-      <url-pattern>/jbossportlet</url-pattern>
+      <url-pattern>/gateinservlet</url-pattern>
    </servlet-mapping>
 </web-app>

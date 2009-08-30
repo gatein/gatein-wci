@@ -20,51 +20,62 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA         *
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.                   *
  ******************************************************************************/
-package org.gatein.wci.impl.generic;
+package org.gatein.wci.api;
 
-import org.gatein.wci.command.CommandServlet;
+import org.gatein.wci.spi.WebAppContext;
 
-import javax.servlet.ServletException;
 import javax.servlet.ServletContext;
-import java.lang.reflect.Method;
+import java.io.InputStream;
+import java.io.IOException;
 
 /**
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
  * @version $Revision: 1.1 $
  */
-public class GenericBootstrapServlet extends CommandServlet
+class GenericWebAppContext implements WebAppContext
 {
 
    /** . */
-   private String contextPath;
+   private final ServletContext servletContext;
 
-   public void init() throws ServletException
+   /** . */
+   private final String contextPath;
+
+   /** . */
+   private final ClassLoader classLoader;
+
+   public GenericWebAppContext(ServletContext servletContext, String contextPath, ClassLoader classLoader)
    {
-      try
-      {
-         Method m = ServletContext.class.getMethod("getContextPath", new Class[0]);
-         ServletContext servletContext = getServletContext();
-
-         //
-         String contextPath = (String)m.invoke(servletContext, new Object[0]);
-         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-         GenericWebAppContext webAppContext = new GenericWebAppContext(servletContext, contextPath, classLoader);
-
-         //
-         GenericServletContainerContext.instance.register(webAppContext);
-         this.contextPath = contextPath;
-      }
-      catch (Exception e)
-      {
-         e.printStackTrace();
-      }
+      this.servletContext = servletContext;
+      this.contextPath = contextPath;
+      this.classLoader = classLoader;
    }
 
-   public void destroy()
+   public void start() throws Exception
    {
-      if (contextPath != null)
-      {
-         GenericServletContainerContext.instance.unregister(contextPath);
-      }
+   }
+
+   public void stop()
+   {
+   }
+
+   public ServletContext getServletContext()
+   {
+      return servletContext;
+   }
+
+   public ClassLoader getClassLoader()
+   {
+      return classLoader;
+   }
+
+   public String getContextPath()
+   {
+      return contextPath;
+   }
+
+   public boolean importFile(String parentDirRelativePath, String name, InputStream source, boolean overwrite) throws IOException
+   {
+      return false;
    }
 }

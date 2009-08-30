@@ -20,62 +20,73 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA         *
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.                   *
  ******************************************************************************/
-package org.gatein.wci.impl.generic;
+package org.gatein.wci.api;
 
-import org.gatein.wci.spi.WebAppContext;
+import org.gatein.wci.RequestDispatchCallback;
+import org.gatein.wci.impl.DefaultServletContainerFactory;
+import org.gatein.wci.spi.ServletContainerContext;
+import org.gatein.wci.command.CommandDispatcher;
 
 import javax.servlet.ServletContext;
-import java.io.InputStream;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
  * @version $Revision: 1.1 $
  */
-public class GenericWebAppContext implements WebAppContext
+class GenericServletContainerContext implements ServletContainerContext
 {
 
    /** . */
-   private final ServletContext servletContext;
+   static final GenericServletContainerContext instance = new GenericServletContainerContext();
 
    /** . */
-   private final String contextPath;
+   private Registration registration;
+
+   static
+   {
+      DefaultServletContainerFactory.registerContext(instance);
+   }
+
+   void register(GenericWebAppContext webAppContext)
+   {
+      if (registration != null)
+      {
+         registration.registerWebApp(webAppContext);
+      }
+   }
+
+   void unregister(String webAppId)
+   {
+      if (registration != null)
+      {
+         registration.unregisterWebApp(webAppId);
+      }
+   }
 
    /** . */
-   private final ClassLoader classLoader;
+   private final CommandDispatcher dispatcher = new CommandDispatcher();
 
-   public GenericWebAppContext(ServletContext servletContext, String contextPath, ClassLoader classLoader)
+   public Object include(
+      ServletContext targetServletContext,
+      HttpServletRequest request,
+      HttpServletResponse response,
+      RequestDispatchCallback callback,
+      Object handback) throws ServletException, IOException
    {
-      this.servletContext = servletContext;
-      this.contextPath = contextPath;
-      this.classLoader = classLoader;
+      return dispatcher.include(targetServletContext, request, response, callback, handback);
    }
 
-   public void start() throws Exception
+   public void setCallback(Registration registration)
    {
+      this.registration = registration;
    }
 
-   public void stop()
+   public void unsetCallback(Registration registration)
    {
-   }
-
-   public ServletContext getServletContext()
-   {
-      return servletContext;
-   }
-
-   public ClassLoader getClassLoader()
-   {
-      return classLoader;
-   }
-
-   public String getContextPath()
-   {
-      return contextPath;
-   }
-
-   public boolean importFile(String parentDirRelativePath, String name, InputStream source, boolean overwrite) throws IOException
-   {
-      return false;
+      this.registration = null;
    }
 }
