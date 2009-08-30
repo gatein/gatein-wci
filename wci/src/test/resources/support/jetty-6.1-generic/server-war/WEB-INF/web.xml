@@ -43,8 +43,8 @@
       <load-on-startup>0</load-on-startup>
    </servlet>
    <servlet>
-      <servlet-name>BootstrapServlet</servlet-name>
-      <servlet-class>org.gatein.wci.api.BootstrapServlet</servlet-class>
+      <servlet-name>GateInServlet</servlet-name>
+      <servlet-class>org.gatein.wci.api.GateInServlet</servlet-class>
       <load-on-startup>0</load-on-startup>
    </servlet>
    <servlet-mapping>
@@ -52,7 +52,7 @@
       <url-pattern>/</url-pattern>
    </servlet-mapping>
    <servlet-mapping>
-      <servlet-name>BootstrapServlet</servlet-name>
+      <servlet-name>GateInServlet</servlet-name>
       <url-pattern>/gateinservlet</url-pattern>
    </servlet-mapping>
 </web-app>
