@@ -57,7 +57,7 @@ public class TC6ServletContainerContext implements ServletContainerContext, Cont
    private final static Logger log = Logger.getLogger(TC6ServletContainerContext.class);
 
    /** . */
-   private final CommandDispatcher dispatcher = new CommandDispatcher();
+   private final CommandDispatcher dispatcher = new CommandDispatcher("/tomcatgateinservlet");
 
    /** The monitored hosts. */
    private final Set<String> monitoredHosts = new HashSet<String>();

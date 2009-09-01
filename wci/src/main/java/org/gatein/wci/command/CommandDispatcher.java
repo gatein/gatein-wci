@@ -37,7 +37,15 @@ import java.io.IOException;
 public class CommandDispatcher
 {
 
-   public Object include(
+   /** . */
+   private final String servletPath;
+
+   public CommandDispatcher(String servletPath)
+   {
+     this.servletPath = servletPath;
+   }
+
+  public Object include(
       ServletContext targetServletContext,
       HttpServletRequest req,
       HttpServletResponse resp,
@@ -47,7 +55,7 @@ public class CommandDispatcher
       CallbackCommand cmd = new CallbackCommand(targetServletContext, callback, handback);
 
       //
-      return CommandServlet.include(req, resp, cmd, targetServletContext);
+      return CommandServlet.include(servletPath, req, resp, cmd, targetServletContext);
    }
 
    public static class CallbackCommand
