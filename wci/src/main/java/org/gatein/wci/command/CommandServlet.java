@@ -43,13 +43,13 @@ public class CommandServlet extends HttpServlet
 {
 
    /** . */
-   private static final ThreadLocal localCmd = new ThreadLocal();
+   private static final ThreadLocal<Object> localCmd = new ThreadLocal<Object>();
 
    /** . */
-   private static final ThreadLocal localResponse = new ThreadLocal();
+   private static final ThreadLocal<Object> localResponse = new ThreadLocal<Object>();
 
    /** . */
-   private static final ThreadLocal localThrowable = new ThreadLocal();
+   private static final ThreadLocal<Throwable> localThrowable = new ThreadLocal<Throwable>();
 
    /**
     * <p>Execute a command after having performed a request dispatch in the target servlet context.</p>
@@ -61,12 +61,17 @@ public class CommandServlet extends HttpServlet
     * <p>Any throwable thrown by the callback invocation will be wrapped in a <code>ServletException</code> and
     * rethrown, unless it is an instance of <code>ServletException</code> or <code>IOException</code>.</p>
     *
+    * @param servletPath the servlet path on which the command servlet is mapped
+    * @param request the servlet container request
+    * @param response the servlet container response
     * @param callback      the callback to invoke after the inclusion is done
     * @param targetContext the target servlet context
+    * @return the object returned by the callback
     * @throws IOException      likely thrown by the request dispatch operation
     * @throws ServletException wraps any exception thrown by the callback
     */
-   public static Object include(
+   static Object include(
+      String servletPath,
       HttpServletRequest request,
       HttpServletResponse response,
       Object callback,
@@ -75,11 +80,11 @@ public class CommandServlet extends HttpServlet
       try
       {
          localCmd.set(callback);
-         RequestDispatcher switcher = targetContext.getRequestDispatcher("/gateinservlet");
+         RequestDispatcher switcher = targetContext.getRequestDispatcher(servletPath);
          switcher.include(request, response);
 
          //
-         Throwable throwable = (Throwable)localThrowable.get();
+         Throwable throwable = localThrowable.get();
 
          //
          if (throwable != null)
@@ -127,7 +132,7 @@ public class CommandServlet extends HttpServlet
                   HttpServletResponse.class});
 
             //
-            Object response = methods.invoke(cmd, new Object[]{req, resp});
+            Object response = methods.invoke(cmd, req, resp);
 
             //
             localResponse.set(response);

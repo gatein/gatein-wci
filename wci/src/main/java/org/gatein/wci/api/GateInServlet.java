@@ -23,6 +23,8 @@
 package org.gatein.wci.api;
 
 import org.gatein.wci.command.CommandServlet;
+import org.gatein.wci.impl.generic.GenericServletContainerContext;
+import org.gatein.wci.impl.generic.GenericWebAppContext;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletContext;
@@ -42,16 +44,16 @@ public class GateInServlet extends CommandServlet
    {
       try
       {
-         Method m = ServletContext.class.getMethod("getContextPath", new Class[0]);
+         Method m = ServletContext.class.getMethod("getContextPath");
          ServletContext servletContext = getServletContext();
 
          //
-         String contextPath = (String)m.invoke(servletContext, new Object[0]);
+         String contextPath = (String)m.invoke(servletContext);
          ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
          GenericWebAppContext webAppContext = new GenericWebAppContext(servletContext, contextPath, classLoader);
 
          //
-         GenericServletContainerContext.instance.register(webAppContext);
+         GenericServletContainerContext.register(webAppContext);
          this.contextPath = contextPath;
       }
       catch (Exception e)
@@ -64,7 +66,7 @@ public class GateInServlet extends CommandServlet
    {
       if (contextPath != null)
       {
-         GenericServletContainerContext.instance.unregister(contextPath);
+         GenericServletContainerContext.unregister(contextPath);
       }
    }
 }

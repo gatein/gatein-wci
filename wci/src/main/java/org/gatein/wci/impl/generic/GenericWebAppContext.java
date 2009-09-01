@@ -20,7 +20,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA         *
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.                   *
  ******************************************************************************/
-package org.gatein.wci.api;
+package org.gatein.wci.impl.generic;
 
 import org.gatein.wci.spi.WebAppContext;
 
@@ -32,7 +32,7 @@ import java.io.IOException;
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
  * @version $Revision: 1.1 $
  */
-class GenericWebAppContext implements WebAppContext
+public class GenericWebAppContext implements WebAppContext
 {
 
    /** . */

@@ -20,7 +20,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA         *
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.                   *
  ******************************************************************************/
-package org.gatein.wci.api;
+package org.gatein.wci.impl.generic;
 
 import org.gatein.wci.RequestDispatchCallback;
 import org.gatein.wci.impl.DefaultServletContainerFactory;
@@ -29,46 +29,68 @@ import org.gatein.wci.command.CommandDispatcher;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletContextListener;
+import javax.servlet.ServletContextEvent;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
  * @version $Revision: 1.1 $
  */
-class GenericServletContainerContext implements ServletContainerContext
+public class GenericServletContainerContext implements ServletContainerContext, ServletContextListener
 {
 
    /** . */
-   static final GenericServletContainerContext instance = new GenericServletContainerContext();
+   private static final Map<String, GenericWebAppContext> pendingContexts = Collections.synchronizedMap(new HashMap<String, GenericWebAppContext>());
+
+   /** . */
+   private static GenericServletContainerContext instance;
+
+   public static GenericServletContainerContext getInstance()
+   {
+      return instance;
+   }
 
    /** . */
    private Registration registration;
 
-   static
+   public GenericServletContainerContext()
    {
-      DefaultServletContainerFactory.registerContext(instance);
    }
 
-   void register(GenericWebAppContext webAppContext)
+   public static void register(GenericWebAppContext webAppContext)
    {
-      if (registration != null)
+      if (instance != null && instance.registration != null)
       {
-         registration.registerWebApp(webAppContext);
+         instance.registration.registerWebApp(webAppContext);
+      }
+      else
+      {
+         pendingContexts.put(webAppContext.getContextPath(), webAppContext);
       }
    }
 
-   void unregister(String webAppId)
+   public static void unregister(String contextPath)
    {
-      if (registration != null)
+      if (instance != null && instance.registration != null)
       {
-         registration.unregisterWebApp(webAppId);
+         instance.registration.unregisterWebApp(contextPath);
+      }
+
+      //
+      if (pendingContexts.containsKey(contextPath))
+      {
+         pendingContexts.remove(contextPath);
       }
    }
 
    /** . */
-   private final CommandDispatcher dispatcher = new CommandDispatcher();
+   private final CommandDispatcher dispatcher = new CommandDispatcher("/gateinservlet");
 
    public Object include(
       ServletContext targetServletContext,
@@ -83,10 +105,37 @@ class GenericServletContainerContext implements ServletContainerContext
    public void setCallback(Registration registration)
    {
       this.registration = registration;
+
+      //
+      for (GenericWebAppContext pendingContext : pendingContexts.values())
+      {
+         registration.registerWebApp(pendingContext);
+      }
    }
 
    public void unsetCallback(Registration registration)
    {
       this.registration = null;
+   }
+
+   //
+
+   public void contextInitialized(ServletContextEvent servletContextEvent)
+   {
+      if (instance != null)
+      {
+         throw new IllegalStateException("Shared instance singleton already created");
+      }
+
+      //
+      instance = this;
+
+      // Register
+      DefaultServletContainerFactory.registerContext(this);
+   }
+
+   public void contextDestroyed(ServletContextEvent servletContextEvent)
+   {
+      // Should we really do something ?
    }
 }

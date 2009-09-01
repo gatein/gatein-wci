@@ -75,11 +75,11 @@ public class TC6WebAppContext implements WebAppContext
       try
       {
          commandServlet = context.createWrapper();
-         commandServlet.setName("GateInServlet");
+         commandServlet.setName("TomcatGateInServlet");
          commandServlet.setLoadOnStartup(0);
          commandServlet.setServletClass(CommandServlet.class.getName());
          context.addChild(commandServlet);
-         context.addServletMapping("/gateinservlet", "GateInServlet");
+         context.addServletMapping("/tomcatgateinservlet", "TomcatGateInServlet");
       }
       catch (Exception e)
       {
@@ -99,7 +99,7 @@ public class TC6WebAppContext implements WebAppContext
       {
          try
          {
-            context.removeServletMapping("gateinservlet");
+            context.removeServletMapping("tomcatgateinservlet");
             context.removeChild(commandServlet);
          }
          catch (Exception e)
