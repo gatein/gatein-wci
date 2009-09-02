@@ -40,7 +40,7 @@
       <antcall target="tests.jboss-4.2"/>
    </target>
    <target name="tests.jboss5">
-       <antcall target="tests.jboss-5.0"/>
+       <antcall target="tests.jboss-5.1"/>
    </target>
    <target name="tests.tomcat">
       <antcall target="tests.tomcat-6.0"/>
@@ -100,11 +100,11 @@
             </not>
          </and>
       </condition>
-      <condition property="JBOSS_5_0_HOME" value="${env.JBOSS_5_0_HOME}">
+      <condition property="JBOSS_5_1_0_HOME" value="${env.JBOSS_5_1_0_HOME}">
          <and>
-            <isset property="env.JBOSS_5_0_HOME"/>
+            <isset property="env.JBOSS_5_1_0_HOME"/>
             <not>
-               <isset property="JBOSS_5_0_HOME"/>
+               <isset property="JBOSS_5_1_0_HOME"/>
             </not>
          </and>
       </condition>
@@ -147,14 +147,14 @@
          </condition>
       </fail>
 
-      <fail message="Please set the environment variable JBOSS_5_0_HOME or use -Dtest.specified.containers to only run tests for containers specified with a HOME variable">
+      <fail message="Please set the environment variable JBOSS_5_1_0_HOME or use -Dtest.specified.containers to only run tests for containers specified with a HOME variable">
          <condition>
             <and>
                <not>
                   <isset property="test.specified.containers"/>
                </not>
                <not>
-                  <isset property="JBOSS_5_0_HOME"/>
+                  <isset property="JBOSS_5_1_0_HOME"/>
                </not>
             </and>
          </condition>
@@ -239,13 +239,13 @@
          <path location="${target}/wci-wci-${project.version}.jar"/>
       </path>
 
-      <path id="jboss-5.0">
+      <path id="jboss-5.1">
          <path refid="gatein-common"/>
          <path refid="jboss-unit"/>
          <path refid="jboss-microcontainer"/>
       </path>
 
-      <path id="jboss-5.0-shared">
+      <path id="jboss-5.1-shared">
          <path refid="gatein-common-shared"/>
          <path location="${target}/wci-wci-${project.version}.jar"/>
       </path>
@@ -421,39 +421,39 @@
       </jar>
 
       <!-- *************************** -->
-      <!-- JBoss 5.0 container servlet -->
+      <!-- JBoss 5.1 container servlet -->
       <!-- *************************** -->
 
       <!-- -->
-      <copy todir="${test.support}/jboss-5.0-container-servlet/server-war/WEB-INF/lib" flatten="true">
-         <path refid="jboss-5.0"/>
+      <copy todir="${test.support}/jboss-5.1-container-servlet/server-war/WEB-INF/lib" flatten="true">
+         <path refid="jboss-5.1"/>
       </copy>
-      <mkdir dir="${test.temp.lib}/jboss-5.0-container-servlet"/>
-      <war jarfile="${test.temp.lib}/jboss-5.0-container-servlet/test-spi-server.war">
-         <fileset dir="${test.support}/jboss-5.0-container-servlet/server-war">
+      <mkdir dir="${test.temp.lib}/jboss-5.1-container-servlet"/>
+      <war jarfile="${test.temp.lib}/jboss-5.1-container-servlet/test-spi-server.war">
+         <fileset dir="${test.support}/jboss-5.1-container-servlet/server-war">
             <exclude name="**/jboss-kernel*.jar"/>
          </fileset>
          <lib dir="${test.temp.lib}" includes="portal-test-spi-lib.jar"/>
       </war>
-      <jar jarfile="${test.temp.lib}/jboss-5.0-container-servlet/test-spi-app.war">
+      <jar jarfile="${test.temp.lib}/jboss-5.1-container-servlet/test-spi-app.war">
          <fileset dir="${target}/test-classes/spi/app-war"/>
       </jar>
 
       <!-- ***************** -->
-      <!-- JBoss 5.0 generic -->
+      <!-- JBoss 5.1 generic -->
       <!-- ***************** -->
 
-      <copy todir="${test.support}/jboss-5.0-generic/server-war/WEB-INF/lib" flatten="true">
-         <path refid="jboss-5.0"/>
+      <copy todir="${test.support}/jboss-5.1-generic/server-war/WEB-INF/lib" flatten="true">
+         <path refid="jboss-5.1"/>
       </copy> 
-      <mkdir dir="${test.temp.lib}/jboss-5.0-generic"/>
-      <war jarfile="${test.temp.lib}/jboss-5.0-generic/test-spi-server.war">
-         <fileset dir="${test.support}/jboss-5.0-generic/server-war">
+      <mkdir dir="${test.temp.lib}/jboss-5.1-generic"/>
+      <war jarfile="${test.temp.lib}/jboss-5.1-generic/test-spi-server.war">
+         <fileset dir="${test.support}/jboss-5.1-generic/server-war">
             <exclude name="**/jboss-kernel*.jar"/>
          </fileset>
          <lib dir="${test.temp.lib}" includes="portal-test-spi-lib.jar"/>
       </war>
-      <jar jarfile="${test.temp.lib}/jboss-5.0-generic/test-spi-app.war">
+      <jar jarfile="${test.temp.lib}/jboss-5.1-generic/test-spi-app.war">
          <fileset dir="${target}/test-classes/spi/generic/app-war">
             <exclude name="**/jboss-kernel*.jar"/>
          </fileset>
@@ -561,36 +561,36 @@
       </war>
 
       <!-- ********* -->
-      <!-- JBoss 5.0 -->
+      <!-- JBoss 5.1 -->
       <!-- ********* -->
 
-      <mkdir dir="${test.temp.lib}/jboss-5.0"/>
+      <mkdir dir="${test.temp.lib}/jboss-5.1"/>
 
-      <copy todir="${test.support}/jboss-5.0-endpoint/default-servlet-mapping-war/WEB-INF/lib" flatten="true">
-         <path refid="jboss-5.0"/>
+      <copy todir="${test.support}/jboss-5.1-endpoint/default-servlet-mapping-war/WEB-INF/lib" flatten="true">
+         <path refid="jboss-5.1"/>
       </copy>
-      <war jarfile="${test.temp.lib}/jboss-5.0/default-servlet-mapping.war">
-         <fileset dir="${test.support}/jboss-5.0-endpoint/default-servlet-mapping-war">
+      <war jarfile="${test.temp.lib}/jboss-5.1/default-servlet-mapping.war">
+         <fileset dir="${test.support}/jboss-5.1-endpoint/default-servlet-mapping-war">
             <exclude name="**/jboss-kernel*.jar"/>
          </fileset>
          <lib dir="${test.temp.lib}" includes="portal-test-endpoint-lib.jar"/>
       </war>
 
-      <copy todir="${test.support}/jboss-5.0-endpoint/path-mapping-war/WEB-INF/lib" flatten="true">
-         <path refid="jboss-5.0"/>
+      <copy todir="${test.support}/jboss-5.1-endpoint/path-mapping-war/WEB-INF/lib" flatten="true">
+         <path refid="jboss-5.1"/>
       </copy>
-      <war jarfile="${test.temp.lib}/jboss-5.0/path-mapping.war">
-         <fileset dir="${test.support}/jboss-5.0-endpoint/path-mapping-war">
+      <war jarfile="${test.temp.lib}/jboss-5.1/path-mapping.war">
+         <fileset dir="${test.support}/jboss-5.1-endpoint/path-mapping-war">
             <exclude name="**/jboss-kernel*.jar"/>
          </fileset>
          <lib dir="${test.temp.lib}" includes="portal-test-endpoint-lib.jar"/>
       </war>
 
-      <copy todir="${test.support}/jboss-5.0-endpoint/root-path-mapping-war/WEB-INF/lib" flatten="true">
-         <path refid="jboss-5.0"/>
+      <copy todir="${test.support}/jboss-5.1-endpoint/root-path-mapping-war/WEB-INF/lib" flatten="true">
+         <path refid="jboss-5.1"/>
       </copy>
-      <war jarfile="${test.temp.lib}/jboss-5.0/root-path-mapping.war">
-         <fileset dir="${test.support}/jboss-5.0-endpoint/root-path-mapping-war">
+      <war jarfile="${test.temp.lib}/jboss-5.1/root-path-mapping.war">
+         <fileset dir="${test.support}/jboss-5.1-endpoint/root-path-mapping-war">
             <exclude name="**/jboss-kernel*.jar"/>
          </fileset>
          <lib dir="${test.temp.lib}" includes="portal-test-endpoint-lib.jar"/>
@@ -752,7 +752,7 @@
       </antcall>
    </target>
    
-   <target name="cargo.jboss-5.0.start" depends="cargo.setup">
+   <target name="cargo.jboss-5.1.start" depends="cargo.setup">
       <!-- The lib portal-test-lib.jar must be loaded at the shared level rather than in the war file
            otherwise it is somehow inspected and produce a NoClassDefFoundError in the web service integration
            layer on the class org/jboss/portal/test/framework/driver/remote/RemoteTestDriver for some unknown
@@ -762,14 +762,14 @@
 
       <cargo
          containerId="jboss5x"
-         home="${test.jboss-5.0.home}"
+         home="${test.jboss-5.1.home}"
          log="${cargo.log.dir}/cargo.${test.id}.startup.log"
          output="${cargo.log.dir}/cargo.${test.id}.server.log"
          action="start"
          wait="false">
          <sharedClasspath>
 
-            <path refid="jboss-5.0-shared"/>
+            <path refid="jboss-5.1-shared"/>
 
          </sharedClasspath>
          <configuration>
@@ -782,10 +782,10 @@
       </cargo>
    </target>
 
-   <target name="cargo.jboss-5.0.stop" depends="cargo.setup">
+   <target name="cargo.jboss-5.1.stop" depends="cargo.setup">
       <cargo
          containerId="jboss5x"
-         home="${test.jboss-5.0.home}"
+         home="${test.jboss-5.1.home}"
          log="${cargo.log.dir}/cargo.${test.id}.shutdown.log"
          action="stop">
          <configuration>
@@ -796,73 +796,73 @@
       </cargo>
    </target>
 
-   <target name="tests.jboss-5.0.execute" unless="tests.jboss-5.0.execute.skip">
-      <echo message="Starting JBoss 5.0 ${test.jboss-5.0.name} with ${test.jboss-5.0.home} to execute ${test.id} tests"/>
-      <antcall target="cargo.jboss-5.0.start">
+   <target name="tests.jboss-5.1.execute" unless="tests.jboss-5.1.execute.skip">
+      <echo message="Starting JBoss 5.1 ${test.jboss-5.1.name} with ${test.jboss-5.1.home} to execute ${test.id} tests"/>
+      <antcall target="cargo.jboss-5.1.start">
          <param name="cargo.wait" value="false"/>
          <param name="cargo.war" value="${test.war}"/>
       </antcall>
       <antcall target="tests.remote">
-         <param name="test.remote.server.name" value="${test.jboss-5.0.name}"/>
+         <param name="test.remote.server.name" value="${test.jboss-5.1.name}"/>
          <param name="test.remote.archive.path" value="${test.archive.path}"/>
       </antcall>
-      <antcall target="cargo.jboss-5.0.stop">
+      <antcall target="cargo.jboss-5.1.stop">
       </antcall>
    </target>
 
-   <target name="tests.jboss-5.0.spi">
-      <condition property="tests.jboss-5.0.execute.skip">
+   <target name="tests.jboss-5.1.spi">
+      <condition property="tests.jboss-5.1.execute.skip">
          <not>
-            <available file="${test.jboss-5.0.home}" type="dir"/>
+            <available file="${test.jboss-5.1.home}" type="dir"/>
          </not>
       </condition>
-      <antcall target="tests.jboss-5.0.execute">
-         <param name="test.id" value="${test.jboss-5.0.name}-spi-container-servlet"/>
-         <param name="test.war" value="${test.temp.lib}/jboss-5.0-container-servlet/test-spi-server.war"/>
-         <param name="test.archive.path" value="jboss-5.0-container-servlet"/>
+      <antcall target="tests.jboss-5.1.execute">
+         <param name="test.id" value="${test.jboss-5.1.name}-spi-container-servlet"/>
+         <param name="test.war" value="${test.temp.lib}/jboss-5.1-container-servlet/test-spi-server.war"/>
+         <param name="test.archive.path" value="jboss-5.1-container-servlet"/>
       </antcall>
-      <antcall target="tests.jboss-5.0.execute">
-         <param name="test.id" value="${test.jboss-5.0.name}-spi-generic"/>
-         <param name="test.war" value="${test.temp.lib}/jboss-5.0-generic/test-spi-server.war"/>
-         <param name="test.archive.path" value="jboss-5.0-generic"/>
+      <antcall target="tests.jboss-5.1.execute">
+         <param name="test.id" value="${test.jboss-5.1.name}-spi-generic"/>
+         <param name="test.war" value="${test.temp.lib}/jboss-5.1-generic/test-spi-server.war"/>
+         <param name="test.archive.path" value="jboss-5.1-generic"/>
       </antcall>
    </target>
 
-   <target name="tests.jboss-5.0.endpoint">
-      <condition property="tests.jboss-5.0.execute.skip">
+   <target name="tests.jboss-5.1.endpoint">
+      <condition property="tests.jboss-5.1.execute.skip">
          <not>
-            <available file="${test.jboss-5.0.home}" type="dir"/>
+            <available file="${test.jboss-5.1.home}" type="dir"/>
          </not>
       </condition>
-      <antcall target="tests.jboss-5.0.execute">
-         <param name="test.id" value="${test.jboss-5.0.name}-endpoint-default-servlet-mapping"/>
-         <param name="test.war" value="${test.temp.lib}/jboss-5.0/default-servlet-mapping.war"/>
+      <antcall target="tests.jboss-5.1.execute">
+         <param name="test.id" value="${test.jboss-5.1.name}-endpoint-default-servlet-mapping"/>
+         <param name="test.war" value="${test.temp.lib}/jboss-5.1/default-servlet-mapping.war"/>
          <param name="test.archive.path" value=""/>
       </antcall>
-      <antcall target="tests.jboss-5.0.execute">
-         <param name="test.id" value="${test.jboss-5.0.name}-endpoint-path-mapping"/>
-         <param name="test.war" value="${test.temp.lib}/jboss-5.0/path-mapping.war"/>
+      <antcall target="tests.jboss-5.1.execute">
+         <param name="test.id" value="${test.jboss-5.1.name}-endpoint-path-mapping"/>
+         <param name="test.war" value="${test.temp.lib}/jboss-5.1/path-mapping.war"/>
          <param name="test.archive.path" value=""/>
       </antcall>
-      <antcall target="tests.jboss-5.0.execute">
-         <param name="test.id" value="${test.jboss-5.0.name}-endpoint-root-path-mapping"/>
-         <param name="test.war" value="${test.temp.lib}/jboss-5.0/root-path-mapping.war"/>
+      <antcall target="tests.jboss-5.1.execute">
+         <param name="test.id" value="${test.jboss-5.1.name}-endpoint-root-path-mapping"/>
+         <param name="test.war" value="${test.temp.lib}/jboss-5.1/root-path-mapping.war"/>
          <param name="test.archive.path" value=""/>
       </antcall>
    </target>
 
-   <target name="tests.jboss-5.0">
+   <target name="tests.jboss-5.1">
 
       <!-- spi tests -->
-      <antcall target="tests.jboss-5.0.spi">
-         <param name="test.jboss-5.0.name" value="RemoteJBoss_5_0"/>
-         <param name="test.jboss-5.0.home" value="${JBOSS_5_0_HOME}"/>
+      <antcall target="tests.jboss-5.1.spi">
+         <param name="test.jboss-5.1.name" value="RemoteJBoss_5_1"/>
+         <param name="test.jboss-5.1.home" value="${JBOSS_5_1_0_HOME}"/>
       </antcall>
 
       <!-- endpoint tests -->
-      <antcall target="tests.jboss-5.0.endpoint">
-         <param name="test.jboss-5.0.name" value="RemoteJBoss_5_0"/>
-         <param name="test.jboss-5.0.home" value="${JBOSS_5_0_HOME}"/>
+      <antcall target="tests.jboss-5.1.endpoint">
+         <param name="test.jboss-5.1.name" value="RemoteJBoss_5_1"/>
+         <param name="test.jboss-5.1.home" value="${JBOSS_5_1_0_HOME}"/>
       </antcall>
    </target>
 

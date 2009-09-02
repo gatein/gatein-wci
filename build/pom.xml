@@ -18,7 +18,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.gatein.wci</groupId>
   <artifactId>module-parent</artifactId>
-  <version>2.0.0-SNAPSHOT</version>
+  <version>2.0.0-Beta01</version>
   <packaging>pom</packaging>
   <name>GateIn - Web Container Integration component (parent)</name>
 
@@ -30,14 +30,14 @@
       <version.jboss-logging>2.0.4.GA</version.jboss-logging>
       <version.apache.log4j>1.2.14</version.apache.log4j>
       <version.jboss-remoting>2.5.0.GA</version.jboss-remoting>
-      <version.gatein.common>2.0.0-SNAPSHOT</version.gatein.common>
+      <version.gatein.common>2.0.0-Beta01</version.gatein.common>
       <version.jboss.unit>1.2.2</version.jboss.unit>
       <version.jboss-reflect>2.0.2.GA</version.jboss-reflect>
       <version.apache.commons-logging>1.1.0.jboss</version.apache.commons-logging>
       <version.apache.commons-httpclient>3.0.1</version.apache.commons-httpclient>
       <version.jboss.microcontainer>2.0.2.GA</version.jboss.microcontainer>
       <version.jboss.serialization>1.0.3.GA</version.jboss.serialization>
-      <version.cargo>1.0.1-SNAPSHOT</version.cargo>
+      <version.cargo>1.0.1-alpha-1</version.cargo>
       <version.junit>3.8.2-brew</version.junit>
       <version.ant>1.7.0</version.ant>
       <version.jaxb>2.1</version.jaxb>
