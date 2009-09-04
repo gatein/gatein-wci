@@ -634,7 +634,7 @@
             <path refid="jboss-4.2-shared"/>
 
          </sharedClasspath>
-         <configuration>
+         <configuration home="${target}/cargo">
             <property name="cargo.rmi.port" value="1299"/>
             <property name="cargo.servlet.port" value="8080"/>
             <property name="cargo.logging" value="high"/>
@@ -650,7 +650,7 @@
          home="${test.jboss-4.2.home}"
          log="${cargo.log.dir}/cargo.${test.id}.shutdown.log"
          action="stop">
-         <configuration>
+         <configuration home="${target}/cargo">
             <property name="cargo.rmi.port" value="1299"/>
          </configuration>
       </cargo>
@@ -772,8 +772,8 @@
             <path refid="jboss-5.1-shared"/>
 
          </sharedClasspath>
-         <configuration>
-            <property name="cargo.rmi.port" value="1299"/>
+         <configuration home="${target}/cargo">
+            <property name="cargo.rmi.port" value="1099"/>
             <property name="cargo.servlet.port" value="8080"/>
             <property name="cargo.logging" value="high"/>
             <deployable type="war" file="${cargo.war}"/>
@@ -788,10 +788,8 @@
          home="${test.jboss-5.1.home}"
          log="${cargo.log.dir}/cargo.${test.id}.shutdown.log"
          action="stop">
-         <configuration>
-            <!-- NOTE: this is wrong, the value should be 1299 but there is a bug in alpha 6 for Cargo -->
+         <configuration home="${target}/cargo">
             <property name="cargo.rmi.port" value="1099"/>
-            <!-- <property name="cargo.rmi.port" value="1299"/> -->
          </configuration>
       </cargo>
    </target>
@@ -820,6 +818,7 @@
          <param name="test.id" value="${test.jboss-5.1.name}-spi-container-servlet"/>
          <param name="test.war" value="${test.temp.lib}/jboss-5.1-container-servlet/test-spi-server.war"/>
          <param name="test.archive.path" value="jboss-5.1-container-servlet"/>
+         
       </antcall>
       <antcall target="tests.jboss-5.1.execute">
          <param name="test.id" value="${test.jboss-5.1.name}-spi-generic"/>
@@ -880,7 +879,7 @@
             <path refid="tomcat-6.0-shared"/>
 
          </sharedClasspath>
-         <configuration>
+         <configuration home="${target}/cargo">
             <property name="cargo.servlet.port" value="8080"/>
             <property name="cargo.logging" value="high"/>
             <!--<property name="cargo.jvmargs" value="-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000"/>-->
@@ -898,7 +897,7 @@
          home="${test.tomcat-6.0.home}"
          log="${cargo.log.dir}/cargo.${test.id}.shutdown.log"
          action="stop">
-         <configuration>
+         <configuration home="${target}/cargo">
          </configuration>
       </cargo>
    </target>
@@ -998,7 +997,7 @@
             <path location="${target}/wci-wci-${project.version}.jar"/>
 
          </extraClasspath>
-         <configuration>
+         <configuration home="${target}/cargo">
             <property name="cargo.servlet.port" value="8080"/>
             <property name="cargo.logging" value="high"/>
             <property name="cargo.jvmargs" value="-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8222"/>
@@ -1019,7 +1018,7 @@
          home="${test.jetty-6.1.home}"
          log="${cargo.log.dir}/cargo.${test.id}.shutdown.log"
          action="stop">
-         <configuration>
+         <configuration home="${target}/cargo">
          </configuration>
       </cargo>
    </target>
