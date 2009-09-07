@@ -761,7 +761,7 @@
         -->
 
       <cargo
-         containerId="jboss5x"
+         containerId="jboss51x"
          home="${test.jboss-5.1.home}"
          log="${cargo.log.dir}/cargo.${test.id}.startup.log"
          output="${cargo.log.dir}/cargo.${test.id}.server.log"
@@ -784,7 +784,7 @@
 
    <target name="cargo.jboss-5.1.stop" depends="cargo.setup">
       <cargo
-         containerId="jboss5x"
+         containerId="jboss51x"
          home="${test.jboss-5.1.home}"
          log="${cargo.log.dir}/cargo.${test.id}.shutdown.log"
          action="stop">

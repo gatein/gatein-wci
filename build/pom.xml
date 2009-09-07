@@ -30,7 +30,7 @@
       <version.jboss-logging>2.0.4.GA</version.jboss-logging>
       <version.apache.log4j>1.2.14</version.apache.log4j>
       <version.jboss-remoting>2.5.0.GA</version.jboss-remoting>
-      <version.gatein.common>2.0.0-SNAPSHOT</version.gatein.common>
+      <version.gatein.common>2.0.0-Beta02</version.gatein.common>
       <version.jboss.unit>1.2.2</version.jboss.unit>
       <version.jboss-reflect>2.0.2.GA</version.jboss-reflect>
       <version.apache.commons-logging>1.1.0.jboss</version.apache.commons-logging>
