@@ -51,6 +51,8 @@ public class GenericServletContainerContext implements ServletContainerContext, 
    /** . */
    private static GenericServletContainerContext instance;
 
+   private static HashMap<ServletContext, String> requestDispatchMap = new HashMap<ServletContext, String>();
+   
    public static GenericServletContainerContext getInstance()
    {
       return instance;
@@ -63,8 +65,9 @@ public class GenericServletContainerContext implements ServletContainerContext, 
    {
    }
 
-   public static void register(GenericWebAppContext webAppContext)
+   public static void register(GenericWebAppContext webAppContext, String dispatcherPath)
    {
+      requestDispatchMap.put(webAppContext.getServletContext(), dispatcherPath);
       if (instance != null && instance.registration != null)
       {
          instance.registration.registerWebApp(webAppContext);
@@ -75,8 +78,12 @@ public class GenericServletContainerContext implements ServletContainerContext, 
       }
    }
 
-   public static void unregister(String contextPath)
+   public static void unregister(ServletContext servletContext)
    {
+      requestDispatchMap.remove(servletContext);
+      
+      String contextPath = servletContext.getContextPath();
+      
       if (instance != null && instance.registration != null)
       {
          instance.registration.unregisterWebApp(contextPath);
@@ -90,7 +97,7 @@ public class GenericServletContainerContext implements ServletContainerContext, 
    }
 
    /** . */
-   private final CommandDispatcher dispatcher = new CommandDispatcher("/gateinservlet");
+   //private final CommandDispatcher dispatcher = new CommandDispatcher("/gateinservlet");
 
    public Object include(
       ServletContext targetServletContext,
@@ -99,6 +106,9 @@ public class GenericServletContainerContext implements ServletContainerContext, 
       RequestDispatchCallback callback,
       Object handback) throws ServletException, IOException
    {
+      String dispatcherPath = requestDispatchMap.get(targetServletContext);
+      CommandDispatcher dispatcher = new CommandDispatcher(dispatcherPath);
+      
       return dispatcher.include(targetServletContext, request, response, callback, handback);
    }
 
