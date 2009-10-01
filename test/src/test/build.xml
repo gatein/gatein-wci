@@ -236,7 +236,8 @@
 
       <path id="jboss-4.2-shared">
          <path refid="gatein-common-shared"/>
-         <path location="${target}/wci-wci-${project.version}.jar"/>
+         <path path="${dependency.gatein-wci-tomcat.jar}"/>
+         <path path="${dependency.gatein-wci-core.jar}"/>
       </path>
 
       <path id="jboss-5.1">
@@ -247,7 +248,8 @@
 
       <path id="jboss-5.1-shared">
          <path refid="gatein-common-shared"/>
-         <path location="${target}/wci-wci-${project.version}.jar"/>
+         <path path="${dependency.gatein-wci-core.jar}"/>
+         <path path="${dependency.gatein-wci-tomcat.jar}"/>
       </path>
 
       <path id="tomcat-6.0">
@@ -267,7 +269,8 @@
          <path location="${dependency.log4j.jar}"/>
          <path location="${dependency.activation.jar}"/>
          <path location="${dependency.junit.jar}"/>
-         <path location="${target}/wci-wci-${project.version}.jar"/>
+         <path path="${dependency.gatein-wci-core.jar}"/>
+         <path path="${dependency.gatein-wci-tomcat.jar}"/>
          <path location="${dependency.jboss-serialization.jar}"/>
       </path>
 

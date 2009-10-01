@@ -20,111 +20,108 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA         *
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.                   *
  ******************************************************************************/
-package org.gatein.wci.impl.tomcat;
+package org.gatein.wci.tomcat;
 
-import org.w3c.dom.Document;
-import org.apache.catalina.Context;
+import org.apache.catalina.ContainerServlet;
 import org.apache.catalina.Wrapper;
-import org.gatein.wci.command.CommandServlet;
-import org.gatein.wci.spi.WebAppContext;
+import org.apache.catalina.Container;
+import org.apache.catalina.Engine;
 
-import javax.servlet.ServletContext;
-import java.io.InputStream;
-import java.io.IOException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.ServletException;
 
 /**
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
  * @version $Revision: 1.1 $
  */
-public class TC6WebAppContext implements WebAppContext
+public class TC6ContainerServlet extends HttpServlet implements ContainerServlet
 {
 
-   /** The logger. */
-//   protected final Logger log = Logger.getLogger(getClass());
+   /** . */
+   private Wrapper wrapper;
 
    /** . */
-   private Document descriptor;
+   private TC6ServletContainerContext containerContext;
 
    /** . */
-   private ServletContext servletContext;
+   private boolean started;
 
-   /** . */
-   private ClassLoader loader;
-
-   /** . */
-   private String contextPath;
-
-   /** . */
-   private final Context context;
-
-   /** . */
-   private Wrapper commandServlet;
-
-   TC6WebAppContext(Context context) throws Exception
+   public Wrapper getWrapper()
    {
-      this.context = context;
+      return wrapper;
+   }
+
+   public void setWrapper(Wrapper wrapper)
+   {
+      this.wrapper = wrapper;
 
       //
-      servletContext = context.getServletContext();
-      loader = context.getLoader().getClassLoader();
-      contextPath = context.getPath();
-   }
-
-   public void start() throws Exception
-   {
-      try
+      if (wrapper != null)
       {
-         commandServlet = context.createWrapper();
-         commandServlet.setName("TomcatGateInServlet");
-         commandServlet.setLoadOnStartup(0);
-         commandServlet.setServletClass(CommandServlet.class.getName());
-         context.addChild(commandServlet);
-         context.addServletMapping("/tomcatgateinservlet", "TomcatGateInServlet");
+         attemptStart();
       }
-      catch (Exception e)
+      else
       {
-         cleanup();
-         throw e;
+         attemptStop();
       }
    }
 
-   public void stop()
+   public void init() throws ServletException
    {
-      cleanup();
+      started = true;
+
+      //
+      attemptStart();
    }
 
-   private void cleanup()
+   public void destroy()
    {
-      if (commandServlet != null)
+      started = false;
+
+      //
+      attemptStop();
+   }
+
+   private void attemptStart()
+   {
+      if (started && wrapper != null)
       {
-         try
+         start();
+      }
+   }
+
+   private void attemptStop()
+   {
+      if (!started || wrapper == null)
+      {
+         stop();
+      }
+   }
+
+   private void start()
+   {
+      Container container = wrapper;
+      while (container.getParent() != null)
+      {
+         container = container.getParent();
+         if (container instanceof Engine)
          {
-            context.removeServletMapping("tomcatgateinservlet");
-            context.removeChild(commandServlet);
-         }
-         catch (Exception e)
-         {
+            Engine engine = (Engine)container;
+            containerContext = new TC6ServletContainerContext(engine);
+            containerContext.start();
+            break;
          }
       }
    }
 
-   public ServletContext getServletContext()
+   private void stop()
    {
-      return servletContext;
-   }
+      if (containerContext != null)
+      {
+         containerContext.stop();
 
-   public ClassLoader getClassLoader()
-   {
-      return loader;
-   }
-
-   public String getContextPath()
-   {
-      return contextPath;
-   }
-
-   public boolean importFile(String parentDirRelativePath, String name, InputStream source, boolean overwrite) throws IOException
-   {
-      return false;
+         //
+         containerContext = null;
+      }
    }
 }

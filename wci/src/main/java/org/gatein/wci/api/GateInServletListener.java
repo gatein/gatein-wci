@@ -1,6 +1,6 @@
 /******************************************************************************
  * JBoss, a division of Red Hat                                               *
- * Copyright 2006, Red Hat Middleware, LLC, and individual                    *
+ * Copyright 2009, Red Hat Middleware, LLC, and individual                    *
  * contributors as indicated by the @authors tag. See the                     *
  * copyright.txt in the distribution for a full listing of                    *
  * individual contributors.                                                   *
@@ -22,55 +22,36 @@
  ******************************************************************************/
 package org.gatein.wci.api;
 
-import org.gatein.wci.command.CommandServlet;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+
 import org.gatein.wci.impl.generic.GenericServletContainerContext;
 import org.gatein.wci.impl.generic.GenericWebAppContext;
 
-import javax.servlet.ServletException;
-import javax.servlet.ServletContext;
-import java.lang.reflect.Method;
-
 /**
- * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
- * @version $Revision: 1.1 $
+ * @author <a href="mailto:mwringe@redhat.com">Matt Wringe</a>
+ * @version $Revision$
  */
-public class GateInServlet extends CommandServlet
+public class GateInServletListener implements ServletContextListener
 {
 
-   /** . */
-   private String contextPath;
-   
-   private ServletContext servletContext;
+	public void contextInitialized(ServletContextEvent event)
+	{
+		ServletContext servletContext = event.getServletContext();
+		
+		String contextPath = servletContext.getContextPath();
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		
+		GenericWebAppContext webAppContext = new GenericWebAppContext(servletContext, contextPath, classLoader);
 
-   public void init() throws ServletException
-   {
-      try
-      {
-         Method m = ServletContext.class.getMethod("getContextPath");
-         ServletContext servletContext = getServletContext();
+		GenericServletContainerContext.register(webAppContext, "/PortletWrapper");
+	}
 
-         //
-         String contextPath = (String)m.invoke(servletContext);
-         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-         GenericWebAppContext webAppContext = new GenericWebAppContext(servletContext, contextPath, classLoader);
+	public void contextDestroyed(ServletContextEvent event)
+	{
+		ServletContext servletContext = event.getServletContext();
+		GenericServletContainerContext.unregister(servletContext);
+	}
 
-         //
-         GenericServletContainerContext.register(webAppContext, "/gateinservlet");
-         this.contextPath = contextPath;
-         this.servletContext = servletContext;
-      }
-      catch (Exception e)
-      {
-         e.printStackTrace();
-      }
-   }
-
-   public void destroy()
-   {
-      if (contextPath != null)
-      {
-         //GenericServletContainerContext.unregister(contextPath);
-         GenericServletContainerContext.unregister(servletContext);
-      }
-   }
 }
