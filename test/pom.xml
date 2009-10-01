@@ -2,9 +2,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
    <parent>
       <groupId>org.gatein.wci</groupId>
-      <artifactId>module-parent</artifactId>
+      <artifactId>wci-parent</artifactId>
       <version>2.0.0-SNAPSHOT</version>
-      <relativePath>../build/pom.xml</relativePath>
    </parent>
    <modelVersion>4.0.0</modelVersion>
    <artifactId>wci-test</artifactId>
@@ -15,12 +14,10 @@
       <dependency>
         <groupId>org.gatein.wci</groupId>
         <artifactId>wci-wci</artifactId>
-        <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>org.gatein.wci</groupId>
         <artifactId>wci-tomcat</artifactId>
-        <version>${project.version}</version>
       </dependency>
 
       <dependency>
@@ -174,12 +171,10 @@
       <dependency>
          <groupId>org.codehaus.cargo</groupId>
          <artifactId>cargo-core-uberjar</artifactId>
-         <version>${version.cargo}</version>
       </dependency>
        <dependency>
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>cargo-ant</artifactId>
-                  <version>${version.cargo}</version>
                   <exclusions>
                      <exclusion>
                         <groupId>ant</groupId>
