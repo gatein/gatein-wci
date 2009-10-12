@@ -24,7 +24,7 @@
   </scm>
   
   <properties>
-    <version.gatein.common>2.0.0-Beta02</version.gatein.common>
+    <version.gatein.common>2.0.0-Beta03</version.gatein.common>
     
     <version.junit>3.8.2-brew</version.junit>
     <version.jaxb>2.1</version.jaxb>
@@ -33,10 +33,6 @@
     <version.saxpath>1.0-FCS</version.saxpath>
     
     <version.apache.commons-logging>1.1.0.jboss</version.apache.commons-logging> 
-    
-    <!-- used in test module by maven-antrun-extended-plugin -->
-    <version.jboss.unit>1.2.2</version.jboss.unit>
-    <version.cargo>1.0.1-SNAPSHOT</version.cargo>
   </properties>
   
   <dependencyManagement>
