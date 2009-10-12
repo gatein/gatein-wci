@@ -33,6 +33,11 @@
     <version.saxpath>1.0-FCS</version.saxpath>
     
     <version.apache.commons-logging>1.1.0.jboss</version.apache.commons-logging> 
+
+    <!-- used in test module by maven-antrun-extended-plugin -->
+    <version.jboss.unit>1.2.3</version.jboss.unit>
+    <version.cargo>1.0.1-alpha1</version.cargo>
+
   </properties>
   
   <dependencyManagement>
