@@ -71,6 +71,11 @@
        <artifactId>wci-tomcat</artifactId>
        <version>${project.version}</version>
       </dependency>
+      <dependency>
+       <groupId>org.gatein.wci</groupId>
+       <artifactId>wci-exo</artifactId>
+       <version>${project.version}</version>
+      </dependency>
 
       <!-- External dependencies -->
       <dependency>
