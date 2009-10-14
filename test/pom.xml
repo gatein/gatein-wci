@@ -18,6 +18,10 @@
         <groupId>org.gatein.wci</groupId>
         <artifactId>wci-tomcat</artifactId>
       </dependency>
+      <dependency>
+        <groupId>org.gatein.wci</groupId>
+        <artifactId>wci-exo</artifactId>
+      </dependency>
 
       <dependency>
          <artifactId>junit</artifactId>
@@ -243,6 +247,7 @@
                         <property name="dependency.gatein-common-mc.jar" value="${maven.dependency.org.gatein.common.common-mc.jar.path}" />
                         <property name="dependency.gatein-wci-core.jar" value="${maven.dependency.org.gatein.wci.wci-wci.jar.path}" />
                         <property name="dependency.gatein-wci-tomcat.jar" value="${maven.dependency.org.gatein.wci.wci-tomcat.jar.path}" />
+                        <property name="dependency.gatein-wci-exo.jar" value="${maven.dependency.org.gatein.wci.wci-exo.jar.path}" />
 
                         <!-- JBoss Unit -->
                         <property name="dependency.jboss-unit.jar" value="${maven.dependency.org.jboss.unit.jboss-unit.jar.path}" />

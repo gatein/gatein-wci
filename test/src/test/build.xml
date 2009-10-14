@@ -238,6 +238,7 @@
          <path refid="gatein-common-shared"/>
          <path path="${dependency.gatein-wci-tomcat.jar}"/>
          <path path="${dependency.gatein-wci-core.jar}"/>
+         <path path="${dependency.gatein-wci-exo.jar}"/>
       </path>
 
       <path id="jboss-5.1">
@@ -250,6 +251,7 @@
          <path refid="gatein-common-shared"/>
          <path path="${dependency.gatein-wci-core.jar}"/>
          <path path="${dependency.gatein-wci-tomcat.jar}"/>
+         <path path="${dependency.gatein-wci-exo.jar}"/>
       </path>
 
       <path id="tomcat-6.0">
@@ -271,6 +273,7 @@
          <path location="${dependency.junit.jar}"/>
          <path path="${dependency.gatein-wci-core.jar}"/>
          <path path="${dependency.gatein-wci-tomcat.jar}"/>
+         <path path="${dependency.gatein-wci-exo.jar}"/>
          <path location="${dependency.jboss-serialization.jar}"/>
       </path>
 
@@ -293,6 +296,18 @@
          <fileset dir="${target}/test-classes//portal-test-spi-jar"/>
       </jar>
 
+      <!-- SPI Test case for Container Specific Implementation -->
+      <jar jarfile="${test.temp.lib}/portal-test-spi-cs-lib.jar">
+         <fileset dir="${target}/test-classes/">
+            <include name="org/gatein/wci/spi/**"/>
+            <include name="org/gatein/wci/ServletTestCase.class"/>
+            <include name="org/gatein/wci/TestServlet.class"/>
+            <include name="org/gatein/wci/WebAppRegistry.class"/>
+         </fileset>
+         <fileset dir="${target}/test-classes//portal-test-spi-cs-jar"/>
+      </jar>
+
+
       <!-- **************************** -->
       <!-- Tomcat 6.0 container servlet -->
       <!-- **************************** -->
@@ -303,10 +318,16 @@
       <mkdir dir="${test.temp.lib}/tomcat-6.0-container-servlet"/>
       <war jarfile="${test.temp.lib}/tomcat-6.0-container-servlet/test-spi-server.war">
          <fileset dir="${test.support}/tomcat-6.0-container-servlet/server-war"/>
-         <lib dir="${test.temp.lib}" includes="portal-test-spi-lib.jar"/>
+         <lib dir="${test.temp.lib}" includes="portal-test-spi-cs-lib.jar"/>
       </war>
       <jar jarfile="${test.temp.lib}/tomcat-6.0-container-servlet/test-spi-app.war">
          <fileset dir="${target}/test-classes/spi/app-war"/>
+      </jar>
+      <jar jarfile="${test.temp.lib}/tomcat-6.0-container-servlet/test-generic-app.war">
+         <fileset dir="${target}/test-classes/spi/generic/app-war"/>
+      </jar>
+      <jar jarfile="${test.temp.lib}/tomcat-6.0-container-servlet/test-exo-app.war">
+         <fileset dir="${target}/test-classes/spi/exo/app-war"/>
       </jar>
 
       <!-- **************************** -->
@@ -342,6 +363,25 @@
       <jar jarfile="${test.temp.lib}/tomcat-6.0-generic/test-spi-app.war">
          <fileset dir="${target}/test-classes/spi/generic/app-war"/>
       </jar>
+
+      <!-- ****************** -->
+      <!-- Tomcat 6.0 eXo -->
+      <!-- ****************** -->
+
+      <!--  -->
+      <mkdir dir="${test.support}/tomcat-6.0-exo/server-war/WEB-INF/lib"/>
+      <copy todir="${test.support}/tomcat-6.0-exo/server-war/WEB-INF/lib"  flatten="true">
+         <path refid="tomcat-6.0"/>
+      </copy>
+      <mkdir dir="${test.temp.lib}/tomcat-6.0-exo"/>
+      <war jarfile="${test.temp.lib}/tomcat-6.0-exo/test-spi-server.war">
+         <fileset dir="${test.support}/tomcat-6.0-exo/server-war"/>
+         <lib dir="${test.temp.lib}" includes="portal-test-spi-lib.jar"/>
+      </war>
+      <jar jarfile="${test.temp.lib}/tomcat-6.0-exo/test-spi-app.war">
+         <fileset dir="${target}/test-classes/spi/exo/app-war"/>
+      </jar>
+
 
       <!-- **************************** -->
       <!-- Jetty 6.1 handler -->
@@ -388,11 +428,18 @@
       <mkdir dir="${test.temp.lib}/jboss-4.2-container-servlet"/>
       <war jarfile="${test.temp.lib}/jboss-4.2-container-servlet/test-spi-server.war">
          <fileset dir="${test.support}/jboss-4.2-container-servlet/server-war"/>
-         <lib dir="${test.temp.lib}" includes="portal-test-spi-lib.jar"/>
+         <lib dir="${test.temp.lib}" includes="portal-test-spi-cs-lib.jar"/>
       </war>
       <jar jarfile="${test.temp.lib}/jboss-4.2-container-servlet/test-spi-app.war">
          <fileset dir="${target}/test-classes/spi/app-war"/>
       </jar>
+      <jar jarfile="${test.temp.lib}/jboss-4.2-container-servlet/test-generic-app.war">
+         <fileset dir="${target}/test-classes/spi/generic/app-war"/>
+      </jar>
+      <jar jarfile="${test.temp.lib}/jboss-4.2-container-servlet/test-exo-app.war">
+         <fileset dir="${target}/test-classes/spi/exo/app-war"/>
+      </jar>
+
 
       <!-- ***************** -->
       <!-- JBoss 4.2 generic -->
@@ -423,6 +470,24 @@
          <fileset dir="${target}/test-classes/portal-test-endpoint-jar"/>
       </jar>
 
+      <!-- ***************** -->
+      <!-- JBoss 4.2 eXo -->
+      <!-- ***************** -->
+
+      <!-- -->
+      <copy todir="${test.support}/jboss-4.2-exo/server-war/WEB-INF/lib" flatten="true">
+         <path refid="jboss-4.2"/>
+      </copy>
+      <mkdir dir="${test.temp.lib}/jboss-4.2-exo"/>
+      <war jarfile="${test.temp.lib}/jboss-4.2-exo/test-spi-server.war">
+         <fileset dir="${test.support}/jboss-4.2-exo/server-war"/>
+         <lib dir="${test.temp.lib}" includes="portal-test-spi-lib.jar"/>
+      </war>
+      <jar jarfile="${test.temp.lib}/jboss-4.2-exo/test-spi-app.war">
+         <fileset dir="${target}/test-classes/spi/exo/app-war"/>
+      </jar>
+
+
       <!-- *************************** -->
       <!-- JBoss 5.1 container servlet -->
       <!-- *************************** -->
@@ -436,11 +501,18 @@
          <fileset dir="${test.support}/jboss-5.1-container-servlet/server-war">
             <exclude name="**/jboss-kernel*.jar"/>
          </fileset>
-         <lib dir="${test.temp.lib}" includes="portal-test-spi-lib.jar"/>
+         <lib dir="${test.temp.lib}" includes="portal-test-spi-cs-lib.jar"/>
       </war>
       <jar jarfile="${test.temp.lib}/jboss-5.1-container-servlet/test-spi-app.war">
          <fileset dir="${target}/test-classes/spi/app-war"/>
       </jar>
+      <jar jarfile="${test.temp.lib}/jboss-5.1-container-servlet/test-generic-app.war">
+         <fileset dir="${target}/test-classes/spi/generic/app-war"/>
+      </jar>
+      <jar jarfile="${test.temp.lib}/jboss-5.1-container-servlet/test-exo-app.war">
+         <fileset dir="${target}/test-classes/spi/exo/app-war"/>
+      </jar>
+
 
       <!-- ***************** -->
       <!-- JBoss 5.1 generic -->
@@ -461,6 +533,27 @@
             <exclude name="**/jboss-kernel*.jar"/>
          </fileset>
       </jar>
+
+      <!-- ***************** -->
+      <!-- JBoss 5.1 eXo -->
+      <!-- ***************** -->
+
+      <copy todir="${test.support}/jboss-5.1-exo/server-war/WEB-INF/lib" flatten="true">
+         <path refid="jboss-5.1"/>
+      </copy> 
+      <mkdir dir="${test.temp.lib}/jboss-5.1-exo"/>
+      <war jarfile="${test.temp.lib}/jboss-5.1-exo/test-spi-server.war">
+         <fileset dir="${test.support}/jboss-5.1-exo/server-war">
+            <exclude name="**/jboss-kernel*.jar"/>
+         </fileset>
+         <lib dir="${test.temp.lib}" includes="portal-test-spi-lib.jar"/>
+      </war>
+      <jar jarfile="${test.temp.lib}/jboss-5.1-exo/test-spi-app.war">
+         <fileset dir="${target}/test-classes/spi/exo/app-war">
+            <exclude name="**/jboss-kernel*.jar"/>
+         </fileset>
+      </jar>
+
 
       <!--endpoint test case-->
 
@@ -689,6 +782,11 @@
          <param name="test.war" value="${test.temp.lib}/jboss-4.2-generic/test-spi-server.war"/>
          <param name="test.archive.path" value="jboss-4.2-generic"/>
       </antcall>
+      <antcall target="tests.jboss-4.2.execute">
+         <param name="test.id" value="${test.jboss-4.2.name}-spi-exo"/>
+         <param name="test.war" value="${test.temp.lib}/jboss-4.2-exo/test-spi-server.war"/>
+         <param name="test.archive.path" value="jboss-4.2-exo"/>
+      </antcall>
    </target>
 
    <target name="tests.jboss-4.2.endpoint">
@@ -828,6 +926,11 @@
          <param name="test.war" value="${test.temp.lib}/jboss-5.1-generic/test-spi-server.war"/>
          <param name="test.archive.path" value="jboss-5.1-generic"/>
       </antcall>
+      <antcall target="tests.jboss-5.1.execute">
+         <param name="test.id" value="${test.jboss-5.1.name}-spi-exo"/>
+         <param name="test.war" value="${test.temp.lib}/jboss-5.1-exo/test-spi-server.war"/>
+         <param name="test.archive.path" value="jboss-5.1-exo"/>
+      </antcall>
    </target>
 
    <target name="tests.jboss-5.1.endpoint">
@@ -934,6 +1037,11 @@
          <param name="test.id" value="${test.tomcat-6.0.name}-spi-generic"/>
          <param name="test.war" value="${test.temp.lib}/tomcat-6.0-generic/test-spi-server.war"/>
          <param name="test.archive.path" value="tomcat-6.0-generic"/>
+      </antcall>
+      <antcall target="tests.tomcat-6.0.execute">
+         <param name="test.id" value="${test.tomcat-6.0.name}-spi-exo"/>
+         <param name="test.war" value="${test.temp.lib}/tomcat-6.0-exo/test-spi-server.war"/>
+         <param name="test.archive.path" value="tomcat-6.0-exo"/>
       </antcall>
    </target>
 
