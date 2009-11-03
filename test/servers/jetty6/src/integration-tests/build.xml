@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<project name="jetty-integration-test" default="tests">
+
+  <import file="${common.xml.file}"/>
+
+  <!-- SYSTEM PROPERTIES -->
+  <property environment="env"/>
+  <property name="test.cargo.home" value="${env.JETTY_6_1_HOME}"/>  
+
+  <!-- properties unique per app server -->
+  <property name="test.server.name" value="Jetty"/>  
+  <property name="test.server.version" value="6.1"/>
+  <property name="test.remote.server.name" value="RemoteJetty_6_1"/>
+  <property name="cargo.container.id" value="jetty6x"/>  
+  <!-- end unique properties -->
+
+  <target name="tests" unless="maven.test.skip">
+    <antcall target="tests.common"/>
+  </target>
+
+  <path id="server.libs">
+        <path refid="gatein-common-shared"/>
+        <path refid="jboss-logging"/>
+         <!-- server specific dependencies -->
+         <path path="${dependency.gatein-wci-core.jar}"/>
+         <path path="${dependency.gatein-wci-jetty.jar}"/>
+         <path path="${dependency.gatein-wci-exo.jar}"/>
+  
+         <path path="${dependency.log4j.jar}"/>
+         <path path="${dependency.activation.jar}"/>
+         <path path="${dependency.junit.jar}"/>
+         <path path="${dependency.jboss-serialization.jar}"/>
+
+         <path location="${dependency.concurrent.jar}"/>
+  </path>
+
+  <target name="cargo.start" depends="cargo.setup">
+         <cargo
+         containerId="${cargo.container.id}"
+         home="${test.cargo.home}"
+         log="${cargo.log.dir}/cargo.${test.id}.start.log"
+         action="start"
+         wait="${cargo.wait}">
+         <extraClasspath>
+            <path refid="server.libs"/>
+         </extraClasspath>
+         <configuration home="${test.cargo.dir}">
+            <property name="cargo.servlet.port" value="8080"/>
+            <property name="cargo.logging" value="high"/>
+            <property name="cargo.jvmargs" value="${cargo.debug}"/>
+            <deployable type="war" file="${cargo.war}"> 
+              <property name="context" value="${cargo.war.context}"/>
+            </deployable>
+
+            <configfile file="${target.dir}/test-classes/config/server/jetty.xml" todir="etc"/>
+            <configfile file="${target.dir}/test-classes/config/server/realm.properties" todir="etc"/>
+            <deployable type="war" file="${dependency.cargo.jetty-deployer}">
+              <property name="context" value="cargo-jetty-deployer"/>
+            </deployable>
+ 
+        </configuration>
+        </cargo> 
+  </target>
+
+  <target name="cargo.stop" depends="cargo.setup">
+      <cargo
+         containerId="${cargo.container.id}"
+         home="${test.cargo.home}"
+         log="${cargo.log.dir}/cargo.${test.id}.shutdown.log"
+         action="stop">
+         <configuration home="${test.cargo.dir}">
+         </configuration>
+      </cargo>
+   </target>
+
+</project>

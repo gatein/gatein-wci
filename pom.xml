@@ -26,7 +26,7 @@
     
     <version.junit>3.8.2-brew</version.junit>
     <version.jaxb>2.1</version.jaxb>
-    <version.jetty>6.1.7</version.jetty>
+    <version.jetty>6.1.21</version.jetty>
     <version.jaxen>1.0-FCS</version.jaxen>
     <version.saxpath>1.0-FCS</version.saxpath>
     
@@ -72,6 +72,11 @@
        <version>${project.version}</version>
       </dependency>
       <dependency>
+        <groupId>org.gatein.wci</groupId>
+        <artifactId>wci-jetty</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
        <groupId>org.gatein.wci</groupId>
        <artifactId>wci-exo</artifactId>
        <version>${project.version}</version>
@@ -88,7 +93,12 @@
         <artifactId>jetty</artifactId>
         <version>${version.jetty}</version>
       </dependency>
-      
+      <dependency>
+        <groupId>org.mortbay.jetty</groupId>
+        <artifactId>jetty-util</artifactId>
+        <version>${version.jetty}</version>
+      </dependency>
+ 
       <dependency>
         <groupId>commons-logging</groupId>
         <artifactId>commons-logging</artifactId>

@@ -1,0 +1,161 @@
+<project name="common">
+
+  <!-- PROPERTIES -->
+  <property name="target.dir" value="${project.build.directory}"/>
+  <property name="test.dir" value="${target.dir}/integration-tests"/>
+  <property name="test.cargo.dir" value="${test.dir}/cargo/"/>
+  <property name="test.apps.dir" value="${test.dir}/test-apps"/>
+
+  <target name="tests.common">
+    <antcall target="clean"/>
+    <antcall target="mkdirs"/>
+    <antcall target="test-generic"/>
+    <antcall target="test-native"/>
+    <antcall target="test-exo"/>
+    <antcall target="test-endpoint"/>
+  </target>
+
+  <path id="jboss-logging">
+    <path path="${dependency.jboss-logging-spi.jar}"/>
+    <path path="${dependency.jboss-logging-jdk.jar}"/>
+    <path path="${dependency.jboss-logging-log4j.jar}"/>
+  </path>
+  
+  <path id="gatein-common-shared">
+    <pathelement path="${dependency.gatein-common-common.jar}"/>
+  </path>
+
+  <target name="mkdirs">
+    <mkdir dir="${test.dir}"/>
+  </target>
+
+  <target name="clean">
+    <delete dir="${test.dir}"/>
+  </target>
+
+  <target name="cargo.setup">
+    <property name="cargo.log.dir" value="${test.dir}/cargo-logs"/>
+    <mkdir dir="${cargo.log.dir}"/>
+    <taskdef resource="cargo.tasks">
+      <classpath>
+        <pathelement path="${plugin_classpath}"/>
+      </classpath>
+    </taskdef>
+  </target>
+
+  <target name="test-generic" if="test.generic.enable">
+    <property name="test.archive.path" value="${test.apps.dir}/${test.server.name}-${test.server.version}-generic"/>
+    <!-- setup the generic tests -->
+    <mkdir dir="${test.archive.path}"/>
+    <copy file="${test.generic.portlet.war}" tofile="${test.archive.path}/test-spi-app.war"/>
+    <copy file="${test.generic.server.war}" tofile="${test.archive.path}/test-spi-server.war"/>
+
+      <antcall target="tests.execute">
+         <param name="test.id" value="${test.remote.server.name}-spi-generic"/>
+         <param name="test.war" value="${test.generic.server.war}"/>
+         <param name="test.war.context" value="test-spi-server"/>
+         <param name="test.archive.path" value="${test.archive.path}"/>
+      </antcall>
+  </target>
+
+  <target name="test-native" if="test.native.enable">
+    <property name="test.archive.path" value="${test.apps.dir}/${test.server.name}-${test.server.version}-native"/>
+    <!-- setup the generic tests -->
+    <mkdir dir="${test.archive.path}"/>
+    <copy file="${test.native.portlet.war}" tofile="${test.archive.path}/test-spi-app.war"/>
+    <copy file="${test.native.server.war}" tofile="${test.archive.path}/test-spi-server.war"/>
+    <copy file="${test.generic.portlet.war}" tofile="${test.archive.path}/test-generic-app.war"/>
+    <copy file="${test.exo.portlet.war}" tofile="${test.archive.path}/test-exo-app.war"/>
+
+
+      <antcall target="tests.execute">
+         <param name="test.id" value="${test.remote.server.name}-spi-native"/>
+         <param name="test.war" value="${test.native.server.war}"/>
+         <param name="test.war.context" value="test-spi-server"/>
+         <param name="test.archive.path" value="${test.archive.path}"/>
+      </antcall>
+  </target>
+
+  <target name="test-exo" if="test.exo.enable">
+    <property name="test.archive.path" value="${test.apps.dir}/${test.server.name}-${test.server.version}-exo"/>
+    <!-- setup the exo tests -->
+    <mkdir dir="${test.archive.path}"/>
+    <copy file="${test.exo.portlet.war}" tofile="${test.archive.path}/test-spi-app.war"/>
+    <copy file="${test.exo.server.war}" tofile="${test.archive.path}/test-spi-server.war"/>
+
+
+      <antcall target="tests.execute">
+         <param name="test.id" value="${test.remote.server.name}-spi-exo"/>
+         <param name="test.war" value="${test.exo.server.war}"/>
+         <param name="test.war.context" value="test-spi-server"/>
+         <param name="test.archive.path" value="${test.archive.path}"/>
+      </antcall>
+  </target>
+
+
+  <target name="test-endpoint" if="test.endpoint.enable">
+      <antcall target="tests.execute">
+         <param name="test.id" value="${test.remote.server.name}-endpoint-default-servlet-mapping"/>
+         <param name="test.war" value="${test.endpoint.default.server.mapping.server.war}"/>
+         <param name="test.war.context" value="default-servlet-mapping"/>
+         <param name="test.archive.path" value="${test.apps.dir}/"/>
+      </antcall>
+      <antcall target="tests.execute">
+         <param name="test.id" value="${test.remote.server.name}-endpoint-root-path-mapping"/>
+         <param name="test.war" value="${test.endpoint.root.mapping.server.war}"/>
+         <param name="test.war.context" value="root-path-mapping"/>
+         <param name="test.archive.path" value="${test.apps.dir}"/>
+      </antcall>
+      <antcall target="tests.execute">
+         <param name="test.id" value="${test.remote.server.name}-endpoint-path-mapping"/>
+         <param name="test.war" value="${test.endpoint.path.mapping.server.war}"/>
+         <param name="test.war.context" value="path-mapping"/>
+         <param name="test.archive.path" value="${test.apps.dir}"/>
+      </antcall>
+  </target>
+
+  <target name="tests.execute">
+      <echo message="Starting ${test.server.name} ${test.server.version} with ${test.remote.server.name} to execute ${test.id} tests"/>
+      <antcall target="cargo.start">
+         <param name="cargo.wait" value="false"/>
+         <param name="cargo.war" value="${test.war}"/>
+         <param name="cargo.war.context" value="${test.war.context}"/>
+      </antcall>
+      <antcall target="tests.remote">
+         <param name="test.remote.server.name" value="${test.remote.server.name}"/>
+         <param name="test.remote.archive.path" value="${test.archive.path}"/>
+      </antcall>
+      <antcall target="cargo.stop">
+      </antcall>
+   </target>
+
+   <target name="tests.remote">
+
+      <echo message="test.remote.archive.path : ${test.remote.archive.path}"/>
+
+      <taskdef name="jboss-unit" classname="org.jboss.unit.tooling.ant.JBossUnitTask" classpath="${plugin_classpath}"/>
+
+      <jboss-unit>
+
+        <tests config="${target.dir}/test-classes/config/remote-jboss-unit.xml">
+                    <property name="archivePath" value="${test.archive.path}"/>
+                                <property name="serverName" value="${test.remote.server.name}"/>
+                                        </tests>
+
+         <reports>
+                     <xml toDir="${target.dir}/test/reports/${test.id}/xml/local"/>
+                                 <html toDir="${target.dir}/test/reports/${test.id}/html/local"/>
+                                          </reports>
+
+         <classpath>
+                     <pathelement location="${target.dir}/test-classes/config"/>
+                                 <pathelement location="${target.dir}/classes"/>
+                                             <pathelement location="${target.dir}/test-classes"/>
+
+            <pathelement path="${test_classpath}"/>
+                     </classpath>
+
+      </jboss-unit>
+
+   </target>
+</project>   

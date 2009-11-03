@@ -5,292 +5,46 @@
       <version>2.0.0-CR1-SNAPSHOT</version>
    </parent>
    <modelVersion>4.0.0</modelVersion>
-   <artifactId>wci-test</artifactId>
-   <packaging>jar</packaging>
-   <name>GateIn - WCI test component</name>
+   <artifactId>wci-test-parent</artifactId>
+   <packaging>pom</packaging>
+   <name>GateIn - WCI test parent</name>
 
-   <dependencies>
-      <dependency>
-        <groupId>org.gatein.wci</groupId>
-        <artifactId>wci-wci</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.gatein.wci</groupId>
-        <artifactId>wci-tomcat</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.gatein.wci</groupId>
-        <artifactId>wci-exo</artifactId>
-      </dependency>
-
-      <dependency>
-         <artifactId>junit</artifactId>
-         <groupId>junit</groupId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.gatein.common</groupId>
-         <artifactId>common-common</artifactId>
-          <exclusions>
-           <exclusion>
-             <groupId>org.codehaus.cargo</groupId>
-             <artifactId>cargo-core-uberjar</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-     <dependency>
-         <groupId>javax.servlet</groupId>
-         <artifactId>servlet-api</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>org.apache.tomcat</groupId>
-         <artifactId>catalina</artifactId>
-         <exclusions>
-            <exclusion>
-               <groupId>org.apache.tomcat</groupId>
-               <artifactId>servlet-api</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-      <dependency>
-         <groupId>org.mortbay.jetty</groupId>
-         <artifactId>jetty</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>apache-log4j</groupId>
-         <artifactId>log4j</artifactId>
-      </dependency>
-
-      <!-- SCOPE TEST -->
-      <dependency>
-         <groupId>concurrent</groupId>
-         <artifactId>concurrent</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.gatein.common</groupId>
-         <artifactId>common-mc</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.unit</groupId>
-         <artifactId>jboss-unit</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.unit</groupId>
-         <artifactId>jboss-unit-remote</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.unit</groupId>
-         <artifactId>jboss-unit-mc</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.unit</groupId>
-         <artifactId>jboss-unit-tooling-ant</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.unit</groupId>
-         <artifactId>portal-test</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.unit</groupId>
-         <artifactId>portal-test-generic</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>jboss</groupId>
-         <artifactId>jboss-common-logging-jdk</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>jboss</groupId>
-         <artifactId>jboss-common-logging-log4j</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.remoting</groupId>
-         <artifactId>jboss-remoting</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.microcontainer</groupId>
-         <artifactId>jboss-kernel</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.microcontainer</groupId>
-         <artifactId>jboss-dependency</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss</groupId>
-         <artifactId>jboss-reflect</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>jboss</groupId>
-         <artifactId>jboss-serialization</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>commons-logging</groupId>
-         <artifactId>commons-logging</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>commons-httpclient</groupId>
-         <artifactId>commons-httpclient</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-          <groupId>jaxen</groupId>
-          <artifactId>jaxen</artifactId>
-      </dependency>
-      <dependency>
-          <groupId>saxpath</groupId>
-          <artifactId>saxpath</artifactId>
-      </dependency>
-      <dependency>
-          <groupId>javax.xml.bind</groupId>
-          <artifactId>jaxb-api</artifactId>
-          <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>cargo</groupId>
-         <artifactId>cargo-manager</artifactId>
-         <type>war</type>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.codehaus.cargo</groupId>
-         <artifactId>cargo-jetty-deployer</artifactId>
-         <type>war</type>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.codehaus.cargo</groupId>
-         <artifactId>cargo-core-uberjar</artifactId>
-      </dependency>
+   <dependencyManagement>
+     <dependencies>
        <dependency>
-                  <groupId>org.codehaus.cargo</groupId>
-                  <artifactId>cargo-ant</artifactId>
-                  <exclusions>
-                     <exclusion>
-                        <groupId>ant</groupId>
-                        <artifactId>ant</artifactId>
-                     </exclusion>
-                  </exclusions>
-               </dependency>
-   </dependencies>
+         <groupId>org.gatein.wci</groupId>
+         <artifactId>wci-test-core</artifactId>
+         <version>${project.version}</version>
+       </dependency>
 
-   <build>
-      <plugins>
-         <plugin>
-            <groupId>org.jvnet.maven-antrun-extended-plugin</groupId>
-            <artifactId>maven-antrun-extended-plugin</artifactId>
-            <version>1.13</version>
-             
-            <dependencies>
-               <dependency>
-                  <groupId>org.jboss.unit</groupId>
-                  <artifactId>jboss-unit-tooling-ant</artifactId>
-                  <version>${version.jboss.unit}</version>
-               </dependency>
+      <dependency>
+        <groupId>org.gatein.wci</groupId>
+        <artifactId>wci-test-native-portlet</artifactId>
+        <type>war</type>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.gatein.wci</groupId>
+        <artifactId>wci-test-gatein-portlet</artifactId>
+        <type>war</type>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.gatein.wci</groupId>
+        <artifactId>wci-test-exo-portlet</artifactId>
+        <type>war</type>
+        <version>${project.version}</version>
+      </dependency>
+     </dependencies>
+   </dependencyManagement>
 
-                <!--stuff to run servers for tests-->
-               <dependency>
-                  <groupId>org.codehaus.cargo</groupId>
-                  <artifactId>cargo-ant</artifactId>
-                  <version>${version.cargo}</version>
-                  <exclusions>
-                     <exclusion>
-                        <groupId>ant</groupId>
-                        <artifactId>ant</artifactId>
-                     </exclusion>
-                  </exclusions>
-               </dependency>
-               <dependency>
-                  <groupId>org.codehaus.cargo</groupId>
-                  <artifactId>cargo-core-uberjar</artifactId>
-                  <version>${version.cargo}</version>
-                  <scope>test</scope>
-               </dependency>
 
-            </dependencies>
-            <executions>
-               <execution>
-                  <id>test</id>
-                  <phase>integration-test</phase>
-                  <configuration>
-                     <tasks>
+   <modules>
+     <module>core</module>
+     <module>portlets/gatein-portlet</module>
+     <module>portlets/exo-portlet</module>
+     <module>portlets/native-portlet</module>
+     <module>servers</module>
+   </modules>
 
-                        <property name="compile_classpath" refid="maven.compile.classpath" />
-                        <property name="runtime_classpath" refid="maven.runtime.classpath" />
-                        <property name="test_classpath" refid="maven.test.classpath" />
-                        <property name="plugin_classpath" refid="maven.plugin.classpath" />
-                        <property name="project.version" value="${project.version}" />
-
-                        <!-- -->
-                        <property name="dependency.log4j.jar" value="${maven.dependency.apache-log4j.log4j.jar.path}" />
-                        <property name="dependency.commons-logging.jar" value="${maven.dependency.commons-logging.commons-logging.jar.path}" />
-                        <property name="dependency.commons-httpclient.jar" value="${maven.dependency.commons-httpclient.commons-httpclient.jar.path}" />
-                        <property name="dependency.activation.jar" value="${maven.dependency.javax.activation.activation.jar.path}" />
-                        <property name="dependency.junit.jar" value="${maven.dependency.junit.junit.jar.path}" />
-                        <property name="dependency.cargo-manager.war" value="${maven.dependency.cargo.cargo-manager.war.path}" />
-
-                        <!-- GateIn -->
-                        <property name="dependency.gatein-common-common.jar" value="${maven.dependency.org.gatein.common.common-common.jar.path}" />
-                        <property name="dependency.gatein-common-mc.jar" value="${maven.dependency.org.gatein.common.common-mc.jar.path}" />
-                        <property name="dependency.gatein-wci-core.jar" value="${maven.dependency.org.gatein.wci.wci-wci.jar.path}" />
-                        <property name="dependency.gatein-wci-tomcat.jar" value="${maven.dependency.org.gatein.wci.wci-tomcat.jar.path}" />
-                        <property name="dependency.gatein-wci-exo.jar" value="${maven.dependency.org.gatein.wci.wci-exo.jar.path}" />
-
-                        <!-- JBoss Unit -->
-                        <property name="dependency.jboss-unit.jar" value="${maven.dependency.org.jboss.unit.jboss-unit.jar.path}" />
-                        <property name="dependency.jboss-unit-mc.jar" value="${maven.dependency.org.jboss.unit.jboss-unit-mc.jar.path}" />
-                        <property name="dependency.jboss-unit-remote.jar" value="${maven.dependency.org.jboss.unit.jboss-unit-remote.jar.path}" />
-                        <property name="dependency.portal-test.jar" value="${maven.dependency.org.jboss.unit.portal-test.jar.path}" />
-                        <property name="dependency.portal-test-generic.jar" value="${maven.dependency.org.jboss.unit.portal-test-generic.jar.path}" />
-                        <property name="dependency.jboss-remoting.jar" value="${maven.dependency.org.jboss.remoting.jboss-remoting.jar.path}" />
-
-                        <!-- JBoss Microcontainer -->
-                        <property name="dependency.concurrent.jar" value="${maven.dependency.concurrent.concurrent.jar.path}" />
-                        <property name="dependency.jboss-logging-spi.jar" value="${maven.dependency.jboss.jboss-common-logging-spi.jar.path}" />
-                        <property name="dependency.jboss-logging-jdk.jar" value="${maven.dependency.jboss.jboss-common-logging-jdk.jar.path}" />
-                        <property name="dependency.jboss-logging-log4j.jar" value="${maven.dependency.jboss.jboss-common-logging-log4j.jar.path}" />
-                        <property name="dependency.jboss-kernel.jar" value="${maven.dependency.org.jboss.microcontainer.jboss-kernel.jar.path}" />
-                        <property name="dependency.jboss-dependency.jar" value="${maven.dependency.org.jboss.microcontainer.jboss-dependency.jar.path}" />
-                        <property name="dependency.jboss-reflect.jar" value="${maven.dependency.org.jboss.jboss-reflect.jar.path}" />
-                        <property name="dependency.jboss-common-core.jar" value="${maven.dependency.org.jboss.jboss-common-core.jar.path}" />
-                        <property name="dependency.jaxb.jar" value="${maven.dependency.javax.xml.bind.jaxb-api.jar.path}" />
-                        <property name="dependency.jboss-mdr.jar" value="${maven.dependency.org.jboss.jboss-mdr.jar.path}" />
-                        <property name="dependency.resolver.jar" value="${maven.dependency.apache-xerces.resolver.jar.path}" />
-                        <property name="dependency.xercesImpl.jar" value="${maven.dependency.apache-xerces.xercesImpl.jar.path}" />
-                        <property name="dependency.xml-apis.jar" value="${maven.dependency.apache-xerces.xml-apis.jar.path}" />
-                        <property name="dependency.jbossxb.jar" value="${maven.dependency.org.jboss.jbossxb.jar.path}" />
-                        <property name="dependency.jboss-serialization.jar" value="${maven.dependency.jboss.jboss-serialization.jar.path}" />                        
-
-                        <!-- Cargo Jetty deployer -->
-                        <property name="dependency.cargo.jetty-deployer" value="${maven.dependency.org.codehaus.cargo.cargo-jetty-deployer.war.path}" />
-
-                        <ant antfile="${basedir}/src/test/build.xml">
-                           <target name="tests" />
-                        </ant>
-                        
-                     </tasks>
-                  </configuration>
-                  <goals>
-                     <goal>run</goal>
-                  </goals>
-               </execution>
-            </executions>
-         </plugin>
-      </plugins>
-   </build>
-   <properties>
-   </properties>
 </project>
