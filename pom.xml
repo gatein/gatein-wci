@@ -2,7 +2,7 @@
   
   <modelVersion>4.0.0</modelVersion>
   
-  <name>GateIn - Web Container Integration component</name>
+  <name>GateIn - Web Container Integration</name>
   
   <groupId>org.gatein.wci</groupId>
   <artifactId>wci-parent</artifactId>
