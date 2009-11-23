@@ -31,12 +31,13 @@ import org.apache.catalina.Host;
 import org.apache.catalina.Lifecycle;
 import org.apache.catalina.LifecycleEvent;
 import org.apache.catalina.LifecycleListener;
+import org.gatein.common.logging.Logger;
+import org.gatein.common.logging.LoggerFactory;
 import org.gatein.wci.RequestDispatchCallback;
 import org.gatein.wci.command.CommandDispatcher;
 import org.gatein.wci.impl.DefaultServletContainerFactory;
 import org.gatein.wci.spi.ServletContainerContext;
 import org.apache.catalina.core.StandardContext;
-import org.apache.log4j.Logger;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -54,7 +55,7 @@ import java.util.Set;
  */
 public class TC6ServletContainerContext implements ServletContainerContext, ContainerListener, LifecycleListener
 {
-   private final static Logger log = Logger.getLogger(TC6ServletContainerContext.class);
+   private final static Logger log = LoggerFactory.getLogger(TC6ServletContainerContext.class);
 
    /** . */
    private final CommandDispatcher dispatcher = new CommandDispatcher("/tomcatgateinservlet");

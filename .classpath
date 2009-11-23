@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="wci/target/classes" path="wci/src/main/java"/>
+	<classpathentry kind="src" output="exo/target/classes" path="exo/src/main/java"/>
+	<classpathentry kind="src" output="tomcat/target/classes" path="tomcat/src/main/java"/>
+	<classpathentry kind="src" output="jetty/target/classes" path="jetty/src/main/java"/>
+	<classpathentry kind="src" output="test/target/test-classes" path="test/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="test/target/test-classes" path="test/src/test/resources"/>
+	<classpathentry kind="src" output="test/core/target/classes" path="test/core/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="test/core/target/classes" path="test/core/src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="test/core/target/test-classes" path="test/core/src/test/resources"/>
+	<classpathentry excluding="**" kind="src" output="test/servers/tomcat6/target/test-classes" path="test/servers/tomcat6/src/test/resources"/>
+	<classpathentry excluding="**" kind="src" output="test/servers/jboss42/target/test-classes" path="test/servers/jboss42/src/test/resources"/>
+	<classpathentry excluding="**" kind="src" output="test/servers/jboss51/target/test-classes" path="test/servers/jboss51/src/test/resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>

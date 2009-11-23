@@ -28,10 +28,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Document;
 import org.gatein.common.xml.XMLTools;
 import org.gatein.common.io.IOTools;
+import org.gatein.common.logging.Logger;
+import org.gatein.common.logging.LoggerFactory;
 import org.gatein.common.text.FastURLDecoder;
 import org.gatein.wci.WebRequest;
 import org.gatein.wci.WebResponse;
-import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -58,7 +59,7 @@ public abstract class EndPointServlet extends HttpServlet
 {
 
    /** . */
-   private final static Logger log = Logger.getLogger(EndPointServlet.class);
+   private final static Logger log = LoggerFactory.getLogger(EndPointServlet.class);
 
    /** . */
    private FastURLDecoder decoder = FastURLDecoder.getUTF8Instance();

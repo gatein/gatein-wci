@@ -22,15 +22,13 @@
   </scm>
   
   <properties>
-    <version.gatein.common>2.0.0-Beta03</version.gatein.common>
+    <version.gatein.common>2.0.0-CR02</version.gatein.common>
     
     <version.junit>3.8.2-brew</version.junit>
     <version.jaxb>2.1</version.jaxb>
     <version.jetty>6.1.21</version.jetty>
     <version.jaxen>1.0-FCS</version.jaxen>
     <version.saxpath>1.0-FCS</version.saxpath>
-    
-    <version.apache.commons-logging>1.1.0.jboss</version.apache.commons-logging> 
 
     <!-- used in test module by maven-antrun-extended-plugin -->
     <version.jboss.unit>1.2.3</version.jboss.unit>
@@ -44,7 +42,7 @@
       <dependency>
         <groupId>org.gatein</groupId>
         <artifactId>gatein-dep</artifactId>
-        <version>1.0.0-Beta02</version>
+        <version>1.0.0-Beta03</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -60,7 +58,11 @@
         <artifactId>common-mc</artifactId>
         <version>${version.gatein.common}</version>
       </dependency>
-      
+      <dependency>
+        <groupId>org.gatein.common</groupId>
+        <artifactId>common-logging</artifactId>
+        <version>${version.gatein.common}</version>
+      </dependency>
       <dependency>
         <groupId>org.gatein.wci</groupId>
         <artifactId>wci-wci</artifactId>
@@ -98,13 +100,7 @@
         <artifactId>jetty-util</artifactId>
         <version>${version.jetty}</version>
       </dependency>
- 
-      <dependency>
-        <groupId>commons-logging</groupId>
-        <artifactId>commons-logging</artifactId>
-        <version>${version.apache.commons-logging}</version>
-      </dependency>
-      <dependency>
+       <dependency>
         <groupId>jaxen</groupId>
         <artifactId>jaxen</artifactId>
         <version>${version.jaxen}</version>
@@ -119,6 +115,7 @@
         <artifactId>jaxb-api</artifactId>
         <version>${version.jaxb}</version>
       </dependency>
+
     </dependencies>
   </dependencyManagement>
   
