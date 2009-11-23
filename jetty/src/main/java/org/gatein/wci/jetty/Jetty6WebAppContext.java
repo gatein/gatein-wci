@@ -36,9 +36,6 @@ import org.w3c.dom.Document;
 public class Jetty6WebAppContext implements WebAppContext
 {
 
-   /** The logger. */
-//   protected final Logger log = Logger.getLogger(getClass());
-
    /** . */
    private Document descriptor;
 

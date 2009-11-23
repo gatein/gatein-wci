@@ -32,7 +32,8 @@ import org.gatein.wci.RequestDispatchCallback;
 import org.gatein.wci.ServletContainer;
 import org.gatein.wci.WebExecutor;
 import org.gatein.common.NotYetImplemented;
-import org.apache.log4j.Logger;
+import org.gatein.common.logging.Logger;
+import org.gatein.common.logging.LoggerFactory;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -52,7 +53,7 @@ import java.util.Map;
  */
 public class DefaultServletContainer implements ServletContainer
 {
-   private final static Logger log = Logger.getLogger(ServletContainer.class);
+   private final static Logger log = LoggerFactory.getLogger(ServletContainer.class);
 
    /** . */
    private final Object lock = new Object();

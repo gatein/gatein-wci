@@ -22,7 +22,11 @@
   </path>
   
   <path id="gatein-common-shared">
-    <pathelement path="${dependency.gatein-common-common.jar}"/>
+    <path path="${dependency.gatein-common-common.jar}"/>
+
+    <path path="${dependency.gatein-common-logging.jar}"/>
+    <path path="${dependency.slf4j-api.jar}"/>
+    <path path="${dependency.slf4j-simple.jar}"/>
   </path>
 
   <target name="mkdirs">

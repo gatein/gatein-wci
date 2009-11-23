@@ -39,9 +39,6 @@ import java.io.IOException;
 public class TC6WebAppContext implements WebAppContext
 {
 
-   /** The logger. */
-//   protected final Logger log = Logger.getLogger(getClass());
-
    /** . */
    private Document descriptor;
 

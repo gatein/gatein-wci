@@ -43,10 +43,6 @@
       <groupId>org.mortbay.jetty</groupId>
       <artifactId>jetty</artifactId>
     </dependency>
-    <dependency>
-      <groupId>apache-log4j</groupId>
-      <artifactId>log4j</artifactId>
-    </dependency>
     
     <!-- SCOPE TEST -->
     <dependency>
@@ -90,16 +86,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>jboss</groupId>
-      <artifactId>jboss-common-logging-jdk</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>jboss</groupId>
-      <artifactId>jboss-common-logging-log4j</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.jboss.remoting</groupId>
       <artifactId>jboss-remoting</artifactId>
     </dependency>
@@ -123,11 +109,7 @@
       <artifactId>jboss-serialization</artifactId>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>commons-logging</groupId>
-      <artifactId>commons-logging</artifactId>
-      <scope>test</scope>
-    </dependency>
+
     <dependency>
       <groupId>commons-httpclient</groupId>
       <artifactId>commons-httpclient</artifactId>

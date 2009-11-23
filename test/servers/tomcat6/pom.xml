@@ -69,6 +69,21 @@
          <artifactId>common-mc</artifactId>
          <scope>test</scope>
       </dependency>
+      <dependency>
+         <groupId>org.gatein.common</groupId>
+         <artifactId>common-logging</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-api</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-simple</artifactId>
+         <scope>test</scope>
+      </dependency>
       <!-- JBOSS UNIT DEPENDENCIES -->
       <dependency>
          <groupId>org.jboss.unit</groupId>
@@ -273,7 +288,9 @@
                  <property name="dependency.jboss-logging-jdk.jar" value="${maven.dependency.jboss.jboss-common-logging-jdk.jar.path}" />
                  <property name="dependency.jboss-logging-log4j.jar" value="${maven.dependency.jboss.jboss-common-logging-log4j.jar.path}" />
                  <property name="dependency.gatein-common-common.jar" value="${maven.dependency.org.gatein.common.common-common.jar.path}" />
-                 <property name="dependency.log4j.jar" value="${maven.dependency.apache-log4j.log4j.jar.path}" />
+                 <property name="dependency.gatein-common-logging.jar" value="${maven.dependency.org.gatein.common.common-logging.jar.path}" />
+                 <property name="dependency.slf4j-api.jar" value="${maven.dependency.org.slf4j.slf4j-api.jar.path}" />
+                 <property name="dependency.slf4j-simple.jar" value="${maven.dependency.org.slf4j.slf4j-simple.jar.path}" />
                  <property name="dependency.activation.jar" value="${maven.dependency.javax.activation.activation.jar.path}" />
                  <property name="dependency.junit.jar" value="${maven.dependency.junit.junit.jar.path}" />
                  <property name="dependency.gatein-wci-core.jar" value="${maven.dependency.org.gatein.wci.wci-wci.jar.path}" />
