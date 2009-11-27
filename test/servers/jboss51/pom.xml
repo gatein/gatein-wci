@@ -158,6 +158,15 @@
          <scope>test</scope>
       </dependency>
 
+      <dependency>
+        <groupId>commons-discovery</groupId>
+        <artifactId>commons-discovery</artifactId>
+      </dependency>
+
+      <dependency>
+        <groupId>org.jboss.remoting</groupId>
+        <artifactId>jboss-remoting</artifactId>
+      </dependency>
 
    </dependencies>
 

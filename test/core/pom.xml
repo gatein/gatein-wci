@@ -14,29 +14,6 @@
         <artifactId>wci-wci</artifactId>
       </dependency>
       <dependency>
-        <groupId>org.gatein.wci</groupId>
-        <artifactId>wci-tomcat</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.gatein.wci</groupId>
-        <artifactId>wci-exo</artifactId>
-      </dependency>
-
-      <dependency>
-         <artifactId>junit</artifactId>
-         <groupId>junit</groupId>
-      </dependency>
-      <dependency>
-         <groupId>org.gatein.common</groupId>
-         <artifactId>common-common</artifactId>
-          <exclusions>
-           <exclusion>
-             <groupId>org.codehaus.cargo</groupId>
-             <artifactId>cargo-core-uberjar</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-      <dependency>
          <groupId>org.gatein.common</groupId>
          <artifactId>common-mc</artifactId>
       </dependency>
@@ -57,23 +34,6 @@
          <groupId>org.jboss.unit</groupId>
          <artifactId>jboss-unit-remote</artifactId>
       </dependency>
-      <dependency>
-         <groupId>org.jboss.unit</groupId>
-         <artifactId>jboss-unit-mc</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.unit</groupId>
-         <artifactId>jboss-unit-tooling-ant</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.unit</groupId>
-         <artifactId>portal-test</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.unit</groupId>
-         <artifactId>portal-test-generic</artifactId>
-      </dependency>
-
    </dependencies>
 
    <build>
