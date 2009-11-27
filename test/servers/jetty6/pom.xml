@@ -2,7 +2,7 @@
    <parent>
       <groupId>org.gatein.wci</groupId>
       <artifactId>wci-test-server-parent</artifactId>
-      <version>2.0.0-CR01-SNAPSHOT</version>
+      <version>2.0.0-CR02-SNAPSHOT</version>
    </parent>
    <modelVersion>4.0.0</modelVersion>
    <artifactId>wci-test-jetty6</artifactId>
@@ -67,6 +67,21 @@
       <dependency>
          <groupId>org.gatein.common</groupId>
          <artifactId>common-mc</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.gatein.common</groupId>
+         <artifactId>common-logging</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-api</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-simple</artifactId>
          <scope>test</scope>
       </dependency>
       <!-- JBOSS UNIT DEPENDENCIES -->
@@ -151,6 +166,16 @@
          <groupId>jboss</groupId>
          <artifactId>jboss-serialization</artifactId>
          <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-discovery</groupId>
+        <artifactId>commons-discovery</artifactId>
+      </dependency>
+
+      <dependency>
+        <groupId>org.jboss.remoting</groupId>
+        <artifactId>jboss-remoting</artifactId>
       </dependency>
 
       <!-- Jetty Deployer -->
@@ -282,7 +307,9 @@
                  <property name="dependency.jboss-logging-jdk.jar" value="${maven.dependency.jboss.jboss-common-logging-jdk.jar.path}" />
                  <property name="dependency.jboss-logging-log4j.jar" value="${maven.dependency.jboss.jboss-common-logging-log4j.jar.path}" />
                  <property name="dependency.gatein-common-common.jar" value="${maven.dependency.org.gatein.common.common-common.jar.path}" />
-                 <property name="dependency.log4j.jar" value="${maven.dependency.apache-log4j.log4j.jar.path}" />
+                 <property name="dependency.gatein-common-logging.jar" value="${maven.dependency.org.gatein.common.common-logging.jar.path}" />
+                 <property name="dependency.slf4j-api.jar" value="${maven.dependency.org.slf4j.slf4j-api.jar.path}" />
+                 <property name="dependency.slf4j-simple.jar" value="${maven.dependency.org.slf4j.slf4j-simple.jar.path}" />
                  <property name="dependency.activation.jar" value="${maven.dependency.javax.activation.activation.jar.path}" />
                  <property name="dependency.junit.jar" value="${maven.dependency.junit.junit.jar.path}" />
                  <property name="dependency.gatein-wci-core.jar" value="${maven.dependency.org.gatein.wci.wci-wci.jar.path}" />
