@@ -179,14 +179,7 @@
           </archive>
         </configuration>
       </plugin>
-      
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <!-- directory src/main/java is missing so there are no sources-->
-        <inherited>false</inherited>
-      </plugin>
-      
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
