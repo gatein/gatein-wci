@@ -146,9 +146,16 @@ public class DefaultServletContainer implements ServletContainer
       {
          listener.onEvent(event);
       }
-      catch (Exception e)
+      catch (Throwable t)
       {
-         e.printStackTrace();
+    	 if (t instanceof Error)
+    	 {
+    		 throw (Error)t;
+    	 }
+    	 else
+    	 {
+    		 t.printStackTrace();
+    	 }
       }
    }
 
