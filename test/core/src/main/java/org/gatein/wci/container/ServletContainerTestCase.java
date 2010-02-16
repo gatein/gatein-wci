@@ -276,7 +276,7 @@ public class ServletContainerTestCase
          public void onEvent(WebAppEvent event)
          {
             called.set(true);
-            throw new RuntimeException("Expected : don't freak out");
+            throw new RuntimeException("Expected Exception: don't freak out");
          }
       });
 
@@ -284,5 +284,38 @@ public class ServletContainerTestCase
       scc.registration.registerWebApp(new WebAppContextImpl("/foo"));
       assertTrue(called.get());
       assertEquals(Tools.toSet("/foo"), registry.getKeys());
+   }
+   
+   @Test
+   public void testListenerError()
+   {
+	   ServletContainer container = new DefaultServletContainer();
+	   ServletContainerContextImpl scc = new ServletContainerContextImpl();
+	   WebAppRegistry registry = new WebAppRegistry();
+
+	   //
+	   final SynchronizedBoolean called = new SynchronizedBoolean(false);
+	   container.register(scc);
+	   container.addWebAppListener(registry);
+	   container.addWebAppListener(new WebAppListener()
+	   {
+		   public void onEvent(WebAppEvent event)
+		   {
+			   called.set(true);
+			   throw new Error("Expected Error: don't freak out");
+		   }
+	   });
+
+	   //
+	   try
+	   {
+		   scc.registration.registerWebApp(new WebAppContextImpl("/foo"));
+		   fail("Was expecting an error to be thrown");
+	   }
+	   catch (Throwable t)
+	   {   
+	   }
+	   assertTrue(called.get());
+	   assertEquals(Tools.toSet("/foo"), registry.getKeys());
    }
 }
