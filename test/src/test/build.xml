@@ -867,7 +867,8 @@
          log="${cargo.log.dir}/cargo.${test.id}.startup.log"
          output="${cargo.log.dir}/cargo.${test.id}.server.log"
          action="start"
-         wait="false">
+         wait="false"
+         timeout="240000">
          <sharedClasspath>
 
             <path refid="jboss-5.1-shared"/>
@@ -1207,7 +1208,7 @@
 
       <taskdef name="jboss-unit" classname="org.jboss.unit.tooling.ant.JBossUnitTask" classpath="${plugin_classpath}"/>
 
-      <jboss-unit>
+      <jboss-unit failOnError="true">
 
          <tests config="${target}/test-classes/local-jboss-unit.xml">
          </tests>
@@ -1236,7 +1237,7 @@
 
       <taskdef name="jboss-unit" classname="org.jboss.unit.tooling.ant.JBossUnitTask" classpath="${plugin_classpath}"/>
 
-      <jboss-unit>
+      <jboss-unit failOnError="true">
 
          <tests config="${target}/test-classes/remote-jboss-unit.xml">
             <property name="archivePath" value="${test.temp.lib}/${test.remote.archive.path}"/>
