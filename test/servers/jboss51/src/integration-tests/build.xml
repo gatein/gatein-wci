@@ -33,6 +33,7 @@
          home="${test.cargo.home}"
          log="${cargo.log.dir}/cargo.${test.id}.start.log"
          action="start"
+         timeout="240000"
          wait="${cargo.wait}">
          <sharedClasspath>
             <path refid="server.libs"/>
