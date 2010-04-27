@@ -260,7 +260,6 @@
          <path refid="jboss-microcontainer"/>
          <pathelement path="${dependency.log4j.jar}"/>
          <pathelement path="${dependency.xercesImpl.jar}"/>
-         <pathelement path="${dependency.resolver.jar}"/>
          <pathelement path="${dependency.xml-apis.jar}"/>
          <pathelement path="${dependency.concurrent.jar}"/>
       </path>
