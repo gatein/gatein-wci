@@ -37,7 +37,6 @@
         <!-- others -->
         <include>apache-log4j:log4j</include>
         <include>apache-xerces:xercesImpl</include>
-        <include>apache-xerces:resolver</include>
         <include>apache-xerces:xml-apis</include>
         <include>concurrent:concurrent</include>
       </includes>

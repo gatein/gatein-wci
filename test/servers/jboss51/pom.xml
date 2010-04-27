@@ -139,11 +139,6 @@
       </dependency>
       <dependency>
          <groupId>apache-xerces</groupId>
-         <artifactId>resolver</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>apache-xerces</groupId>
          <artifactId>xercesImpl</artifactId>
          <scope>test</scope>
       </dependency>

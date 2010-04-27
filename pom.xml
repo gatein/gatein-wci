@@ -12,7 +12,7 @@
   <parent>
     <groupId>org.gatein</groupId>
     <artifactId>gatein-parent</artifactId>
-    <version>1.0.0-GA</version>
+    <version>1.0.1-GA</version>
   </parent>
   
   <scm>
@@ -22,7 +22,7 @@
   </scm>
   
   <properties>
-    <version.gatein.common>2.0.0-GA</version.gatein.common>
+    <version.gatein.common>2.0.2-GA</version.gatein.common>
     
     <version.junit>3.8.2-brew</version.junit>
     <version.jaxb>2.1</version.jaxb>
@@ -42,7 +42,7 @@
       <dependency>
         <groupId>org.gatein</groupId>
         <artifactId>gatein-dep</artifactId>
-        <version>1.0.0-GA</version>
+        <version>1.0.2-GA</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -133,34 +133,17 @@
   
   <repositories>
     <repository>
-      <id>repository.jboss.org</id>
-      <name>JBoss Repository</name>
+      <id>jboss-public-repository-group</id>
+      <name>JBoss Public Maven Repository Group</name>
+      <url>https://repository.jboss.org/nexus/content/groups/public/</url>
       <layout>default</layout>
-      <url>http://repository.jboss.org/maven2/</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>snapshots.jboss.org</id>
-      <name>JBoss Snapshots Repository</name>
-      <layout>default</layout>
-      <url>http://snapshots.jboss.org/maven2/</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
-    <repository>
-      <id>codehaus snapshot repository</id>
-      <url>http://snapshots.repository.codehaus.org/</url>
       <releases>
         <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
       </releases>
       <snapshots>
         <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
       </snapshots>
     </repository>
   </repositories>
