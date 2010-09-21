@@ -17,8 +17,8 @@
   
   <scm>
     <connection>scm:svn:http://anonsvn.jboss.org/repos/gatein/components/wci/branches/2.0.x</connection>
-    <developerConnection>scm:svn:https://svn.jboss.org/repos/gatein/components/wci/wci/branches/2.0.x/</developerConnection>
-    <url>http://fisheye.jboss.org/browse/gatein/components/wci/wci/branches/2.0.x/</url>
+    <developerConnection>scm:svn:https://svn.jboss.org/repos/gatein/components/wci/branches/2.0.x/</developerConnection>
+    <url>http://fisheye.jboss.org/browse/gatein/components/wci/branches/2.0.x/</url>
   </scm>
   
   <properties>
