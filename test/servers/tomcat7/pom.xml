@@ -5,9 +5,9 @@
       <version>2.1.0-Alpha01</version>
    </parent>
    <modelVersion>4.0.0</modelVersion>
-   <artifactId>wci-test-tomcat6</artifactId>
+   <artifactId>wci-test-tomcat7</artifactId>
    <packaging>jar</packaging>
-   <name>GateIn - WCI Tomcat 6 test component</name>
+   <name>GateIn - WCI Tomcat 7 test component</name>
 
    <dependencies>
       <dependency>
@@ -17,7 +17,7 @@
       </dependency>
       <dependency>
         <groupId>org.gatein.wci</groupId>
-        <artifactId>wci-tomcat6</artifactId>
+        <artifactId>wci-tomcat7</artifactId>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -160,7 +160,7 @@
          <artifactId>log4j</artifactId>
          <scope>test</scope>
       </dependency>
-            <dependency>
+      <dependency>
          <groupId>concurrent</groupId>
          <artifactId>concurrent</artifactId>
          <scope>test</scope>
@@ -175,7 +175,7 @@
          <artifactId>xml-apis</artifactId>
          <scope>test</scope>
       </dependency>
-            <dependency>
+      <dependency>
          <groupId>jboss</groupId>
          <artifactId>jboss-serialization</artifactId>
          <scope>test</scope>
@@ -332,7 +332,7 @@
                  <property name="dependency.activation.jar" value="${maven.dependency.javax.activation.activation.jar.path}" />
                  <property name="dependency.junit.jar" value="${maven.dependency.junit.junit.jar.path}" />
                  <property name="dependency.gatein-wci-core.jar" value="${maven.dependency.org.gatein.wci.wci-wci.jar.path}" />
-                 <property name="dependency.gatein-wci-tomcat.jar" value="${maven.dependency.org.gatein.wci.wci-tomcat6.jar.path}" />
+                 <property name="dependency.gatein-wci-tomcat.jar" value="${maven.dependency.org.gatein.wci.wci-tomcat7.jar.path}" />
                  <property name="dependency.gatein-wci-exo.jar" value="${maven.dependency.org.gatein.wci.wci-exo.jar.path}" />
                  <property name="dependency.jboss-serialization.jar" value="${maven.dependency.jboss.jboss-serialization.jar.path}" />
 

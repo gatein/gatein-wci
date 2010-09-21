@@ -17,7 +17,7 @@
       </dependency>
       <dependency>
         <groupId>org.gatein.wci</groupId>
-        <artifactId>wci-tomcat</artifactId>
+        <artifactId>wci-tomcat6</artifactId>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -94,6 +94,12 @@
          <groupId>org.jboss.unit</groupId>
          <artifactId>jboss-unit-remote</artifactId>
          <scope>test</scope>
+         <exclusions>
+           <exclusion>
+             <groupId>org.codehaus.cargo</groupId>
+             <artifactId>cargo-core-uberjar</artifactId>
+           </exclusion>
+         </exclusions>
       </dependency>
       <dependency>
          <groupId>org.jboss.unit</groupId>
@@ -109,11 +115,23 @@
          <groupId>org.jboss.unit</groupId>
          <artifactId>portal-test</artifactId>
          <scope>test</scope>
+         <exclusions>
+           <exclusion>
+             <groupId>org.codehaus.cargo</groupId>
+             <artifactId>cargo-core-uberjar</artifactId>
+           </exclusion>
+         </exclusions>
       </dependency>
       <dependency>
          <groupId>org.jboss.unit</groupId>
          <artifactId>portal-test-generic</artifactId>
          <scope>test</scope>
+         <exclusions>
+           <exclusion>
+             <groupId>org.codehaus.cargo</groupId>
+             <artifactId>cargo-core-uberjar</artifactId>
+           </exclusion>
+         </exclusions>
       </dependency>
       <!-- JBOSS MICROCONAINER DEPENDENCIES -->
       <dependency>
@@ -171,6 +189,13 @@
       <dependency>
         <groupId>org.jboss.remoting</groupId>
         <artifactId>jboss-remoting</artifactId>
+      </dependency>
+
+      <dependency>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-core-uberjar</artifactId>
+        <version>${version.cargo}</version>
+        <scope>test</scope>
       </dependency>
 
    </dependencies>
@@ -244,10 +269,19 @@
                   </exclusions>
                </dependency>
                <dependency>
-                  <groupId>org.codehaus.cargo</groupId>
-                  <artifactId>cargo-core-uberjar</artifactId>
-                  <version>${version.cargo}</version>
-                  <scope>test</scope>
+                 <groupId>org.jdom</groupId>
+                 <artifactId>jdom</artifactId>
+                 <version>1.1</version>
+               </dependency>
+               <dependency>
+                 <groupId>dom4j</groupId>
+                 <artifactId>dom4j</artifactId>
+                 <version>1.6.1</version>
+               </dependency>
+               <dependency>
+                 <groupId>jaxen</groupId>
+                 <artifactId>jaxen</artifactId>
+                 <version>1.1.1</version>
                </dependency>
          </dependencies>
          <version>1.3</version>
@@ -299,7 +333,7 @@
                  <property name="dependency.activation.jar" value="${maven.dependency.javax.activation.activation.jar.path}" />
                  <property name="dependency.junit.jar" value="${maven.dependency.junit.junit.jar.path}" />
                  <property name="dependency.gatein-wci-core.jar" value="${maven.dependency.org.gatein.wci.wci-wci.jar.path}" />
-                 <property name="dependency.gatein-wci-tomcat.jar" value="${maven.dependency.org.gatein.wci.wci-tomcat.jar.path}" />
+                 <property name="dependency.gatein-wci-tomcat.jar" value="${maven.dependency.org.gatein.wci.wci-tomcat6.jar.path}" />
                  <property name="dependency.gatein-wci-exo.jar" value="${maven.dependency.org.gatein.wci.wci-exo.jar.path}" />
                  <property name="dependency.jboss-serialization.jar" value="${maven.dependency.jboss.jboss-serialization.jar.path}" />
 

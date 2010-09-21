@@ -45,6 +45,9 @@
    <target name="tests.tomcat">
       <antcall target="tests.tomcat-6.0"/>
    </target>
+   <target name="tests.tomcat7">
+      <antcall target="tests.tomcat-7.0"/>
+   </target>
    <target name="tests.jetty">
       <antcall target="tests.jetty-6.1"/>
    </target>
@@ -116,6 +119,14 @@
             </not>
          </and>
       </condition>
+      <condition property="TOMCAT_7_0_HOME" value="${env.TOMCAT_7_0_HOME}">
+         <and>
+            <isset property="env.TOMCAT_7_0_HOME"/>
+            <not>
+               <isset property="TOMCAT_7_0_HOME"/>
+            </not>
+         </and>
+      </condition>
       <condition property="JETTY_6_1_HOME" value="${env.JETTY_6_1_HOME}">
          <and>
             <isset property="env.JETTY_6_1_HOME"/>
@@ -160,7 +171,7 @@
          </condition>
       </fail>
 
-      <fail message="Please set the environment variable TOMCAT_6_0_HOME or use -Dtest.specified.containers to only run tests for containers specified with a HOME variable">
+      <fail message="Please set the environment variable TOMCAT_6_0_HOME or TOMCAT_7_0_HOME or use -Dtest.specified.containers to only run tests for containers specified with a HOME variable">
          <condition>
             <and>
                <not>
@@ -168,6 +179,9 @@
                </not>
                <not>
                   <isset property="TOMCAT_6_0_HOME"/>
+               </not>
+               <not>
+                  <isset property="TOMCAT_7_0_HOME"/>
                </not>
             </and>
          </condition>
@@ -265,6 +279,28 @@
       </path>
 
       <path id="tomcat-6.0-shared">
+         <path refid="jboss-logging"/>
+         <path refid="gatein-common-shared"/>
+         <path location="${dependency.log4j.jar}"/>
+         <path location="${dependency.activation.jar}"/>
+         <path location="${dependency.junit.jar}"/>
+         <path path="${dependency.gatein-wci-core.jar}"/>
+         <path path="${dependency.gatein-wci-tomcat.jar}"/>
+         <path path="${dependency.gatein-wci-exo.jar}"/>
+         <path location="${dependency.jboss-serialization.jar}"/>
+      </path>
+
+      <path id="tomcat-7.0">
+         <path refid="gatein-common"/>
+         <path refid="jboss-unit"/>
+         <path refid="jboss-microcontainer"/>
+         <pathelement path="${dependency.log4j.jar}"/>
+         <pathelement path="${dependency.xercesImpl.jar}"/>
+         <pathelement path="${dependency.xml-apis.jar}"/>
+         <pathelement path="${dependency.concurrent.jar}"/>
+      </path>
+
+      <path id="tomcat-7.0-shared">
          <path refid="jboss-logging"/>
          <path refid="gatein-common-shared"/>
          <path location="${dependency.log4j.jar}"/>
@@ -380,6 +416,81 @@
       <jar jarfile="${test.temp.lib}/tomcat-6.0-exo/test-spi-app.war">
          <fileset dir="${target}/test-classes/spi/exo/app-war"/>
       </jar>
+
+      <!-- **************************** -->
+      <!-- Tomcat 7.0 container servlet -->
+      <!-- **************************** -->
+
+      <copy todir="${test.support}/tomcat-7.0-container-servlet/server-war/WEB-INF/lib" flatten="true">
+        <path refid="tomcat-7.0"/>
+      </copy>
+      <mkdir dir="${test.temp.lib}/tomcat-7.0-container-servlet"/>
+      <war jarfile="${test.temp.lib}/tomcat-7.0-container-servlet/test-spi-server.war">
+        <fileset dir="${test.support}/tomcat-7.0-container-servlet/server-war"/>
+        <lib dir="${test.temp.lib}" includes="portal-test-spi-cs-lib.jar"/>
+      </war>
+      <jar jarfile="${test.temp.lib}/tomcat-7.0-container-servlet/test-spi-app.war">
+        <fileset dir="${target}/test-classes/spi/app-war"/>
+      </jar>
+      <jar jarfile="${test.temp.lib}/tomcat-7.0-container-servlet/test-generic-app.war">
+        <fileset dir="${target}/test-classes/spi/generic/app-war"/>
+      </jar>
+      <jar jarfile="${test.temp.lib}/tomcat-7.0-container-servlet/test-exo-app.war">
+        <fileset dir="${target}/test-classes/spi/exo/app-war"/>
+      </jar>
+
+      <!-- **************************** -->
+      <!-- Tomcat 7.0 lifecyle listener -->
+      <!-- **************************** -->
+
+      <copy todir="${test.support}/tomcat-7.0-lifecycle-listener/server-war/WEB-INF/lib" flatten="true">
+        <path refid="tomcat-7.0"/>
+      </copy>
+      <mkdir dir="${test.temp.lib}/tomcat-7.0-lifecycle-listener"/>
+      <war jarfile="${test.temp.lib}/tomcat-7.0-lifecycle-listener/test-spi-server.war">
+        <fileset dir="${test.support}/tomcat-7.0-lifecycle-listener/server-war"/>
+        <lib dir="${test.temp.lib}" includes="portal-test-spi-lib.jar"/>
+      </war>
+      <jar jarfile="${test.temp.lib}/tomcat-7.0-lifecycle-listener/test-spi-app.war">
+        <fileset dir="${target}/test-classes/spi/app-war"/>
+      </jar>
+
+      <!-- ****************** -->
+      <!-- Tomcat 7.0 generic -->
+      <!-- ****************** -->
+
+      <!--  -->
+      <mkdir dir="${test.support}/tomcat-7.0-generic/server-war/WEB-INF/lib"/>
+      <copy todir="${test.support}/tomcat-7.0-generic/server-war/WEB-INF/lib"  flatten="true">
+        <path refid="tomcat-7.0"/>
+      </copy>
+      <mkdir dir="${test.temp.lib}/tomcat-7.0-generic"/>
+      <war jarfile="${test.temp.lib}/tomcat-7.0-generic/test-spi-server.war">
+        <fileset dir="${test.support}/tomcat-7.0-generic/server-war"/>
+        <lib dir="${test.temp.lib}" includes="portal-test-spi-lib.jar"/>
+      </war>
+      <jar jarfile="${test.temp.lib}/tomcat-7.0-generic/test-spi-app.war">
+        <fileset dir="${target}/test-classes/spi/generic/app-war"/>
+      </jar>
+
+      <!-- ****************** -->
+      <!-- Tomcat 7.0 eXo -->
+      <!-- ****************** -->
+
+      <!--  -->
+      <mkdir dir="${test.support}/tomcat-7.0-exo/server-war/WEB-INF/lib"/>
+      <copy todir="${test.support}/tomcat-7.0-exo/server-war/WEB-INF/lib"  flatten="true">
+        <path refid="tomcat-7.0"/>
+      </copy>
+      <mkdir dir="${test.temp.lib}/tomcat-7.0-exo"/>
+      <war jarfile="${test.temp.lib}/tomcat-7.0-exo/test-spi-server.war">
+        <fileset dir="${test.support}/tomcat-7.0-exo/server-war"/>
+        <lib dir="${test.temp.lib}" includes="portal-test-spi-lib.jar"/>
+      </war>
+      <jar jarfile="${test.temp.lib}/tomcat-7.0-exo/test-spi-app.war">
+        <fileset dir="${target}/test-classes/spi/exo/app-war"/>
+      </jar>
+
 
 
       <!-- **************************** -->
@@ -593,6 +704,36 @@
       </copy>
       <war jarfile="${test.temp.lib}/tomcat-6.0/root-path-mapping.war">
          <fileset dir="${test.support}/tomcat-6.0-endpoint/root-path-mapping-war"/>
+         <lib dir="${test.temp.lib}" includes="portal-test-endpoint-lib.jar"/>
+      </war>
+
+      <!-- ********** -->
+      <!-- Tomcat 7.0 -->
+      <!-- ********** -->
+
+      <mkdir dir="${test.temp.lib}/tomcat-7.0"/>
+
+      <copy todir="${test.support}/tomcat-7.0-endpoint/default-servlet-mapping-war/WEB-INF/lib" flatten="true">
+         <path refid="tomcat-7.0"/>
+      </copy>
+      <war jarfile="${test.temp.lib}/tomcat-7.0/default-servlet-mapping.war">
+         <fileset dir="${test.support}/tomcat-7.0-endpoint/default-servlet-mapping-war"/>
+         <lib dir="${test.temp.lib}" includes="portal-test-endpoint-lib.jar"/>
+      </war>
+
+      <copy todir="${test.support}/tomcat-7.0-endpoint/path-mapping-war/WEB-INF/lib" flatten="true">
+         <path refid="tomcat-7.0"/>
+      </copy>
+      <war jarfile="${test.temp.lib}/tomcat-7.0/path-mapping.war">
+         <fileset dir="${test.support}/tomcat-7.0-endpoint/path-mapping-war"/>
+         <lib dir="${test.temp.lib}" includes="portal-test-endpoint-lib.jar"/>
+      </war>
+
+      <copy todir="${test.support}/tomcat-7.0-endpoint/root-path-mapping-war/WEB-INF/lib" flatten="true">
+         <path refid="tomcat-7.0"/>
+      </copy>
+      <war jarfile="${test.temp.lib}/tomcat-7.0/root-path-mapping.war">
+         <fileset dir="${test.support}/tomcat-7.0-endpoint/root-path-mapping-war"/>
          <lib dir="${test.temp.lib}" includes="portal-test-endpoint-lib.jar"/>
       </war>
 
@@ -1081,6 +1222,119 @@
          <param name="test.tomcat-6.0.name" value="RemoteTomcat_6_0"/>
          <param name="test.tomcat-6.0.home" value="${TOMCAT_6_0_HOME}"/>
       </antcall>
+
+   </target>
+
+   <target name="cargo.tomcat-7.0.start" depends="cargo.setup">
+
+     <cargo
+        containerId="tomcat7x"
+        home="${test.tomcat-7.0.home}"
+        output="${cargo.log.dir}/cargo.${test.id}.server.log"
+        log="${cargo.log.dir}/cargo.${test.id}.start.log"
+        action="start"
+        wait="${cargo.wait}">
+        <sharedClasspath>
+
+           <path refid="tomcat-7.0-shared"/>
+
+        </sharedClasspath>
+        <configuration home="${target}/cargo">
+           <property name="cargo.servlet.port" value="8080"/>
+           <property name="cargo.logging" value="high"/>
+           <property name="cargo.jvmargs" value="-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000"/>
+
+           <deployable type="war" file="${test.temp.lib}/manager.war"/>
+           <file file="${test.temp.lib}/manager" todir="webapps/manager"/>
+           <deployable type="war" file="${cargo.war}"/>
+       </configuration>
+     </cargo>
+   </target>
+
+   <target name="cargo.tomcat-7.0.stop" depends="cargo.setup">
+     <cargo
+        containerId="tomcat7x"
+        home="${test.tomcat-7.0.home}"
+        log="${cargo.log.dir}/cargo.${test.id}.shutdown.log"
+        action="stop">
+        <configuration home="${target}/cargo">
+        </configuration>
+     </cargo>
+   </target>
+
+   <target name="tests.tomcat-7.0.execute" unless="tests.tomcat-7.0.execute.skip">
+     <echo message="Starting Tomcat 7.0 ${test.tomcat-7.0.name} with ${test.tomcat-7.0.home} to execute ${test.id} tests"/>
+     <antcall target="cargo.tomcat-7.0.start">
+        <param name="cargo.wait" value="false"/>
+        <param name="cargo.war" value="${test.war}"/>
+     </antcall>
+     <antcall target="tests.remote">
+        <param name="test.remote.server.name" value="${test.tomcat-7.0.name}"/>
+        <param name="test.remote.archive.path" value="${test.archive.path}"/>
+     </antcall>
+     <antcall target="cargo.tomcat-7.0.stop">
+     </antcall>
+   </target>
+
+   <target name="tests.tomcat-7.0.spi">
+     <condition property="tests.tomcat-7.0.execute.skip">
+        <not>
+           <available file="${test.tomcat-7.0.home}" type="dir"/>
+        </not>
+     </condition>
+     <antcall target="tests.tomcat-7.0.execute">
+        <param name="test.id" value="${test.tomcat-7.0.name}-spi-container-servlet"/>
+        <param name="test.war" value="${test.temp.lib}/tomcat-7.0-container-servlet/test-spi-server.war"/>
+        <param name="test.archive.path" value="tomcat-7.0-container-servlet"/>
+     </antcall>
+     <antcall target="tests.tomcat-7.0.execute">
+        <param name="test.id" value="${test.tomcat-7.0.name}-spi-generic"/>
+        <param name="test.war" value="${test.temp.lib}/tomcat-7.0-generic/test-spi-server.war"/>
+        <param name="test.archive.path" value="tomcat-7.0-generic"/>
+     </antcall>
+     <antcall target="tests.tomcat-7.0.execute">
+        <param name="test.id" value="${test.tomcat-7.0.name}-spi-exo"/>
+        <param name="test.war" value="${test.temp.lib}/tomcat-7.0-exo/test-spi-server.war"/>
+        <param name="test.archive.path" value="tomcat-7.0-exo"/>
+     </antcall>
+   </target>
+
+   <target name="tests.tomcat-7.0.endpoint">
+     <condition property="tests.tomcat-7.0.execute.skip">
+        <not>
+           <available file="${test.tomcat-7.0.home}" type="dir"/>
+        </not>
+     </condition>
+     <antcall target="tests.tomcat-7.0.execute">
+        <param name="test.id" value="${test.tomcat-7.0.name}-endpoint-default-servlet-mapping"/>
+        <param name="test.war" value="${test.temp.lib}/tomcat-7.0/default-servlet-mapping.war"/>
+        <param name="test.archive.path" value=""/>
+     </antcall>
+     <antcall target="tests.tomcat-7.0.execute">
+        <param name="test.id" value="${test.tomcat-7.0.name}-endpoint-root-path-mapping"/>
+        <param name="test.war" value="${test.temp.lib}/tomcat-7.0/root-path-mapping.war"/>
+        <param name="test.archive.path" value=""/>
+     </antcall>
+     <antcall target="tests.tomcat-7.0.execute">
+        <param name="test.id" value="${test.tomcat-7.0.name}-endpoint-path-mapping"/>
+        <param name="test.war" value="${test.temp.lib}/tomcat-7.0/path-mapping.war"/>
+        <param name="test.archive.path" value=""/>
+     </antcall>
+   </target>
+
+   <target name="tests.tomcat-7.0">
+     <!-- spi tests -->
+     <antcall target="tests.tomcat-7.0.spi">
+        <param name="test.tomcat-7.0.name" value="RemoteTomcat_7_0"/>
+        <param name="test.tomcat-7.0.home" value="${TOMCAT_7_0_HOME}"/>
+     </antcall>
+
+     <!-- endpoint tests -->
+
+     <antcall target="tests.tomcat-7.0.endpoint">
+        <param name="test.tomcat-7.0.name" value="RemoteTomcat_7_0"/>
+        <param name="test.tomcat-7.0.home" value="${TOMCAT_7_0_HOME}"/>
+     </antcall>
 
    </target>
 

@@ -2,7 +2,7 @@
    <parent>
       <groupId>org.gatein.wci</groupId>
       <artifactId>wci-test-server-parent</artifactId>
-      <version>2.0.0-CR03-SNAPSHOT</version>
+      <version>2.1.0-Alpha01</version>
    </parent>
    <modelVersion>4.0.0</modelVersion>
    <artifactId>wci-test-jetty6</artifactId>
@@ -94,6 +94,12 @@
          <groupId>org.jboss.unit</groupId>
          <artifactId>jboss-unit-remote</artifactId>
          <scope>test</scope>
+         <exclusions>
+           <exclusion>
+             <groupId>org.codehaus.cargo</groupId>
+             <artifactId>cargo-core-uberjar</artifactId>
+           </exclusion>
+         </exclusions>
       </dependency>
       <dependency>
          <groupId>org.jboss.unit</groupId>
@@ -109,11 +115,23 @@
          <groupId>org.jboss.unit</groupId>
          <artifactId>portal-test</artifactId>
          <scope>test</scope>
+         <exclusions>
+           <exclusion>
+             <groupId>org.codehaus.cargo</groupId>
+             <artifactId>cargo-core-uberjar</artifactId>
+           </exclusion>
+         </exclusions>
       </dependency>
       <dependency>
          <groupId>org.jboss.unit</groupId>
          <artifactId>portal-test-generic</artifactId>
          <scope>test</scope>
+         <exclusions>
+           <exclusion>
+             <groupId>org.codehaus.cargo</groupId>
+             <artifactId>cargo-core-uberjar</artifactId>
+           </exclusion>
+         </exclusions>
       </dependency>
       <!-- JBOSS MICROCONAINER DEPENDENCIES -->
       <dependency>
@@ -179,6 +197,13 @@
         <artifactId>cargo-jetty-deployer</artifactId>
         <type>war</type>
         <version>${version.cargo}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-core-uberjar</artifactId>
+        <version>${version.cargo}</version>
+        <scope>test</scope>
       </dependency>
 
    </dependencies>
@@ -252,10 +277,19 @@
                   </exclusions>
                </dependency>
                <dependency>
-                  <groupId>org.codehaus.cargo</groupId>
-                  <artifactId>cargo-core-uberjar</artifactId>
-                  <version>${version.cargo}</version>
-                  <scope>test</scope>
+                 <groupId>org.jdom</groupId>
+                 <artifactId>jdom</artifactId>
+                 <version>1.1</version>
+               </dependency>
+               <dependency>
+                 <groupId>dom4j</groupId>
+                 <artifactId>dom4j</artifactId>
+                 <version>1.6.1</version>
+               </dependency>
+               <dependency>
+                 <groupId>jaxen</groupId>
+                 <artifactId>jaxen</artifactId>
+                 <version>1.1.1</version>
                </dependency>
          </dependencies>
          <version>1.3</version>
