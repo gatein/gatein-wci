@@ -22,7 +22,7 @@
   </scm>
   
   <properties>
-    <version.gatein.common>2.0.2-GA</version.gatein.common>
+    <version.gatein.common>2.0.3-GA</version.gatein.common>
     
     <version.junit>3.8.2-brew</version.junit>
     <version.jaxb>2.1</version.jaxb>
