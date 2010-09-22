@@ -148,7 +148,7 @@
          </service>
          <deployer>
             <remote>
-               <name>jboss5x</name>
+               <name>jboss51x</name>
                <host>localhost</host>
                <port>8080</port>
             </remote>

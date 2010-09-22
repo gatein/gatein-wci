@@ -27,6 +27,7 @@
    <target name="tests.call.all" unless="tests">
       <antcall target="tests.jboss5"/>
       <antcall target="tests.jboss"/>
+      <antcall target="tests.tomcat7"/>
       <antcall target="tests.tomcat"/>
 <!--      <antcall target="tests.jetty"/> -->
    </target>
