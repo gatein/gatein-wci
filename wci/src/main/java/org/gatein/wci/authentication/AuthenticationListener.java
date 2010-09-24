@@ -23,7 +23,8 @@ package org.gatein.wci.authentication;
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>
  * @version $Revision$
  */
-public interface AuthenticationListener {
+public interface AuthenticationListener
+{
   void onLogin(AuthenticationEvent ae);
   void onLogout(AuthenticationEvent ae);
 }

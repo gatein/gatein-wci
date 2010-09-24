@@ -26,31 +26,41 @@ import java.util.List;
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>
  * @version $Revision$
  */
-public abstract class AbstractAuthentication implements Authentication {
-  protected enum EventType {
+public abstract class AbstractAuthentication implements Authentication
+{
+  protected enum EventType
+  {
     LOGIN, LOGOUT
   }
 
   private List<AuthenticationListener> authenticationListeners = new ArrayList<AuthenticationListener>();
 
-  public void addAuthenticationListener(AuthenticationListener listener) {
+  public void addAuthenticationListener(AuthenticationListener listener)
+  {
     authenticationListeners.add(listener);
   }
 
-  protected List<AuthenticationListener> getAuthenticationListeners() {
+  protected List<AuthenticationListener> getAuthenticationListeners()
+  {
     return authenticationListeners;
   }
 
-  protected void fireEvent(EventType type, AuthenticationEvent ae) {
+  protected void fireEvent(EventType type, AuthenticationEvent ae)
+  {
     String methodName = String.format(
       "on%1%2",
       type.toString().substring(0, 1).toUpperCase(),
       type.toString().substring(1)
     );
-    for (AuthenticationListener currentListener : authenticationListeners) {
-      try {
+    for (AuthenticationListener currentListener : authenticationListeners)
+    {
+      try
+      {
         currentListener.getClass().getMethod(methodName, AuthenticationEvent.class).invoke(currentListener, ae);
-      } catch (Exception ignore) {}
+      }
+      catch (Exception ignore)
+      {
+      }
     }
   }
 }

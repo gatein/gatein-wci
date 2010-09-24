@@ -26,7 +26,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>
  * @version $Revision$
  */
-public class TicketService {
+public class TicketService
+{
   
   protected long validityMillis = 1000 * 60; // TODO : Init from confguration
 
@@ -34,7 +35,7 @@ public class TicketService {
 
   protected final Random random = new Random();
 
-  public String createToken(WCICredentials credentials)
+  public String createTicket(WCICredentials credentials)
   {
     if (validityMillis < 0)
     {
@@ -92,6 +93,6 @@ public class TicketService {
   }
 
   private String nextTicketId() {
-    return "ticket" + random.nextInt(); // TODO : maybe change this token from configuration
+    return "wci-ticket-" + random.nextInt();
   }
 }

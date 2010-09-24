@@ -23,16 +23,19 @@ package org.gatein.wci.authentication;
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>
  * @version $Revision$
  */
-public class GenericAuthentication extends AbstractAuthentication {
+public class GenericAuthentication extends AbstractAuthentication
+{
   public static final TicketService TICKET_SERVICE = new TicketService();
   
-  public WCICredentials login(String login, char[] password) {
+  public WCICredentials login(String login, char[] password)
+  {
     WCICredentials credentials = TICKET_SERVICE.validateToken(new String(password), true);
-    fireEvent(EventType.LOGIN, null); // TODO : create parameter
+    fireEvent(EventType.LOGIN, new AuthenticationEvent(login, password));
     return credentials;
   }
 
-  public void logout() {
-    fireEvent(EventType.LOGOUT, null); // TODO : create parameter
+  public void logout()
+  {
+    fireEvent(EventType.LOGOUT, new AuthenticationEvent("", new char[1]));
   }
 }

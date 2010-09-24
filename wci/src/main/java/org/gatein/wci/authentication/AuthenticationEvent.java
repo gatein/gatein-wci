@@ -23,5 +23,32 @@ package org.gatein.wci.authentication;
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>
  * @version $Revision$
  */
-public interface AuthenticationEvent {
+public class AuthenticationEvent
+{
+  private String username;
+  private char[] password;
+
+  public AuthenticationEvent(String username, char[] password)
+  {
+    if (username == null)
+    {
+      throw new IllegalArgumentException("username is null");
+    }
+    if (password == null)
+    {
+      throw new IllegalArgumentException("password is null");
+    }
+    this.username = username;
+    this.password = password;
+  }
+
+  public String getUsername()
+  {
+    return username;
+  }
+
+  public char[] getPassword()
+  {
+    return password;
+  }
 }

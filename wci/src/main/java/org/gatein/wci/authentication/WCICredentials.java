@@ -25,7 +25,8 @@ import java.io.Serializable;
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>
  * @version $Revision$
  */
-public class WCICredentials implements Serializable {
+public class WCICredentials implements Serializable
+{
    /** . */
    private final String username;
 

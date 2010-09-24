@@ -23,7 +23,8 @@ package org.gatein.wci.authentication;
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>
  * @version $Revision$
  */
-public class Ticket {
+public class Ticket
+{
    //public static String EXPIRE_MILI = "expirationMilis";
 
    //public static String USERNAME = "userName"
