@@ -22,6 +22,7 @@
  ******************************************************************************/
 package org.gatein.wci;
 
+import org.gatein.wci.authentication.AuthenticationResult;
 import org.gatein.wci.spi.ServletContainerContext;
 
 import javax.servlet.ServletContext;
@@ -91,4 +92,14 @@ public interface ServletContainer
     * @throws IllegalArgumentException if the context is null
     */
    void register(ServletContainerContext context);
+
+   /**
+    * Authentication support.
+    *
+    * @param request the request valid in the current servlet context
+    * @param response the response valid in the current servlet context
+    * @param userName the username which try to login
+    * @param password the password of the username
+    */
+   AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password);
 }

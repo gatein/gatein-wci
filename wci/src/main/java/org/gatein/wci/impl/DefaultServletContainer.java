@@ -22,6 +22,7 @@
  ******************************************************************************/
 package org.gatein.wci.impl;
 
+import org.gatein.wci.authentication.AuthenticationResult;
 import org.gatein.wci.spi.ServletContainerContext;
 import org.gatein.wci.spi.WebAppContext;
 import org.gatein.wci.WebAppListener;
@@ -88,7 +89,13 @@ public class DefaultServletContainer implements ServletContainer
       }
    }
 
-   public WebExecutor getExecutor(HttpServletRequest request, HttpServletResponse response)
+   /** . */
+   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password)
+   {
+      return registration.context.login(request, response, userName, password);
+   }
+
+  public WebExecutor getExecutor(HttpServletRequest request, HttpServletResponse response)
    {
       throw new NotYetImplemented();
    }

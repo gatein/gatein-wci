@@ -36,6 +36,8 @@ import org.apache.catalina.core.StandardContext;
 import org.gatein.common.logging.Logger;
 import org.gatein.common.logging.LoggerFactory;
 import org.gatein.wci.RequestDispatchCallback;
+import org.gatein.wci.authentication.AuthenticationResult;
+import org.gatein.wci.authentication.ProgrammaticAuthenticationResult;
 import org.gatein.wci.command.CommandDispatcher;
 import org.gatein.wci.impl.DefaultServletContainerFactory;
 import org.gatein.wci.spi.ServletContainerContext;
@@ -98,7 +100,16 @@ public class TC7ServletContainerContext implements ServletContainerContext, Cont
       this.registration = null;
    }
 
-   public synchronized void containerEvent(ContainerEvent event)
+  public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password) {
+    try {
+      request.login(userName, password);
+    } catch (ServletException e) {
+      e.printStackTrace();
+    }
+    return new ProgrammaticAuthenticationResult();
+  }
+
+  public synchronized void containerEvent(ContainerEvent event)
    {
       if (event.getData() instanceof Host)
       {

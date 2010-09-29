@@ -22,6 +22,8 @@
  ******************************************************************************/
 package org.gatein.wci.container;
 
+import org.gatein.wci.authentication.AuthenticationResult;
+import org.gatein.wci.authentication.GenericAuthentication;
 import org.gatein.wci.spi.ServletContainerContext;
 import org.gatein.wci.RequestDispatchCallback;
 
@@ -58,5 +60,10 @@ public class ServletContainerContextImpl implements ServletContainerContext
    public void unsetCallback(Registration registration)
    {
       this.registration = null;
+   }
+
+   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password)
+   {
+      return GenericAuthentication.getInstance().login(userName, password.toCharArray());
    }
 }

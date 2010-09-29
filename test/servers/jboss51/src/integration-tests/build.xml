@@ -25,6 +25,11 @@
          <path path="${dependency.gatein-wci-core.jar}"/>
          <path path="${dependency.gatein-wci-tomcat.jar}"/>
          <path path="${dependency.gatein-wci-exo.jar}"/>
+
+         <!-- paths needed for remote jboss deployment -->
+         <path path="${dependency.cargo-jboss-deployer.jar}"/>
+         <path path="${dependency.jboss-profile-service.jar}"/>
+         <path path="${dependency.cargo-core-container-jboss.jar}"/>
   </path>
 
   <target name="cargo.start" depends="cargo.setup">

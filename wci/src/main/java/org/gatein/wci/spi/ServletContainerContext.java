@@ -23,6 +23,7 @@
 package org.gatein.wci.spi;
 
 import org.gatein.wci.RequestDispatchCallback;
+import org.gatein.wci.authentication.AuthenticationResult;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -72,6 +73,16 @@ public interface ServletContainerContext
     * @param registration the call back
     */
    void unsetCallback(Registration registration);
+
+   /**
+    * Authentication support.
+    *
+    * @param request the request valid in the current servlet context
+    * @param response the response valid in the current servlet context
+    * @param userName the username which try to login
+    * @param password the password of the username
+    */
+   AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password);
 
    /**
     * The callback interface that a servlet container context can obtain from its registration against

@@ -18,12 +18,6 @@
       <groupId>org.apache.tomcat</groupId>
        <artifactId>tomcat-catalina</artifactId>
        <version>7.0.2</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.apache.tomcat</groupId>
-          <artifactId>servlet-api</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
    </dependencies>
 

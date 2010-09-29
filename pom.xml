@@ -52,6 +52,16 @@
         <groupId>org.gatein.common</groupId>
         <artifactId>common-common</artifactId>
         <version>${version.gatein.common}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-core-uberjar</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.gatein.common</groupId>

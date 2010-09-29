@@ -287,7 +287,6 @@
                  <artifactId>jaxen</artifactId>
                  <version>1.1.1</version>
                </dependency>
-           
          </dependencies>
          <version>1.3</version>
            <executions>
@@ -338,6 +337,10 @@
                  <property name="dependency.gatein-wci-tomcat.jar" value="${maven.dependency.org.gatein.wci.wci-tomcat6.jar.path}" />
                  <property name="dependency.gatein-wci-exo.jar" value="${maven.dependency.org.gatein.wci.wci-exo.jar.path}" />
                  <property name="dependency.jboss-serialization.jar" value="${maven.dependency.jboss.jboss-serialization.jar.path}" />
+
+                 <property name="dependency.cargo-jboss-deployer.jar" value="${maven.dependency.org.codehaus.cargo.cargo-core-tools-jboss-deployer-5.1-and-onwards.jar.path}" />
+                 <property name="dependency.jboss-profile-service.jar" value="${maven.dependency.org.jboss.integration.jboss-profileservice-spi.jar.path}" />
+                 <property name="dependency.cargo-core-container-jboss.jar" value="${maven.dependency.org.codehaus.cargo.cargo-core-container-jboss.jar.path}" />
 
                  <!-- locations of archives to use -->
                  <property name="test.archives.directory" value="${project.build.directory}/test-archives" />

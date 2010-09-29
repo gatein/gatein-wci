@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.gatein.wci.RequestDispatchCallback;
+import org.gatein.wci.authentication.AuthenticationResult;
+import org.gatein.wci.authentication.GenericAuthentication;
 import org.gatein.wci.command.CommandDispatcher;
 import org.gatein.wci.impl.DefaultServletContainerFactory;
 import org.gatein.wci.spi.ServletContainerContext;
@@ -60,8 +62,12 @@ public class Jetty6ServletContainerContext  implements ServletContainerContext, 
 		this.registration = null;
 	}
 
+  public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password) {
+    return GenericAuthentication.getInstance().login(userName, password.toCharArray());
+  }
 
-	public void start()
+
+  public void start()
 	{
 		DefaultServletContainerFactory.registerContext(this);
 		

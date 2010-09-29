@@ -26,16 +26,24 @@ package org.gatein.wci.authentication;
 public class GenericAuthentication extends AbstractAuthentication
 {
   public static final TicketService TICKET_SERVICE = new TicketService();
-  
-  public WCICredentials login(String login, char[] password)
+  private static final GenericAuthentication GENERIC_AUTHENTICATION = new GenericAuthentication();
+
+  private GenericAuthentication() {}
+
+  public AuthenticationResult login(String login, char[] password)
   {
-    WCICredentials credentials = TICKET_SERVICE.validateToken(new String(password), true);
+    String ticket = TICKET_SERVICE.createTicket(new WCICredentials(login, new String(password)));
+    
     fireEvent(EventType.LOGIN, new AuthenticationEvent(login, password));
-    return credentials;
+    return new GenericAuthenticationResult(ticket);
   }
 
   public void logout()
   {
     fireEvent(EventType.LOGOUT, new AuthenticationEvent("", new char[1]));
+  }
+
+  public static GenericAuthentication getInstance() {
+    return GENERIC_AUTHENTICATION;
   }
 }

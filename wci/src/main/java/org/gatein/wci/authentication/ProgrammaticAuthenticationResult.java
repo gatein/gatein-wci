@@ -23,9 +23,5 @@ package org.gatein.wci.authentication;
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>
  * @version $Revision$
  */
-public interface Authentication
-{
-  public AuthenticationResult login(String login, char[] password);
-  public void logout();
-  public void addAuthenticationListener(AuthenticationListener listener);
+public class ProgrammaticAuthenticationResult implements AuthenticationResult {
 }
