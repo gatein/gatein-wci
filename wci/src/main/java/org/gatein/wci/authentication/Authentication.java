@@ -19,6 +19,9 @@
 
 package org.gatein.wci.authentication;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>
  * @version $Revision$
@@ -26,6 +29,6 @@ package org.gatein.wci.authentication;
 public interface Authentication
 {
   public AuthenticationResult login(String login, char[] password);
-  public void logout();
+  public void logout(HttpServletRequest request, HttpServletResponse response);
   public void addAuthenticationListener(AuthenticationListener listener);
 }

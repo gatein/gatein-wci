@@ -85,6 +85,14 @@ public interface ServletContainerContext
    AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password);
 
    /**
+    * Authentication support.
+    *
+    * @param request the request valid in the current servlet context
+    * @param response the response valid in the current servlet context
+    */
+   void logout(HttpServletRequest request, HttpServletResponse response);
+
+   /**
     * The callback interface that a servlet container context can obtain from its registration against
     * the <code>org.jboss.portal.web.ServletContainer</code> singleton.
     */

@@ -66,4 +66,9 @@ public class ServletContainerContextImpl implements ServletContainerContext
    {
       return GenericAuthentication.getInstance().login(userName, password.toCharArray());
    }
+
+   public void logout(HttpServletRequest request, HttpServletResponse response)
+   {
+      GenericAuthentication.getInstance().logout(request, response);
+   }
 }

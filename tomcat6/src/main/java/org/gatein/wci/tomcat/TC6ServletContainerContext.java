@@ -104,6 +104,11 @@ public class TC6ServletContainerContext implements ServletContainerContext, Cont
       return GenericAuthentication.getInstance().login(userName, password.toCharArray());
    }
 
+   public void logout(HttpServletRequest request, HttpServletResponse response)
+   {
+      GenericAuthentication.getInstance().logout(request, response);
+   }
+
   public synchronized void containerEvent(ContainerEvent event)
    {
       if (event.getData() instanceof Host)

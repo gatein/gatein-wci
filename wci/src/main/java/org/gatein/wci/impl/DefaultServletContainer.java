@@ -95,6 +95,10 @@ public class DefaultServletContainer implements ServletContainer
       return registration.context.login(request, response, userName, password);
    }
 
+   public void logout(HttpServletRequest request, HttpServletResponse response) {
+      registration.context.logout(request, response);
+   }
+
   public WebExecutor getExecutor(HttpServletRequest request, HttpServletResponse response)
    {
       throw new NotYetImplemented();
