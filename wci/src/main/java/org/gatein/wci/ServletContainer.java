@@ -22,6 +22,7 @@
  ******************************************************************************/
 package org.gatein.wci;
 
+import org.gatein.wci.authentication.AuthenticationListener;
 import org.gatein.wci.authentication.AuthenticationResult;
 import org.gatein.wci.spi.ServletContainerContext;
 
@@ -110,4 +111,18 @@ public interface ServletContainer
     * @param response the response valid in the current servlet context
     */
    void logout(HttpServletRequest request, HttpServletResponse response);
+
+   /**
+    * Add the authentication listener.
+    *
+    * @param listener AuthenticationListener to add
+    */
+   void addAuthenticationListener(AuthenticationListener listener);
+
+   /**
+    * Remove the authentication listener.
+    *
+    * @param listener AuthenticationListener to remove
+    */
+   void removeAuthenticationlistener(AuthenticationListener listener);
 }

@@ -28,17 +28,12 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class AuthenticationEvent
 {
-  private AuthenticationListenerSupport.EventType eventType;
   private HttpServletRequest request;
   private HttpServletResponse response;
   private String username;
   private String password;
 
-  public AuthenticationEvent(AuthenticationListenerSupport.EventType eventType, HttpServletRequest request, HttpServletResponse response) {
-
-    if (eventType == null) {
-      throw new IllegalArgumentException("eventType is null");
-    }
+  public AuthenticationEvent(HttpServletRequest request, HttpServletResponse response) {
     
     if (request == null) {
       throw new IllegalArgumentException("request is null");
@@ -48,13 +43,12 @@ public class AuthenticationEvent
       throw new IllegalArgumentException("response is null");
     }
 
-    this.eventType = eventType;
     this.request = request;
     this.response = response;
   }
 
-  public AuthenticationEvent(AuthenticationListenerSupport.EventType eventType, HttpServletRequest request, HttpServletResponse response, String username, String password) {
-    this(eventType, request, response);
+  public AuthenticationEvent(HttpServletRequest request, HttpServletResponse response, String username, String password) {
+    this(request, response);
 
     if (username == null) {
       throw new IllegalArgumentException("username is null");
@@ -66,10 +60,6 @@ public class AuthenticationEvent
     
     this.username = username;
     this.password = password;
-  }
-
-  public AuthenticationListenerSupport.EventType getEventType() {
-    return eventType;
   }
 
   public HttpServletRequest getRequest() {

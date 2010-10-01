@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.gatein.wci.RequestDispatchCallback;
-import org.gatein.wci.authentication.AuthenticationEvent;
-import org.gatein.wci.authentication.AuthenticationListenerSupport;
 import org.gatein.wci.authentication.AuthenticationResult;
 import org.gatein.wci.authentication.GenericAuthentication;
 import org.gatein.wci.command.CommandDispatcher;
@@ -33,7 +31,6 @@ public class Jetty6ServletContainerContext  implements ServletContainerContext, 
 	private Container container;
 	private Server server;
 	private ContextHandlerCollection chc;
-  private AuthenticationListenerSupport listenerSupport = new AuthenticationListenerSupport();
 	
 	   /** The monitored contexts. */
 	   private final Set<String> monitoredContexts = new HashSet<String>();
@@ -65,27 +62,13 @@ public class Jetty6ServletContainerContext  implements ServletContainerContext, 
 		this.registration = null;
 	}
 
-  public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password) {
-    AuthenticationResult result = GenericAuthentication.getInstance().login(userName, password, request, response);
+   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password) {
+     return GenericAuthentication.getInstance().login(userName, password, request, response);
+   }
 
-    //
-    listenerSupport.fireEvent(
-        AuthenticationListenerSupport.EventType.LOGIN,
-        new AuthenticationEvent(AuthenticationListenerSupport.EventType.LOGIN, request, response, userName, password
-        ));
-
-    return result;
-  }
-
-  public void logout(HttpServletRequest request, HttpServletResponse response) {
-    GenericAuthentication.getInstance().logout(request, response);
-
-    //
-    listenerSupport.fireEvent(
-        AuthenticationListenerSupport.EventType.LOGOUT,
-        new AuthenticationEvent(AuthenticationListenerSupport.EventType.LOGOUT, request, response
-        ));
-  }
+   public void logout(HttpServletRequest request, HttpServletResponse response) {
+     GenericAuthentication.getInstance().logout(request, response);
+   }
 
 
   public void start()

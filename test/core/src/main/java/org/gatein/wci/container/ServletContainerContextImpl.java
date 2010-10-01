@@ -22,10 +22,7 @@
  ******************************************************************************/
 package org.gatein.wci.container;
 
-import org.gatein.wci.authentication.AuthenticationEvent;
-import org.gatein.wci.authentication.AuthenticationListenerSupport;
 import org.gatein.wci.authentication.AuthenticationResult;
-import org.gatein.wci.authentication.GenericAuthentication;
 import org.gatein.wci.spi.ServletContainerContext;
 import org.gatein.wci.RequestDispatchCallback;
 

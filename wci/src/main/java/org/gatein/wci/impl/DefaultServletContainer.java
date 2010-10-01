@@ -22,6 +22,8 @@
  ******************************************************************************/
 package org.gatein.wci.impl;
 
+import org.gatein.wci.authentication.AuthenticationEvent;
+import org.gatein.wci.authentication.AuthenticationListener;
 import org.gatein.wci.authentication.AuthenticationResult;
 import org.gatein.wci.spi.ServletContainerContext;
 import org.gatein.wci.spi.WebAppContext;
@@ -59,8 +61,11 @@ public class DefaultServletContainer implements ServletContainer
    /** . */
    private final Object lock = new Object();
 
-   /** The event listeners. */
-   private final ArrayList<WebAppListener> listeners = new ArrayList<WebAppListener>();
+   /** The event webapp listeners. */
+   private final ArrayList<WebAppListener> webAppListeners = new ArrayList<WebAppListener>();
+
+   /** The event authentication Listeners. */
+   private final ArrayList<AuthenticationListener> authenticationListeners = new ArrayList<AuthenticationListener>();
 
    /** The web applications. */
    private final Map<String, WebAppImpl> webAppMap = new HashMap<String, WebAppImpl>();
@@ -92,14 +97,38 @@ public class DefaultServletContainer implements ServletContainer
    /** . */
    public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password)
    {
-      return registration.context.login(request, response, userName, password);
+      AuthenticationResult result = registration.context.login(request, response, userName, password);
+
+      //
+      fireEvent(EventType.LOGIN, new AuthenticationEvent(request, response, userName, password));
+
+      return result;
    }
 
    public void logout(HttpServletRequest request, HttpServletResponse response) {
       registration.context.logout(request, response);
+
+      //
+      fireEvent(EventType.LOGOUT, new AuthenticationEvent(request, response));
    }
 
-  public WebExecutor getExecutor(HttpServletRequest request, HttpServletResponse response)
+   public void addAuthenticationListener(AuthenticationListener listener) {
+      if (listener == null) {
+         throw new IllegalArgumentException("listener is null");
+      }
+      
+      authenticationListeners.add(listener);
+   }
+
+   public void removeAuthenticationlistener(AuthenticationListener listener) {
+      if (listener == null) {
+         throw new IllegalArgumentException("listener is null");
+      }
+      
+      authenticationListeners.remove(listener);
+   }
+
+   public WebExecutor getExecutor(HttpServletRequest request, HttpServletResponse response)
    {
       throw new NotYetImplemented();
    }
@@ -112,11 +141,11 @@ public class DefaultServletContainer implements ServletContainer
          {
             throw new IllegalArgumentException();
          }
-         if (listeners.contains(listener))
+         if (webAppListeners.contains(listener))
          {
             return false;
          }
-         listeners.add(listener);
+         webAppListeners.add(listener);
          for (Object response : webAppMap.values())
          {
             WebApp webApp = (WebApp)response;
@@ -135,7 +164,7 @@ public class DefaultServletContainer implements ServletContainer
          {
             throw new IllegalArgumentException();
          }
-         if (listeners.remove(listener))
+         if (webAppListeners.remove(listener))
          {
             for (WebApp webApp : webAppMap.values())
             {
@@ -172,9 +201,28 @@ public class DefaultServletContainer implements ServletContainer
 
    private void fireEvent(WebAppEvent event)
    {
-      for (WebAppListener listener : listeners)
+      for (WebAppListener listener : webAppListeners)
       {
          safeFireEvent(listener, event);
+      }
+   }
+
+   public void fireEvent(EventType type, AuthenticationEvent ae)
+   {
+      String methodName = String.format(
+            "on%1%2",
+            type.toString().substring(0, 1).toUpperCase(),
+            type.toString().substring(1)
+      );
+      for (AuthenticationListener currentListener : authenticationListeners)
+      {
+         try
+         {
+            currentListener.getClass().getMethod(methodName, AuthenticationEvent.class).invoke(currentListener, ae);
+         }
+         catch (Exception ignore)
+         {
+         }
       }
    }
 
@@ -207,6 +255,10 @@ public class DefaultServletContainer implements ServletContainer
 
       //
       return registration.context.include(targetServletContext, request, response, callback, handback);
+   }
+
+   public enum EventType {
+      LOGIN, LOGOUT
    }
 
    private static class RegistrationImpl implements ServletContainerContext.Registration
