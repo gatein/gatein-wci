@@ -22,6 +22,8 @@
  ******************************************************************************/
 package org.gatein.wci.container;
 
+import org.gatein.wci.authentication.AuthenticationEvent;
+import org.gatein.wci.authentication.AuthenticationListenerSupport;
 import org.gatein.wci.authentication.AuthenticationResult;
 import org.gatein.wci.authentication.GenericAuthentication;
 import org.gatein.wci.spi.ServletContainerContext;
@@ -64,11 +66,11 @@ public class ServletContainerContextImpl implements ServletContainerContext
 
    public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password)
    {
-      return GenericAuthentication.getInstance().login(userName, password.toCharArray());
+      throw new UnsupportedOperationException();
    }
 
    public void logout(HttpServletRequest request, HttpServletResponse response)
    {
-      GenericAuthentication.getInstance().logout(request, response);
+      throw new UnsupportedOperationException();
    }
 }

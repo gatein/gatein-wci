@@ -21,14 +21,48 @@ package org.gatein.wci.authentication;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>
  * @version $Revision$
  */
-public interface Authentication
+public class AuthenticationListenerSupport
 {
-  public AuthenticationResult login(String login, char[] password);
-  public void logout(HttpServletRequest request, HttpServletResponse response);
-  public void addAuthenticationListener(AuthenticationListener listener);
+  public enum EventType
+  {
+    LOGIN, LOGOUT
+  }
+
+  private List<AuthenticationListener> authenticationListeners = new ArrayList<AuthenticationListener>();
+
+  public void addAuthenticationListener(AuthenticationListener listener)
+  {
+    authenticationListeners.add(listener);
+  }
+
+  protected List<AuthenticationListener> getAuthenticationListeners()
+  {
+    return authenticationListeners;
+  }
+
+  public void fireEvent(EventType type, AuthenticationEvent ae)
+  {
+    String methodName = String.format(
+      "on%1%2",
+      type.toString().substring(0, 1).toUpperCase(),
+      type.toString().substring(1)
+    );
+    for (AuthenticationListener currentListener : authenticationListeners)
+    {
+      try
+      {
+        currentListener.getClass().getMethod(methodName, AuthenticationEvent.class).invoke(currentListener, ae);
+      }
+      catch (Exception ignore)
+      {
+      }
+    }
+  }
 }

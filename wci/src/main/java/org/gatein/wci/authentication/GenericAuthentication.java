@@ -26,25 +26,25 @@ import javax.servlet.http.HttpServletResponse;
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>
  * @version $Revision$
  */
-public class GenericAuthentication extends AbstractAuthentication
+public class GenericAuthentication //extends AbstractAuthentication
 {
   public static final TicketService TICKET_SERVICE = new TicketService();
   private static final GenericAuthentication GENERIC_AUTHENTICATION = new GenericAuthentication();
 
   private GenericAuthentication() {}
 
-  public AuthenticationResult login(String login, char[] password)
+  public AuthenticationResult login(String login, String password, HttpServletRequest request, HttpServletResponse response)
   {
-     String ticket = TICKET_SERVICE.createTicket(new WCICredentials(login, new String(password)));
+     String ticket = TICKET_SERVICE.createTicket(new WCICredentials(login, password));
     
-     fireEvent(EventType.LOGIN, new AuthenticationEvent(login, password));
+     //fireEvent(EventType.LOGIN, new AuthenticationEvent(EventType.LOGIN, request, response, login, password));
      return new GenericAuthenticationResult(ticket);
   }
 
   public void logout(HttpServletRequest request, HttpServletResponse response)
   {
      request.getSession().invalidate();
-     fireEvent(EventType.LOGOUT, new AuthenticationEvent("", new char[1]));
+     //fireEvent(EventType.LOGOUT, new AuthenticationEvent(EventType.LOGIN, request, response));
   }
 
   public static GenericAuthentication getInstance() {

@@ -19,36 +19,72 @@
 
 package org.gatein.wci.authentication;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>
  * @version $Revision$
  */
 public class AuthenticationEvent
 {
+  private AuthenticationListenerSupport.EventType eventType;
+  private HttpServletRequest request;
+  private HttpServletResponse response;
   private String username;
-  private char[] password;
+  private String password;
 
-  public AuthenticationEvent(String username, char[] password)
-  {
-    if (username == null)
-    {
+  public AuthenticationEvent(AuthenticationListenerSupport.EventType eventType, HttpServletRequest request, HttpServletResponse response) {
+
+    if (eventType == null) {
+      throw new IllegalArgumentException("eventType is null");
+    }
+    
+    if (request == null) {
+      throw new IllegalArgumentException("request is null");
+    }
+
+    if (response == null) {
+      throw new IllegalArgumentException("response is null");
+    }
+
+    this.eventType = eventType;
+    this.request = request;
+    this.response = response;
+  }
+
+  public AuthenticationEvent(AuthenticationListenerSupport.EventType eventType, HttpServletRequest request, HttpServletResponse response, String username, String password) {
+    this(eventType, request, response);
+
+    if (username == null) {
       throw new IllegalArgumentException("username is null");
     }
-    if (password == null)
-    {
+
+    if (password == null) {
       throw new IllegalArgumentException("password is null");
     }
+    
     this.username = username;
     this.password = password;
   }
 
-  public String getUsername()
-  {
-    return username;
+  public AuthenticationListenerSupport.EventType getEventType() {
+    return eventType;
   }
 
-  public char[] getPassword()
-  {
-    return password;
+  public HttpServletRequest getRequest() {
+    return request;
+  }
+
+  public HttpServletResponse getResponse() {
+    return response;
+  }
+
+  public String getUsername() {
+    return (username != null ? username: "");
+  }
+
+  public String getPassword() {
+    return (password != null ? password: "");
   }
 }

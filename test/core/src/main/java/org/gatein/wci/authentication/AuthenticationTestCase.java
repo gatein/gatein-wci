@@ -19,10 +19,20 @@
 
 package org.gatein.wci.authentication;
 
+import org.jboss.unit.api.pojo.annotations.Test;
+
 /**
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>
  * @version $Revision$
  */
-public abstract class AuthenticationResult
-{
+@Test
+public class AuthenticationTestCase {
+   @Test
+   void testTicket() {
+      TicketService tService = GenericAuthentication.TICKET_SERVICE;
+      WCICredentials credentials = new WCICredentials("foo", "bar");
+      String strTicket = tService.createTicket(credentials);
+   }
+
+
 }

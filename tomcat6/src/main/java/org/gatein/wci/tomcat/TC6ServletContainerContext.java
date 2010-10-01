@@ -34,6 +34,8 @@ import org.apache.catalina.LifecycleListener;
 import org.gatein.common.logging.Logger;
 import org.gatein.common.logging.LoggerFactory;
 import org.gatein.wci.RequestDispatchCallback;
+import org.gatein.wci.authentication.AuthenticationEvent;
+import org.gatein.wci.authentication.AuthenticationListenerSupport;
 import org.gatein.wci.authentication.AuthenticationResult;
 import org.gatein.wci.authentication.GenericAuthentication;
 import org.gatein.wci.command.CommandDispatcher;
@@ -74,6 +76,9 @@ public class TC6ServletContainerContext implements ServletContainerContext, Cont
    /** . */
    private Registration registration;
 
+   /** . */
+   private AuthenticationListenerSupport listenerSupport = new AuthenticationListenerSupport();
+
    public TC6ServletContainerContext(Engine engine)
    {
       this.engine = engine;
@@ -101,12 +106,26 @@ public class TC6ServletContainerContext implements ServletContainerContext, Cont
 
    public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password)
    {
-      return GenericAuthentication.getInstance().login(userName, password.toCharArray());
+      AuthenticationResult result = GenericAuthentication.getInstance().login(userName, password, request, response);
+
+      //
+      listenerSupport.fireEvent(
+         AuthenticationListenerSupport.EventType.LOGIN,
+         new AuthenticationEvent(AuthenticationListenerSupport.EventType.LOGIN, request, response, userName, password
+         ));
+
+      return result;
    }
 
    public void logout(HttpServletRequest request, HttpServletResponse response)
    {
       GenericAuthentication.getInstance().logout(request, response);
+
+      //
+      listenerSupport.fireEvent(
+         AuthenticationListenerSupport.EventType.LOGOUT,
+         new AuthenticationEvent(AuthenticationListenerSupport.EventType.LOGOUT, request, response
+         ));
    }
 
   public synchronized void containerEvent(ContainerEvent event)

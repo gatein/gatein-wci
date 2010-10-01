@@ -25,12 +25,6 @@ package org.gatein.wci.authentication;
  */
 public class Ticket
 {
-   //public static String EXPIRE_MILI = "expirationMilis";
-
-   //public static String USERNAME = "userName"
-
-   //public static String PASSWORD = "password";
-
    /** . */
    private final long expirationTimeMillis;
 

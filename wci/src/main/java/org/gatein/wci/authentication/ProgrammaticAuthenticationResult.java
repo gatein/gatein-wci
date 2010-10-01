@@ -23,5 +23,5 @@ package org.gatein.wci.authentication;
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>
  * @version $Revision$
  */
-public class ProgrammaticAuthenticationResult implements AuthenticationResult {
+public class ProgrammaticAuthenticationResult extends AuthenticationResult {
 }

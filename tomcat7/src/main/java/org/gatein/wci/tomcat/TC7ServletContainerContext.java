@@ -36,6 +36,8 @@ import org.apache.catalina.core.StandardContext;
 import org.gatein.common.logging.Logger;
 import org.gatein.common.logging.LoggerFactory;
 import org.gatein.wci.RequestDispatchCallback;
+import org.gatein.wci.authentication.AuthenticationEvent;
+import org.gatein.wci.authentication.AuthenticationListenerSupport;
 import org.gatein.wci.authentication.AuthenticationResult;
 import org.gatein.wci.authentication.ProgrammaticAuthenticationResult;
 import org.gatein.wci.command.CommandDispatcher;
@@ -75,6 +77,9 @@ public class TC7ServletContainerContext implements ServletContainerContext, Cont
    /** . */
    private Registration registration;
 
+   /** . */
+   private AuthenticationListenerSupport listenerSupport = new AuthenticationListenerSupport();
+
    public TC7ServletContainerContext(Engine engine)
    {
       this.engine = engine;
@@ -105,6 +110,12 @@ public class TC7ServletContainerContext implements ServletContainerContext, Cont
       try
       {
          request.login(userName, password);
+
+         //
+         listenerSupport.fireEvent(
+            AuthenticationListenerSupport.EventType.LOGIN,
+            new AuthenticationEvent(AuthenticationListenerSupport.EventType.LOGIN, request, response, userName, password
+            ));
       }
       catch (ServletException e)
       {
@@ -118,6 +129,12 @@ public class TC7ServletContainerContext implements ServletContainerContext, Cont
       try
       {
          request.logout();
+
+         //
+         listenerSupport.fireEvent(
+            AuthenticationListenerSupport.EventType.LOGOUT,
+            new AuthenticationEvent(AuthenticationListenerSupport.EventType.LOGOUT, request, response
+            ));
       }
       catch (ServletException e)
       {

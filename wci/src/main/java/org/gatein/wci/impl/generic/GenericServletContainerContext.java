@@ -23,6 +23,8 @@
 package org.gatein.wci.impl.generic;
 
 import org.gatein.wci.RequestDispatchCallback;
+import org.gatein.wci.authentication.AuthenticationEvent;
+import org.gatein.wci.authentication.AuthenticationListenerSupport;
 import org.gatein.wci.authentication.AuthenticationResult;
 import org.gatein.wci.authentication.GenericAuthentication;
 import org.gatein.wci.impl.DefaultServletContainerFactory;
@@ -54,6 +56,9 @@ public class GenericServletContainerContext implements ServletContainerContext, 
    private static GenericServletContainerContext instance;
 
    private static HashMap<ServletContext, String> requestDispatchMap = new HashMap<ServletContext, String>();
+
+   /** . */
+   private AuthenticationListenerSupport listenerSupport = new AuthenticationListenerSupport();
    
    public static GenericServletContainerContext getInstance()
    {
@@ -132,12 +137,26 @@ public class GenericServletContainerContext implements ServletContainerContext, 
 
    public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password)
    {
-      return GenericAuthentication.getInstance().login(userName, password.toCharArray());
+      AuthenticationResult result = GenericAuthentication.getInstance().login(userName, password, request, response);
+
+      //
+      listenerSupport.fireEvent(
+         AuthenticationListenerSupport.EventType.LOGIN,
+         new AuthenticationEvent(AuthenticationListenerSupport.EventType.LOGIN, request, response, userName, password
+         ));
+
+      return result;
    }
 
    public void logout(HttpServletRequest request, HttpServletResponse response)
    {
       GenericAuthentication.getInstance().logout(request, response);
+
+      //
+      listenerSupport.fireEvent(
+         AuthenticationListenerSupport.EventType.LOGOUT,
+         new AuthenticationEvent(AuthenticationListenerSupport.EventType.LOGOUT, request, response
+         ));
    }
 
   //

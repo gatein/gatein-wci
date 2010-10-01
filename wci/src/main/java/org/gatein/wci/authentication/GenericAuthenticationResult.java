@@ -23,7 +23,7 @@ package org.gatein.wci.authentication;
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>
  * @version $Revision$
  */
-public class GenericAuthenticationResult implements AuthenticationResult {
+public class GenericAuthenticationResult extends AuthenticationResult {
    private String ticket;
 
    public GenericAuthenticationResult(String ticket) {
