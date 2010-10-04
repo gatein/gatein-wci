@@ -46,7 +46,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * A static registry for the servlet container context.
@@ -65,7 +67,7 @@ public class DefaultServletContainer implements ServletContainer
    private final ArrayList<WebAppListener> webAppListeners = new ArrayList<WebAppListener>();
 
    /** The event authentication Listeners. */
-   private final ArrayList<AuthenticationListener> authenticationListeners = new ArrayList<AuthenticationListener>();
+   private final List<AuthenticationListener> authenticationListeners = new CopyOnWriteArrayList<AuthenticationListener>();
 
    /** The web applications. */
    private final Map<String, WebAppImpl> webAppMap = new HashMap<String, WebAppImpl>();
@@ -210,9 +212,9 @@ public class DefaultServletContainer implements ServletContainer
    public void fireEvent(EventType type, AuthenticationEvent ae)
    {
       String methodName = String.format(
-            "on%1%2",
+            "on%s%s",
             type.toString().substring(0, 1).toUpperCase(),
-            type.toString().substring(1)
+            type.toString().substring(1).toLowerCase()
       );
       for (AuthenticationListener currentListener : authenticationListeners)
       {
@@ -222,6 +224,7 @@ public class DefaultServletContainer implements ServletContainer
          }
          catch (Exception ignore)
          {
+            ignore.printStackTrace();
          }
       }
    }

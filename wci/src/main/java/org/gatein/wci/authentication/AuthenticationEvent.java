@@ -28,53 +28,76 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class AuthenticationEvent
 {
-  private HttpServletRequest request;
-  private HttpServletResponse response;
-  private String username;
-  private String password;
+   private final HttpServletRequest request;
+   private final HttpServletResponse response;
+   private final String username;
+   private final String password;
 
-  public AuthenticationEvent(HttpServletRequest request, HttpServletResponse response) {
-    
-    if (request == null) {
-      throw new IllegalArgumentException("request is null");
-    }
+   public AuthenticationEvent(HttpServletRequest request, HttpServletResponse response)
+   {
 
-    if (response == null) {
-      throw new IllegalArgumentException("response is null");
-    }
+      if (request == null)
+      {
+         throw new IllegalArgumentException("request is null");
+      }
 
-    this.request = request;
-    this.response = response;
+      if (response == null)
+      {
+         throw new IllegalArgumentException("response is null");
+      }
+
+      this.request = request;
+      this.response = response;
+      this.username = null;
+      this.password = null;
   }
 
-  public AuthenticationEvent(HttpServletRequest request, HttpServletResponse response, String username, String password) {
-    this(request, response);
+   public AuthenticationEvent(HttpServletRequest request, HttpServletResponse response, String username, String password)
+   {
 
-    if (username == null) {
-      throw new IllegalArgumentException("username is null");
-    }
+      if (request == null)
+      {
+         throw new IllegalArgumentException("request is null");
+      }
 
-    if (password == null) {
-      throw new IllegalArgumentException("password is null");
-    }
-    
-    this.username = username;
-    this.password = password;
-  }
+      if (response == null)
+      {
+         throw new IllegalArgumentException("response is null");
+      }
 
-  public HttpServletRequest getRequest() {
-    return request;
-  }
+      if (username == null)
+      {
+         throw new IllegalArgumentException("username is null");
+      }
 
-  public HttpServletResponse getResponse() {
-    return response;
-  }
+      if (password == null)
+      {
+         throw new IllegalArgumentException("password is null");
+      }
 
-  public String getUsername() {
-    return (username != null ? username: "");
-  }
+      this.request = request;
+      this.response = response;
+      this.username = username;
+      this.password = password;
+   }
 
-  public String getPassword() {
-    return (password != null ? password: "");
-  }
+   public HttpServletRequest getRequest()
+   {
+      return request;
+   }
+
+   public HttpServletResponse getResponse()
+   {
+      return response;
+   }
+
+   public String getUsername()
+   {
+      return (username != null ? username: "");
+   }
+
+   public String getPassword()
+   {
+      return (password != null ? password: "");
+   }
 }
