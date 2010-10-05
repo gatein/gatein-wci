@@ -377,10 +377,10 @@
          <activeByDefault>true</activeByDefault>
        </activation>
        <properties>
-         <test.generic>false</test.generic>
+         <test.generic>true</test.generic>
          <test.native>true</test.native>
-         <test.exo>false</test.exo>
-         <test.endpoint>false</test.endpoint>
+         <test.exo>true</test.exo>
+         <test.endpoint>true</test.endpoint>
        </properties>
      </profile>
      <profile>

@@ -33,6 +33,9 @@ public class WCICredentials implements Serializable
    /** . */
    private final String password;
 
+   /** . */
+   public static final String CREDENTIALS = "credentials";
+
    /**
     * Construct a new instance.
     *

@@ -19,18 +19,32 @@
 
 package org.gatein.wci.authentication;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>
  * @version $Revision$
  */
 public class GenericAuthenticationResult extends AuthenticationResult {
+   private String username;
    private String ticket;
 
-   public GenericAuthenticationResult(String ticket) {
-     this.ticket = ticket;
+   public GenericAuthenticationResult(String username, String ticket) {
+      this.username = username;
+      this.ticket = ticket;
    }
 
    public String getTicket() {
      return ticket;
+   }
+
+   public void perform(HttpServletRequest req, HttpServletResponse resp) throws IOException
+   {
+      req.getSession().removeAttribute(WCICredentials.CREDENTIALS);
+      String url = "j_security_check?j_username=" + username + "&j_password=" + ticket;
+      url = resp.encodeRedirectURL(url);
+      resp.sendRedirect(url);
    }
 }

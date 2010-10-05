@@ -100,29 +100,15 @@ public class TC7ServletContainerContext implements ServletContainerContext, Cont
       this.registration = null;
    }
 
-   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password)
+   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password) throws ServletException
    {
-      try
-      {
-         request.login(userName, password);
-      }
-      catch (ServletException e)
-      {
-         e.printStackTrace(); // TODO : manage correctly this exception.
-      }
-     return new ProgrammaticAuthenticationResult();
+      request.login(userName, password);
+      return new ProgrammaticAuthenticationResult();
    }
 
-   public void logout(HttpServletRequest request, HttpServletResponse response)
+   public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException
    {
-      try
-      {
-         request.logout();
-      }
-      catch (ServletException e)
-      {
-         e.printStackTrace(); // TODO : manage correctly this exception.
-      }
+      request.logout();
    }
 
   public synchronized void containerEvent(ContainerEvent event)

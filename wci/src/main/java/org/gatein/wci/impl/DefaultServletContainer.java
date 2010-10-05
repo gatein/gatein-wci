@@ -97,7 +97,7 @@ public class DefaultServletContainer implements ServletContainer
    }
 
    /** . */
-   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password)
+   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password) throws ServletException
    {
       AuthenticationResult result = registration.context.login(request, response, userName, password);
 
@@ -107,7 +107,8 @@ public class DefaultServletContainer implements ServletContainer
       return result;
    }
 
-   public void logout(HttpServletRequest request, HttpServletResponse response) {
+   public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException
+   {
       registration.context.logout(request, response);
 
       //

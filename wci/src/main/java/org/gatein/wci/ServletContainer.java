@@ -102,7 +102,7 @@ public interface ServletContainer
     * @param userName the username which try to login
     * @param password the password of the username
     */
-   AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password);
+   AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password) throws ServletException;
 
    /**
     * Authentication support.
@@ -110,7 +110,7 @@ public interface ServletContainer
     * @param request the request valid in the current servlet context
     * @param response the response valid in the current servlet context
     */
-   void logout(HttpServletRequest request, HttpServletResponse response);
+   void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException;
 
    /**
     * Add the authentication listener.

@@ -36,15 +36,13 @@ public class GenericAuthentication //extends AbstractAuthentication
   public AuthenticationResult login(String login, String password, HttpServletRequest request, HttpServletResponse response)
   {
      String ticket = TICKET_SERVICE.createTicket(new WCICredentials(login, password));
-    
-     //fireEvent(EventType.LOGIN, new AuthenticationEvent(EventType.LOGIN, request, response, login, password));
-     return new GenericAuthenticationResult(ticket);
+
+     return new GenericAuthenticationResult(login, ticket);
   }
 
   public void logout(HttpServletRequest request, HttpServletResponse response)
   {
      request.getSession().invalidate();
-     //fireEvent(EventType.LOGOUT, new AuthenticationEvent(EventType.LOGIN, request, response));
   }
 
   public static GenericAuthentication getInstance() {
