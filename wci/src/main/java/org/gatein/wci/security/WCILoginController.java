@@ -21,7 +21,6 @@ package org.gatein.wci.security;
 
 import org.gatein.common.logging.Logger;
 import org.gatein.common.logging.LoggerFactory;
-import org.gatein.wci.authentication.WCICredentials;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -59,8 +58,8 @@ public class WCILoginController extends HttpServlet
 
       //
       log.debug("Found username and password and set credentials in http session");
-      WCICredentials credentials = new WCICredentials(username, password);
-      req.getSession().setAttribute(WCICredentials.CREDENTIALS, credentials);
+      Credentials credentials = new Credentials(username, password);
+      req.getSession().setAttribute(Credentials.CREDENTIALS, credentials);
 
       // Obtain initial URI
       String uri = req.getParameter("initialURI");

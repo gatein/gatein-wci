@@ -25,6 +25,8 @@ package org.gatein.wci.impl;
 import org.gatein.wci.authentication.AuthenticationEvent;
 import org.gatein.wci.authentication.AuthenticationListener;
 import org.gatein.wci.authentication.AuthenticationResult;
+import org.gatein.wci.authentication.GenericAuthentication;
+import org.gatein.wci.authentication.GenericAuthenticationResult;
 import org.gatein.wci.spi.ServletContainerContext;
 import org.gatein.wci.spi.WebAppContext;
 import org.gatein.wci.WebAppListener;
@@ -102,7 +104,10 @@ public class DefaultServletContainer implements ServletContainer
       AuthenticationResult result = registration.context.login(request, response, userName, password);
 
       //
-      fireEvent(EventType.LOGIN, new AuthenticationEvent(request, response, userName, password));
+      if (!(result instanceof GenericAuthenticationResult))
+      {
+         fireEvent(EventType.LOGIN, new AuthenticationEvent(request, response, userName, password));
+      }
 
       return result;
    }
@@ -261,7 +266,7 @@ public class DefaultServletContainer implements ServletContainer
       return registration.context.include(targetServletContext, request, response, callback, handback);
    }
 
-   public enum EventType {
+   public static enum EventType {
       LOGIN, LOGOUT
    }
 

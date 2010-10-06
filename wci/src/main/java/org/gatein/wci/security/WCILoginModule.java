@@ -20,7 +20,6 @@
 package org.gatein.wci.security;
 
 import org.gatein.wci.authentication.GenericAuthentication;
-import org.gatein.wci.authentication.WCICredentials;
 
 import javax.security.auth.Subject;
 import javax.security.auth.callback.Callback;
@@ -63,7 +62,7 @@ public class WCILoginModule implements LoginModule {
          callbackHandler.handle(callbacks);
          String password = new String(((PasswordCallback)callbacks[1]).getPassword());
 
-         WCICredentials credentials = GenericAuthentication.TICKET_SERVICE.validateToken(password, true);
+         Credentials credentials = GenericAuthentication.TICKET_SERVICE.validateToken(password, true);
          sharedState.put("javax.security.auth.login.name", credentials.getUsername());
          sharedState.put("javax.security.auth.login.password", credentials.getPassword());
       }

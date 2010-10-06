@@ -19,6 +19,8 @@
 
 package org.gatein.wci.authentication;
 
+import org.gatein.wci.security.Credentials;
+
 /**
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>
  * @version $Revision$
@@ -29,9 +31,9 @@ public class Ticket
    private final long expirationTimeMillis;
 
    /** . */
-   private final WCICredentials payload;
+   private final Credentials payload;
 
-   public Ticket(long expirationTimeMillis, WCICredentials payload)
+   public Ticket(long expirationTimeMillis, Credentials payload)
    {
       this.expirationTimeMillis = expirationTimeMillis;
       this.payload = payload;
@@ -42,7 +44,7 @@ public class Ticket
       return expirationTimeMillis;
    }
 
-   public WCICredentials getPayload()
+   public Credentials getPayload()
    {
       return payload;
    }

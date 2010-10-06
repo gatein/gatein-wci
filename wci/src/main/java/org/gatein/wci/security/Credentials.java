@@ -17,7 +17,7 @@
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
 
-package org.gatein.wci.authentication;
+package org.gatein.wci.security;
 
 import java.io.Serializable;
 
@@ -25,7 +25,7 @@ import java.io.Serializable;
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>
  * @version $Revision$
  */
-public class WCICredentials implements Serializable
+public class Credentials implements Serializable
 {
    /** . */
    private final String username;
@@ -43,7 +43,7 @@ public class WCICredentials implements Serializable
     * @param password the password value
     * @throws NullPointerException if any argument is null
     */
-   public WCICredentials(String username, String password) throws NullPointerException
+   public Credentials(String username, String password) throws NullPointerException
    {
       if (username == null)
       {

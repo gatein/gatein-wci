@@ -19,6 +19,8 @@
 
 package org.gatein.wci.authentication;
 
+import org.gatein.wci.security.Credentials;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -35,7 +37,7 @@ public class GenericAuthentication //extends AbstractAuthentication
 
   public AuthenticationResult login(String login, String password, HttpServletRequest request, HttpServletResponse response)
   {
-     String ticket = TICKET_SERVICE.createTicket(new WCICredentials(login, password));
+     String ticket = TICKET_SERVICE.createTicket(new Credentials(login, password));
 
      return new GenericAuthenticationResult(login, ticket);
   }

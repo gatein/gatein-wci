@@ -30,7 +30,7 @@ import org.gatein.wci.authentication.AuthenticationResult;
 import org.gatein.wci.authentication.GenericAuthentication;
 import org.gatein.wci.authentication.GenericAuthenticationResult;
 import org.gatein.wci.authentication.ProgrammaticAuthenticationResult;
-import org.gatein.wci.authentication.WCICredentials;
+import org.gatein.wci.security.Credentials;
 import org.gatein.wci.impl.DefaultServletContainerFactory;
 import org.jboss.unit.Failure;
 import org.jboss.unit.driver.DriverCommand;
@@ -56,24 +56,30 @@ public class SPIAuthenticationTestCase extends ServletTestCase
    /** . */
    private ServletContainer container;
 
+   /** . */
+   private final Value v = new Value();
+
+   /** . */
+   private AuthenticationResult result;
+
    @Override
    public DriverResponse service(TestServlet testServlet, WebRequest req, WebResponse resp) throws ServletException, IOException
    {
       if (getRequestCount() == 0)
       {
          assertNull(req.getUserPrincipal());
-         final Value v = new Value();
          container = DefaultServletContainerFactory.getInstance().getServletContainer();
          container.addAuthenticationListener(new TestListener(v));
          assertEquals("", v.value);
-         AuthenticationResult result = container.login(req, resp, username, password);
+         result = container.login(req, resp, username, password);
          assertNotNull(result);
          if (result instanceof GenericAuthenticationResult)
          {
+            GenericAuthenticationResult gAuthentication = (GenericAuthenticationResult) result;
             // Test Ticket Service
-            WCICredentials srcCredentials = new WCICredentials(username, password);
+            Credentials srcCredentials = new Credentials(username, password);
             String ticket = GenericAuthentication.TICKET_SERVICE.createTicket(srcCredentials);
-            WCICredentials resultCredentials = GenericAuthentication.TICKET_SERVICE.validateToken(ticket, false);
+            Credentials resultCredentials = GenericAuthentication.TICKET_SERVICE.validateToken(ticket, false);
             assertEquals(srcCredentials.getUsername(), resultCredentials.getUsername());
             assertEquals(srcCredentials.getPassword(), resultCredentials.getPassword());
             assertNotNull(GenericAuthentication.TICKET_SERVICE.validateToken(ticket, true));
@@ -82,28 +88,53 @@ public class SPIAuthenticationTestCase extends ServletTestCase
             // Test Generic login
             GenericAuthenticationResult gResult = (GenericAuthenticationResult) result;
             String t = gResult.getTicket();
-            WCICredentials credentials = GenericAuthentication.TICKET_SERVICE.validateToken(t, true);
+            Credentials credentials = GenericAuthentication.TICKET_SERVICE.validateToken(t, true);
             assertNotNull(credentials);
+            assertEquals("", v.value);
+            gAuthentication.perform(req, resp);
 
             // Test login Event
             assertEquals("login", v.value);
+            assertTrue(resp.isCommitted());
+            
+         }
+         else if (result instanceof ProgrammaticAuthenticationResult)
+         {
+            assertEquals("login", v.value);
+            assertNotNull(req.getUserPrincipal());
+            assertTrue(req.isUserInRole("test"));
+         }
 
+         //
+         String url = resp.renderURL("/", null, null);
+         return new InvokeGetResponse(url);
+      }
+      else if (getRequestCount() == 1)
+      {
+         if (result instanceof GenericAuthenticationResult)
+         {
             // Test logout
+            assertNotNull(req.getSession(false));
+            assertEquals("login", v.value);
             container.logout(req, resp);
             assertNull(req.getSession(false));
 
             // Test logout Event
             assertEquals("logout", v.value);
-            
          }
          else if (result instanceof ProgrammaticAuthenticationResult)
          {
-            assertNotNull(req.getUserPrincipal());
-            assertTrue(req.isUserInRole("test"));
+            assertEquals("login", v.value);
+
+            container.logout(req, resp);
+
+            assertEquals("logout", v.value);
+            assertNull(req.getUserPrincipal());
          }
+         return new EndTestResponse();
       }
-      return new EndTestResponse();
-      
+
+      return new FailureResponse(Failure.createAssertionFailure(""));
    }
 
    @Override

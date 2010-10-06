@@ -19,6 +19,8 @@
 
 package org.gatein.wci.authentication;
 
+import org.gatein.wci.security.Credentials;
+
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -35,7 +37,7 @@ public class TicketService
 
   protected final Random random = new Random();
 
-  public String createTicket(WCICredentials credentials)
+  public String createTicket(Credentials credentials)
   {
     if (validityMillis < 0)
     {
@@ -51,7 +53,7 @@ public class TicketService
     return tokenId;
   }
 
-  public WCICredentials validateToken(String stringKey, boolean remove)
+  public Credentials validateToken(String stringKey, boolean remove)
   {
     if (stringKey == null)
     {

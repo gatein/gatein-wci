@@ -19,6 +19,7 @@
 
 package org.gatein.wci.authentication;
 
+import org.gatein.wci.security.Credentials;
 import org.jboss.unit.api.pojo.annotations.Test;
 
 import static org.jboss.unit.api.Assert.*;
@@ -33,9 +34,9 @@ public class AuthenticationTestCase {
    @Test
    void testTicket() {
       TicketService tService = GenericAuthentication.TICKET_SERVICE;
-      WCICredentials credentials = new WCICredentials("foo", "bar");
+      Credentials credentials = new Credentials("foo", "bar");
       String strTicket = tService.createTicket(credentials);
-      WCICredentials credentialsFromTs = tService.validateToken(strTicket, false);
+      Credentials credentialsFromTs = tService.validateToken(strTicket, false);
       assertEquals(credentials.getUsername(), credentialsFromTs.getUsername());
       assertEquals(credentials.getPassword(), credentialsFromTs.getPassword());
       assertNotNull(tService.validateToken(strTicket, true));

@@ -19,9 +19,14 @@
 
 package org.gatein.wci.authentication;
 
+import org.gatein.wci.impl.DefaultServletContainer;
+import org.gatein.wci.impl.DefaultServletContainerFactory;
+import org.gatein.wci.security.Credentials;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.Method;
 
 /**
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>
@@ -42,9 +47,16 @@ public class GenericAuthenticationResult extends AuthenticationResult {
 
    public void perform(HttpServletRequest req, HttpServletResponse resp) throws IOException
    {
-      req.getSession().removeAttribute(WCICredentials.CREDENTIALS);
+      req.getSession().removeAttribute(Credentials.CREDENTIALS);
       String url = "j_security_check?j_username=" + username + "&j_password=" + ticket;
       url = resp.encodeRedirectURL(url);
       resp.sendRedirect(url);
+      resp.flushBuffer();
+
+      Object o = DefaultServletContainerFactory.getInstance().getServletContainer();
+      if (o instanceof DefaultServletContainer)
+      {
+        ((DefaultServletContainer)o).fireEvent(DefaultServletContainer.EventType.LOGIN, new AuthenticationEvent(req, resp, username, ticket));  
+      }
    }
 }
