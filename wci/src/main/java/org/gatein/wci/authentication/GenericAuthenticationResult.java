@@ -56,7 +56,7 @@ public class GenericAuthenticationResult extends AuthenticationResult {
       Object o = DefaultServletContainerFactory.getInstance().getServletContainer();
       if (o instanceof DefaultServletContainer)
       {
-        ((DefaultServletContainer)o).fireEvent(DefaultServletContainer.EventType.LOGIN, new AuthenticationEvent(req, resp, username, ticket));  
+        ((DefaultServletContainer)o).fireEvent(DefaultServletContainer.EventType.LOGIN, new AuthenticationEvent(req, resp, new Credentials(username, ticket)));  
       }
    }
 }

@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.Field;
 
 /**
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>
@@ -36,6 +37,9 @@ public class WCILoginController extends HttpServlet
 {
    /** . */
    private static final Logger log = LoggerFactory.getLogger(WCILoginController.class);
+
+   /** . */
+   protected Credentials credentials;
 
    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
    {
@@ -58,29 +62,13 @@ public class WCILoginController extends HttpServlet
 
       //
       log.debug("Found username and password and set credentials in http session");
-      Credentials credentials = new Credentials(username, password);
+      credentials = new Credentials(username, password);
       req.getSession().setAttribute(Credentials.CREDENTIALS, credentials);
-
-      // Obtain initial URI
-      String uri = req.getParameter("initialURI");
-
-      // otherwise compute one
-      if (uri == null || uri.length() == 0)
-      {
-         uri = req.getContextPath() + "/private/classic";
-         log.debug("No initial URI found, will use default " + uri + " instead ");
-      }
-      else
-      {
-         log.debug("Found initial URI " + uri);
-      }
-
-      //
-      resp.sendRedirect(uri);
    }
 
    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
    {
       doGet(req, resp);
+      Field f;
    }
 }

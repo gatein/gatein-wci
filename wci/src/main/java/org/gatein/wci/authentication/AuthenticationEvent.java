@@ -19,6 +19,8 @@
 
 package org.gatein.wci.authentication;
 
+import org.gatein.wci.security.Credentials;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,8 +32,7 @@ public class AuthenticationEvent
 {
    private final HttpServletRequest request;
    private final HttpServletResponse response;
-   private final String username;
-   private final String password;
+   private final Credentials credentials;
 
    public AuthenticationEvent(HttpServletRequest request, HttpServletResponse response)
    {
@@ -48,11 +49,10 @@ public class AuthenticationEvent
 
       this.request = request;
       this.response = response;
-      this.username = null;
-      this.password = null;
+      this.credentials = null;
   }
 
-   public AuthenticationEvent(HttpServletRequest request, HttpServletResponse response, String username, String password)
+   public AuthenticationEvent(HttpServletRequest request, HttpServletResponse response, Credentials credentials)
    {
 
       if (request == null)
@@ -65,20 +65,14 @@ public class AuthenticationEvent
          throw new IllegalArgumentException("response is null");
       }
 
-      if (username == null)
+      if (credentials == null)
       {
-         throw new IllegalArgumentException("username is null");
-      }
-
-      if (password == null)
-      {
-         throw new IllegalArgumentException("password is null");
+         throw new IllegalArgumentException("credentials is null");
       }
 
       this.request = request;
       this.response = response;
-      this.username = username;
-      this.password = password;
+      this.credentials = credentials;
    }
 
    public HttpServletRequest getRequest()
@@ -91,13 +85,8 @@ public class AuthenticationEvent
       return response;
    }
 
-   public String getUsername()
+   public Credentials getCredentials()
    {
-      return (username != null ? username: "");
-   }
-
-   public String getPassword()
-   {
-      return (password != null ? password: "");
+      return credentials;
    }
 }
