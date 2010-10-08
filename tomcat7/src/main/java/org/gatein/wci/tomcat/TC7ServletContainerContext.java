@@ -37,9 +37,12 @@ import org.gatein.common.logging.Logger;
 import org.gatein.common.logging.LoggerFactory;
 import org.gatein.wci.RequestDispatchCallback;
 import org.gatein.wci.authentication.AuthenticationResult;
+import org.gatein.wci.authentication.GenericAuthentication;
+import org.gatein.wci.authentication.GenericAuthenticationResult;
 import org.gatein.wci.authentication.ProgrammaticAuthenticationResult;
 import org.gatein.wci.command.CommandDispatcher;
 import org.gatein.wci.impl.DefaultServletContainerFactory;
+import org.gatein.wci.security.Credentials;
 import org.gatein.wci.spi.ServletContainerContext;
 
 import javax.servlet.ServletContext;
@@ -102,13 +105,32 @@ public class TC7ServletContainerContext implements ServletContainerContext, Cont
 
    public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password) throws ServletException
    {
-      request.login(userName, password);
+      try
+      {
+         request.login(userName, password);
+      }
+      catch (ServletException se)
+      {
+         try
+         {
+            String ticket = GenericAuthentication.TICKET_SERVICE.createTicket(new Credentials(userName, password));
+            String url = "j_security_check?j_username=" + userName + "&j_password=" + ticket;
+            url = response.encodeRedirectURL(url);
+            response.sendRedirect(url);
+            response.flushBuffer();
+         }
+         catch (Exception ignore)
+         {
+         }
+         return null;
+      }
       return new ProgrammaticAuthenticationResult();
    }
 
    public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException
    {
       request.logout();
+      request.getSession().invalidate();
    }
 
   public synchronized void containerEvent(ContainerEvent event)
