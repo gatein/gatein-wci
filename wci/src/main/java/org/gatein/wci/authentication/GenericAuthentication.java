@@ -28,15 +28,16 @@ import javax.servlet.http.HttpServletResponse;
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>
  * @version $Revision$
  */
-public class GenericAuthentication //extends AbstractAuthentication
+public class GenericAuthentication
 {
   public static final TicketService TICKET_SERVICE = new TicketService();
   private static final GenericAuthentication GENERIC_AUTHENTICATION = new GenericAuthentication();
 
   private GenericAuthentication() {}
 
-  public AuthenticationResult login(String login, String password, HttpServletRequest request, HttpServletResponse response)
+  public AuthenticationResult login(String login, String password, HttpServletRequest request, HttpServletResponse response, long validity)
   {
+     TICKET_SERVICE.setValidityMillis(validity);
      String ticket = TICKET_SERVICE.createTicket(new Credentials(login, password));
 
      return new GenericAuthenticationResult(login, ticket);

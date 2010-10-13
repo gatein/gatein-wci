@@ -102,7 +102,7 @@ public interface ServletContainer
     * @param userName the username which try to login
     * @param password the password of the username
     */
-   AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password) throws ServletException;
+   AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password, long validity) throws ServletException;
 
    /**
     * Authentication support.

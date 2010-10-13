@@ -62,7 +62,7 @@ public class WCILoginModule implements LoginModule {
          callbackHandler.handle(callbacks);
          String password = new String(((PasswordCallback)callbacks[1]).getPassword());
 
-         Credentials credentials = GenericAuthentication.TICKET_SERVICE.validateToken(password, true);
+         Credentials credentials = GenericAuthentication.TICKET_SERVICE.validateTicket(password, true);
          sharedState.put("javax.security.auth.login.name", credentials.getUsername());
          sharedState.put("javax.security.auth.login.password", credentials.getPassword());
       }

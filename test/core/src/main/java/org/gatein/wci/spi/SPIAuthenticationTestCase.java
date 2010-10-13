@@ -30,6 +30,7 @@ import org.gatein.wci.authentication.AuthenticationResult;
 import org.gatein.wci.authentication.GenericAuthentication;
 import org.gatein.wci.authentication.GenericAuthenticationResult;
 import org.gatein.wci.authentication.ProgrammaticAuthenticationResult;
+import org.gatein.wci.authentication.TicketService;
 import org.gatein.wci.security.Credentials;
 import org.gatein.wci.impl.DefaultServletContainerFactory;
 import org.jboss.unit.Failure;
@@ -71,7 +72,7 @@ public class SPIAuthenticationTestCase extends ServletTestCase
          container = DefaultServletContainerFactory.getInstance().getServletContainer();
          container.addAuthenticationListener(new TestListener(v));
          assertEquals("", v.value);
-         result = container.login(req, resp, username, password);
+         result = container.login(req, resp, username, password, TicketService.DEFAULT_VALIDITY);
          assertNotNull(result);
          if (result instanceof GenericAuthenticationResult)
          {
@@ -79,16 +80,16 @@ public class SPIAuthenticationTestCase extends ServletTestCase
             // Test Ticket Service
             Credentials srcCredentials = new Credentials(username, password);
             String ticket = GenericAuthentication.TICKET_SERVICE.createTicket(srcCredentials);
-            Credentials resultCredentials = GenericAuthentication.TICKET_SERVICE.validateToken(ticket, false);
+            Credentials resultCredentials = GenericAuthentication.TICKET_SERVICE.validateTicket(ticket, false);
             assertEquals(srcCredentials.getUsername(), resultCredentials.getUsername());
             assertEquals(srcCredentials.getPassword(), resultCredentials.getPassword());
-            assertNotNull(GenericAuthentication.TICKET_SERVICE.validateToken(ticket, true));
-            assertNull(GenericAuthentication.TICKET_SERVICE.validateToken(ticket, true));
+            assertNotNull(GenericAuthentication.TICKET_SERVICE.validateTicket(ticket, true));
+            assertNull(GenericAuthentication.TICKET_SERVICE.validateTicket(ticket, true));
 
             // Test Generic login
             GenericAuthenticationResult gResult = (GenericAuthenticationResult) result;
             String t = gResult.getTicket();
-            Credentials credentials = GenericAuthentication.TICKET_SERVICE.validateToken(t, true);
+            Credentials credentials = GenericAuthentication.TICKET_SERVICE.validateTicket(t, true);
             assertNotNull(credentials);
             assertEquals("", v.value);
             gAuthentication.perform(req, resp);

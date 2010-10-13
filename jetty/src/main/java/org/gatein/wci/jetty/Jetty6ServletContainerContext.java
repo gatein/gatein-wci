@@ -62,16 +62,18 @@ public class Jetty6ServletContainerContext  implements ServletContainerContext, 
 		this.registration = null;
 	}
 
-   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password) {
-     return GenericAuthentication.getInstance().login(userName, password, request, response);
+   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password, long validity)
+   {
+      return GenericAuthentication.getInstance().login(userName, password, request, response, validity);
    }
 
-   public void logout(HttpServletRequest request, HttpServletResponse response) {
-     GenericAuthentication.getInstance().logout(request, response);
+   public void logout(HttpServletRequest request, HttpServletResponse response)
+   {
+      GenericAuthentication.getInstance().logout(request, response);
    }
 
 
-  public void start()
+   public void start()
 	{
 		DefaultServletContainerFactory.registerContext(this);
 		

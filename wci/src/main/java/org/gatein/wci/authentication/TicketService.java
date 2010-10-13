@@ -30,8 +30,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class TicketService
 {
-  
-  protected long validityMillis = 1000 * 60; // TODO : Init from confguration
+  public static final long DEFAULT_VALIDITY = 60 * 1000;
+   
+  protected long validityMillis;
 
   protected final ConcurrentHashMap<String, Ticket> tickets = new ConcurrentHashMap<String, Ticket>();
 
@@ -53,7 +54,7 @@ public class TicketService
     return tokenId;
   }
 
-  public Credentials validateToken(String stringKey, boolean remove)
+  public Credentials validateTicket(String stringKey, boolean remove)
   {
     if (stringKey == null)
     {
@@ -94,7 +95,18 @@ public class TicketService
    return null;
   }
 
-  private String nextTicketId() {
-    return "wci-ticket-" + random.nextInt();
+  private String nextTicketId()
+  {
+     return "wci-ticket-" + random.nextInt();
+  }
+
+  public long getValidityMillis()
+  {
+    return validityMillis;
+  }
+
+  public void setValidityMillis(long validityMillis)
+  {
+    this.validityMillis = validityMillis;
   }
 }

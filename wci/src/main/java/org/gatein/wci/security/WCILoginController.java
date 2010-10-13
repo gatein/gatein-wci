@@ -45,6 +45,12 @@ public class WCILoginController extends HttpServlet
       String username = req.getParameter("username");
       String password = req.getParameter("password");
 
+      if (
+            req.getSession().getAttribute(Credentials.CREDENTIALS) != null
+            && username == null
+            && password == null
+       ) return;
+
       //
       if (username == null)
       {

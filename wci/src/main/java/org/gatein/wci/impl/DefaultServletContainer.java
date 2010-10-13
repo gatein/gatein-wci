@@ -99,9 +99,9 @@ public class DefaultServletContainer implements ServletContainer
    }
 
    /** . */
-   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password) throws ServletException
+   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password, long validity) throws ServletException
    {
-      AuthenticationResult result = registration.context.login(request, response, userName, password);
+      AuthenticationResult result = registration.context.login(request, response, userName, password, validity);
 
       //
       if (!(result instanceof GenericAuthenticationResult))

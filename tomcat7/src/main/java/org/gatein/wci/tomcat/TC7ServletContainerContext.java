@@ -40,6 +40,7 @@ import org.gatein.wci.authentication.AuthenticationResult;
 import org.gatein.wci.authentication.GenericAuthentication;
 import org.gatein.wci.authentication.GenericAuthenticationResult;
 import org.gatein.wci.authentication.ProgrammaticAuthenticationResult;
+import org.gatein.wci.authentication.TicketService;
 import org.gatein.wci.command.CommandDispatcher;
 import org.gatein.wci.impl.DefaultServletContainerFactory;
 import org.gatein.wci.security.Credentials;
@@ -103,7 +104,7 @@ public class TC7ServletContainerContext implements ServletContainerContext, Cont
       this.registration = null;
    }
 
-   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password) throws ServletException
+   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password, long validity) throws ServletException
    {
       try
       {
@@ -113,6 +114,7 @@ public class TC7ServletContainerContext implements ServletContainerContext, Cont
       {
          try
          {
+            GenericAuthentication.TICKET_SERVICE.setValidityMillis(TicketService.DEFAULT_VALIDITY);
             String ticket = GenericAuthentication.TICKET_SERVICE.createTicket(new Credentials(userName, password));
             String url = "j_security_check?j_username=" + userName + "&j_password=" + ticket;
             url = response.encodeRedirectURL(url);
