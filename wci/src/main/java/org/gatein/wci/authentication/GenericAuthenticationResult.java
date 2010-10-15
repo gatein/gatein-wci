@@ -26,7 +26,6 @@ import org.gatein.wci.security.Credentials;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.lang.reflect.Method;
 
 /**
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>

@@ -30,83 +30,69 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class TicketService
 {
-  public static final long DEFAULT_VALIDITY = 60 * 1000;
-   
-  protected long validityMillis;
+   public static final long DEFAULT_VALIDITY = 60 * 1000;
 
-  protected final ConcurrentHashMap<String, Ticket> tickets = new ConcurrentHashMap<String, Ticket>();
+   protected final ConcurrentHashMap<String, Ticket> tickets = new ConcurrentHashMap<String, Ticket>();
 
-  protected final Random random = new Random();
+   protected final Random random = new Random();
 
-  public String createTicket(Credentials credentials)
-  {
-    if (validityMillis < 0)
-    {
-      throw new IllegalArgumentException();
-    }
-    if (credentials == null)
-    {
-      throw new NullPointerException();
-    }
-    String tokenId = nextTicketId();
-    long expirationTimeMillis = System.currentTimeMillis() + validityMillis;
-    tickets.put(tokenId, new Ticket(expirationTimeMillis, credentials));
-    return tokenId;
-  }
+   public String createTicket(Credentials credentials, long validityMillis)
+   {
+      if (validityMillis < 0)
+      {
+         throw new IllegalArgumentException("validityMillis must be positive");
+      }
+      if (credentials == null)
+      {
+         throw new NullPointerException();
+      }
+      String tokenId = nextTicketId();
+      long expirationTimeMillis = System.currentTimeMillis() + validityMillis;
+      tickets.put(tokenId, new Ticket(expirationTimeMillis, credentials));
+      return tokenId;
+   }
 
-  public Credentials validateTicket(String stringKey, boolean remove)
-  {
-    if (stringKey == null)
-    {
-      throw new IllegalArgumentException("stringKey is null");
-    }
+   public Credentials validateTicket(String stringKey, boolean remove)
+   {
+      if (stringKey == null)
+      {
+         throw new IllegalArgumentException("stringKey is null");
+      }
 
-    Ticket token;
-    try
-    {
+      Ticket ticket;
       if (remove)
       {
-        token = tickets.remove(stringKey);
+         ticket = tickets.remove(stringKey);
       }
       else
       {
-        token = tickets.get(stringKey);
+         ticket = tickets.get(stringKey);
       }
 
-      if (token != null)
+      if (ticket != null)
       {
-        boolean valid = token.getExpirationTimeMillis() > System.currentTimeMillis();
-        
-        if (valid)
-        {
-          return token.getPayload();
-        }
-        else if (!remove)
-        {
-          tickets.remove(stringKey);
-        }
-        
+         boolean valid = ticket.getExpirationTimeMillis() > System.currentTimeMillis();
+
+         if (valid)
+         {
+            return ticket.getPayload();
+         }
+         else if (!remove)
+         {
+            tickets.remove(stringKey);
+         }
+         if (!valid)
+         {
+            throw new AuthenticationException("Ticket " +  stringKey + " has expired");
+         }
+
       }
-    }
-    catch (Exception ignore)
-    {
-    }
 
-   return null;
-  }
+      return null;
+   }
 
-  private String nextTicketId()
-  {
-     return "wci-ticket-" + random.nextInt();
-  }
-
-  public long getValidityMillis()
-  {
-    return validityMillis;
-  }
-
-  public void setValidityMillis(long validityMillis)
-  {
-    this.validityMillis = validityMillis;
-  }
+   private String nextTicketId()
+   {
+      return "wci-ticket-" + random.nextInt();
+   }
 }

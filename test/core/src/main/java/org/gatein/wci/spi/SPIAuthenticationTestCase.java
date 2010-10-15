@@ -25,6 +25,7 @@ import org.gatein.wci.TestServlet;
 import org.gatein.wci.WebRequest;
 import org.gatein.wci.WebResponse;
 import org.gatein.wci.authentication.AuthenticationEvent;
+import org.gatein.wci.authentication.AuthenticationException;
 import org.gatein.wci.authentication.AuthenticationListener;
 import org.gatein.wci.authentication.AuthenticationResult;
 import org.gatein.wci.authentication.GenericAuthentication;
@@ -77,9 +78,28 @@ public class SPIAuthenticationTestCase extends ServletTestCase
          if (result instanceof GenericAuthenticationResult)
          {
             GenericAuthenticationResult gAuthentication = (GenericAuthenticationResult) result;
+            // Test Ticket Expiration
+            GenericAuthentication.getInstance();
+            String expireTicket = GenericAuthentication.TICKET_SERVICE.createTicket(new Credentials("foo", "bar"), 5);
+            boolean expired = false;
+            try
+            {
+               Thread.sleep(5);
+               GenericAuthentication.TICKET_SERVICE.validateTicket(expireTicket, true);
+            }
+            catch (InterruptedException ignore)
+            {
+            }
+            catch (AuthenticationException ae)
+            {
+               expired = true;
+            }
+            if (!expired) return new FailureResponse(Failure.createAssertionFailure(""));
+
+
             // Test Ticket Service
             Credentials srcCredentials = new Credentials(username, password);
-            String ticket = GenericAuthentication.TICKET_SERVICE.createTicket(srcCredentials);
+            String ticket = GenericAuthentication.TICKET_SERVICE.createTicket(srcCredentials, TicketService.DEFAULT_VALIDITY);
             Credentials resultCredentials = GenericAuthentication.TICKET_SERVICE.validateTicket(ticket, false);
             assertEquals(srcCredentials.getUsername(), resultCredentials.getUsername());
             assertEquals(srcCredentials.getPassword(), resultCredentials.getPassword());

@@ -130,9 +130,9 @@ public class GenericServletContainerContext implements ServletContainerContext, 
       this.registration = null;
    }
 
-   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password, long validity)
+   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password, long validityMillis)
    {
-      return GenericAuthentication.getInstance().login(userName, password, request, response, validity);
+      return GenericAuthentication.getInstance().login(userName, password, request, response, validityMillis);
    }
 
    public void logout(HttpServletRequest request, HttpServletResponse response)

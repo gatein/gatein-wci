@@ -19,35 +19,28 @@
 
 package org.gatein.wci.authentication;
 
-import org.gatein.wci.security.Credentials;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 /**
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>
  * @version $Revision$
  */
-public class GenericAuthentication
+public class AuthenticationException extends RuntimeException
 {
-  public static final TicketService TICKET_SERVICE = new TicketService();
-  private static final GenericAuthentication GENERIC_AUTHENTICATION = new GenericAuthentication();
+   public AuthenticationException()
+   {
+   }
 
-  private GenericAuthentication() {}
+   public AuthenticationException(String message)
+   {
+      super(message);
+   }
 
-  public AuthenticationResult login(String login, String password, HttpServletRequest request, HttpServletResponse response, long validityMillis)
-  {
-     String ticket = TICKET_SERVICE.createTicket(new Credentials(login, password), validityMillis);
+   public AuthenticationException(String message, Throwable cause)
+   {
+      super(message, cause);
+   }
 
-     return new GenericAuthenticationResult(login, ticket);
-  }
-
-  public void logout(HttpServletRequest request, HttpServletResponse response)
-  {
-     request.getSession().invalidate();
-  }
-
-  public static GenericAuthentication getInstance() {
-    return GENERIC_AUTHENTICATION;
-  }
+   public AuthenticationException(Throwable cause)
+   {
+      super(cause);
+   }
 }

@@ -61,7 +61,7 @@ public class ServletContainerContextImpl implements ServletContainerContext
       this.registration = null;
    }
 
-   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password, long validity)
+   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password, long validityMillis)
    {
       throw new UnsupportedOperationException();
    }
