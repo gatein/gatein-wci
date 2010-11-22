@@ -111,7 +111,6 @@ public class Jetty6ServletContainerContext  implements ServletContainerContext, 
 		else if (bean instanceof WebAppContext)
 		{
 			WebAppContext wac = (WebAppContext)bean;
-			System.out.println("ADDING WEBAPP " + wac.getWar());
 			registerWebAppContext(wac);
 		}
 	}
@@ -137,7 +136,7 @@ public class Jetty6ServletContainerContext  implements ServletContainerContext, 
 
 	public void remove(Relationship relationship) 
 	{
-		//ignore event for now
+      removeBean(relationship.getChild());
 	}
 
 	private void startWebAppContext(WebAppContext webappContext) 
@@ -192,7 +191,6 @@ public class Jetty6ServletContainerContext  implements ServletContainerContext, 
 
 	private void unregisterWebAppContext(WebAppContext wac) 
 	{
-		System.out.println("UNREGISTERWEBAPPCONTEXT : " + wac);
 		if (monitoredContexts.contains(wac.getServletContext().getServletContextName()))
 	      {
 	         monitoredContexts.remove(wac.getServletContext().getServletContextName());
