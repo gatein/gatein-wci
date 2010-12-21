@@ -5,9 +5,9 @@
       <version>2.1.0-Beta01-SNAPSHOT</version>
    </parent>
    <modelVersion>4.0.0</modelVersion>
-   <artifactId>wci-exo</artifactId>
+   <artifactId>wci-tomcat6</artifactId>
    <packaging>jar</packaging>
-   <name>GateIn - WCI eXo backwards compatibility component</name>
+   <name>GateIn - WCI Tomcat 6 compatibility component</name>
 
    <dependencies>
      <dependency>
@@ -15,9 +15,8 @@
        <artifactId>wci-wci</artifactId>
      </dependency>
      <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <scope>provided</scope>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>catalina</artifactId>
     </dependency>
    </dependencies>
 

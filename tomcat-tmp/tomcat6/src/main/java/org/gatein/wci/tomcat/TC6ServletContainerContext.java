@@ -34,6 +34,8 @@ import org.apache.catalina.LifecycleListener;
 import org.gatein.common.logging.Logger;
 import org.gatein.common.logging.LoggerFactory;
 import org.gatein.wci.RequestDispatchCallback;
+import org.gatein.wci.authentication.AuthenticationResult;
+import org.gatein.wci.authentication.GenericAuthentication;
 import org.gatein.wci.command.CommandDispatcher;
 import org.gatein.wci.impl.DefaultServletContainerFactory;
 import org.gatein.wci.spi.ServletContainerContext;
@@ -95,6 +97,16 @@ public class TC6ServletContainerContext implements ServletContainerContext, Cont
    public void unsetCallback(Registration registration)
    {
       this.registration = null;
+   }
+
+   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password, long validityMillis)
+   {
+      return GenericAuthentication.getInstance().login(userName, password, request, response, validityMillis);
+   }
+
+   public void logout(HttpServletRequest request, HttpServletResponse response)
+   {
+      GenericAuthentication.getInstance().logout(request, response);
    }
 
    public synchronized void containerEvent(ContainerEvent event)

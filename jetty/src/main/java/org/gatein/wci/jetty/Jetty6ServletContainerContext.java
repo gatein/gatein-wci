@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.gatein.wci.RequestDispatchCallback;
+import org.gatein.wci.authentication.AuthenticationResult;
+import org.gatein.wci.authentication.GenericAuthentication;
 import org.gatein.wci.command.CommandDispatcher;
 import org.gatein.wci.impl.DefaultServletContainerFactory;
 import org.gatein.wci.spi.ServletContainerContext;
@@ -60,6 +62,15 @@ public class Jetty6ServletContainerContext  implements ServletContainerContext, 
 		this.registration = null;
 	}
 
+   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password, long validityMillis)
+   {
+      return GenericAuthentication.getInstance().login(userName, password, request, response, validityMillis);
+   }
+
+   public void logout(HttpServletRequest request, HttpServletResponse response)
+   {
+      GenericAuthentication.getInstance().logout(request, response);
+   }
 
 	public void start()
 	{
@@ -99,7 +110,6 @@ public class Jetty6ServletContainerContext  implements ServletContainerContext, 
 		else if (bean instanceof WebAppContext)
 		{
 			WebAppContext wac = (WebAppContext)bean;
-			System.out.println("ADDING WEBAPP " + wac.getWar());
 			registerWebAppContext(wac);
 		}
 	}
@@ -125,7 +135,7 @@ public class Jetty6ServletContainerContext  implements ServletContainerContext, 
 
 	public void remove(Relationship relationship) 
 	{
-		//ignore event for now
+      removeBean(relationship.getChild());
 	}
 
 	private void startWebAppContext(WebAppContext webappContext) 
@@ -180,7 +190,6 @@ public class Jetty6ServletContainerContext  implements ServletContainerContext, 
 
 	private void unregisterWebAppContext(WebAppContext wac) 
 	{
-		System.out.println("UNREGISTERWEBAPPCONTEXT : " + wac);
 		if (monitoredContexts.contains(wac.getServletContext().getServletContextName()))
 	      {
 	         monitoredContexts.remove(wac.getServletContext().getServletContextName());

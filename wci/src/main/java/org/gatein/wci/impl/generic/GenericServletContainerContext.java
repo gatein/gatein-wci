@@ -1,6 +1,6 @@
 /******************************************************************************
  * JBoss, a division of Red Hat                                               *
- * Copyright 2006, Red Hat Middleware, LLC, and individual                    *
+ * Copyright 2010, Red Hat Middleware, LLC, and individual                    *
  * contributors as indicated by the @authors tag. See the                     *
  * copyright.txt in the distribution for a full listing of                    *
  * individual contributors.                                                   *
@@ -23,6 +23,8 @@
 package org.gatein.wci.impl.generic;
 
 import org.gatein.wci.RequestDispatchCallback;
+import org.gatein.wci.authentication.AuthenticationResult;
+import org.gatein.wci.authentication.GenericAuthentication;
 import org.gatein.wci.impl.DefaultServletContainerFactory;
 import org.gatein.wci.spi.ServletContainerContext;
 import org.gatein.wci.command.CommandDispatcher;
@@ -128,6 +130,15 @@ public class GenericServletContainerContext implements ServletContainerContext, 
       this.registration = null;
    }
 
+   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password, long validityMillis)
+   {
+      return GenericAuthentication.getInstance().login(userName, password, request, response, validityMillis);
+   }
+
+   public void logout(HttpServletRequest request, HttpServletResponse response)
+   {
+      GenericAuthentication.getInstance().logout(request, response);
+   }
    //
 
    public void contextInitialized(ServletContextEvent servletContextEvent)

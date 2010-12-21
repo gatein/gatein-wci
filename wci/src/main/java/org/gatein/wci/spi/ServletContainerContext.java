@@ -1,6 +1,6 @@
 /******************************************************************************
  * JBoss, a division of Red Hat                                               *
- * Copyright 2006, Red Hat Middleware, LLC, and individual                    *
+ * Copyright 2010, Red Hat Middleware, LLC, and individual                    *
  * contributors as indicated by the @authors tag. See the                     *
  * copyright.txt in the distribution for a full listing of                    *
  * individual contributors.                                                   *
@@ -22,13 +22,15 @@
  ******************************************************************************/
 package org.gatein.wci.spi;
 
-import org.gatein.wci.RequestDispatchCallback;
+import java.io.IOException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.gatein.wci.RequestDispatchCallback;
+import org.gatein.wci.authentication.AuthenticationResult;
 
 /**
  * Defines the service provider interface for a servlet container. It is an attempt to abstract the non
@@ -72,6 +74,24 @@ public interface ServletContainerContext
     * @param registration the call back
     */
    void unsetCallback(Registration registration);
+
+   /**
+    * Authentication support.
+    *
+    * @param request the request valid in the current servlet context
+    * @param response the response valid in the current servlet context
+    * @param userName the username which try to login
+    * @param password the password of the username
+    */
+   AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password, long validityMillis) throws ServletException;
+
+   /**
+    * Authentication support.
+    *
+    * @param request the request valid in the current servlet context
+    * @param response the response valid in the current servlet context
+    */
+   void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException;
 
    /**
     * The callback interface that a servlet container context can obtain from its registration against

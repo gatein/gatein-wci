@@ -1,6 +1,6 @@
 /******************************************************************************
  * JBoss, a division of Red Hat                                               *
- * Copyright 2006, Red Hat Middleware, LLC, and individual                    *
+ * Copyright 2010, Red Hat Middleware, LLC, and individual                    *
  * contributors as indicated by the @authors tag. See the                     *
  * copyright.txt in the distribution for a full listing of                    *
  * individual contributors.                                                   *
@@ -22,6 +22,8 @@
  ******************************************************************************/
 package org.gatein.wci;
 
+import org.gatein.wci.authentication.AuthenticationListener;
+import org.gatein.wci.authentication.AuthenticationResult;
 import org.gatein.wci.spi.ServletContainerContext;
 
 import javax.servlet.ServletContext;
@@ -91,4 +93,36 @@ public interface ServletContainer
     * @throws IllegalArgumentException if the context is null
     */
    void register(ServletContainerContext context);
+
+   /**
+    * Authentication support.
+    *
+    * @param request the request valid in the current servlet context
+    * @param response the response valid in the current servlet context
+    * @param userName the username which try to login
+    * @param password the password of the username
+    */
+   AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password, long validityMillis) throws ServletException;
+
+   /**
+    * Authentication support.
+    *
+    * @param request the request valid in the current servlet context
+    * @param response the response valid in the current servlet context
+    */
+   void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException;
+
+   /**
+    * Add the authentication listener.
+    *
+    * @param listener AuthenticationListener to add
+    */
+   void addAuthenticationListener(AuthenticationListener listener);
+
+   /**
+    * Remove the authentication listener.
+    *
+    * @param listener AuthenticationListener to remove
+    */
+   void removeAuthenticationlistener(AuthenticationListener listener);
 }

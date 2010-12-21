@@ -1,6 +1,6 @@
 /******************************************************************************
  * JBoss, a division of Red Hat                                               *
- * Copyright 2006, Red Hat Middleware, LLC, and individual                    *
+ * Copyright 2010, Red Hat Middleware, LLC, and individual                    *
  * contributors as indicated by the @authors tag. See the                     *
  * copyright.txt in the distribution for a full listing of                    *
  * individual contributors.                                                   *
@@ -22,6 +22,7 @@
  ******************************************************************************/
 package org.gatein.wci.container;
 
+import org.gatein.wci.authentication.AuthenticationResult;
 import org.gatein.wci.spi.ServletContainerContext;
 import org.gatein.wci.RequestDispatchCallback;
 
@@ -58,5 +59,15 @@ public class ServletContainerContextImpl implements ServletContainerContext
    public void unsetCallback(Registration registration)
    {
       this.registration = null;
+   }
+
+   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password, long validityMillis)
+   {
+      throw new UnsupportedOperationException();
+}
+
+   public void logout(HttpServletRequest request, HttpServletResponse response)
+   {
+      throw new UnsupportedOperationException();
    }
 }

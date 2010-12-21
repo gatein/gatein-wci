@@ -32,7 +32,8 @@
     <version.discovery>0.4</version.discovery>
     <!-- used in test module by maven-antrun-extended-plugin -->
     <version.jboss.unit>1.2.3</version.jboss.unit>
-    <version.cargo>1.0.1-alpha-2</version.cargo>
+    <version.cargo>1.0.3</version.cargo>
+    <version.cargo.jetty.deployer>1.0.1</version.cargo.jetty.deployer>
 
   </properties>
   
@@ -52,6 +53,16 @@
         <groupId>org.gatein.common</groupId>
         <artifactId>common-common</artifactId>
         <version>${version.gatein.common}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-core-uberjar</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.gatein.common</groupId>
@@ -70,7 +81,12 @@
      </dependency>
      <dependency>
        <groupId>org.gatein.wci</groupId>
-       <artifactId>wci-tomcat</artifactId>
+       <artifactId>wci-tomcat6</artifactId>
+       <version>${project.version}</version>
+      </dependency>
+     <dependency>
+       <groupId>org.gatein.wci</groupId>
+       <artifactId>wci-tomcat7</artifactId>
        <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -126,7 +142,8 @@
   <modules>
     <module>wci</module>
     <module>exo</module>
-    <module>tomcat</module>
+    <module>tomcat-tmp/tomcat6</module>
+    <module>tomcat-tmp/tomcat7</module>
     <module>jetty</module>
     <module>test</module>
   </modules>

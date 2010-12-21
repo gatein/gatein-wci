@@ -1,6 +1,6 @@
 /******************************************************************************
  * JBoss, a division of Red Hat                                               *
- * Copyright 2006, Red Hat Middleware, LLC, and individual                    *
+ * Copyright 2010, Red Hat Middleware, LLC, and individual                    *
  * contributors as indicated by the @authors tag. See the                     *
  * copyright.txt in the distribution for a full listing of                    *
  * individual contributors.                                                   *
@@ -22,6 +22,11 @@
  ******************************************************************************/
 package org.gatein.wci.impl;
 
+import org.gatein.wci.authentication.AuthenticationEvent;
+import org.gatein.wci.authentication.AuthenticationListener;
+import org.gatein.wci.authentication.AuthenticationResult;
+import org.gatein.wci.authentication.GenericAuthenticationResult;
+import org.gatein.wci.security.Credentials;
 import org.gatein.wci.spi.ServletContainerContext;
 import org.gatein.wci.spi.WebAppContext;
 import org.gatein.wci.WebAppListener;
@@ -43,7 +48,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * A static registry for the servlet container context.
@@ -58,8 +65,11 @@ public class DefaultServletContainer implements ServletContainer
    /** . */
    private final Object lock = new Object();
 
-   /** The event listeners. */
-   private final ArrayList<WebAppListener> listeners = new ArrayList<WebAppListener>();
+   /** The event webapp listeners. */
+   private final ArrayList<WebAppListener> webAppListeners = new ArrayList<WebAppListener>();
+
+   /** The event authentication Listeners. */
+   private final List<AuthenticationListener> authenticationListeners = new CopyOnWriteArrayList<AuthenticationListener>();
 
    /** The web applications. */
    private final Map<String, WebAppImpl> webAppMap = new HashMap<String, WebAppImpl>();
@@ -88,6 +98,44 @@ public class DefaultServletContainer implements ServletContainer
       }
    }
 
+   /** . */
+   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password, long validityMillis) throws ServletException
+   {
+      AuthenticationResult result = registration.context.login(request, response, userName, password, validityMillis);
+
+      //
+      if (!(result instanceof GenericAuthenticationResult))
+      {
+         fireEvent(EventType.LOGIN, new AuthenticationEvent(request, response, new Credentials(userName, password)));
+      }
+
+      return result;
+   }
+
+   public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException
+   {
+      registration.context.logout(request, response);
+
+      //
+      fireEvent(EventType.LOGOUT, new AuthenticationEvent(request, response));
+   }
+
+   public void addAuthenticationListener(AuthenticationListener listener) {
+      if (listener == null) {
+         throw new IllegalArgumentException("listener is null");
+      }
+      
+      authenticationListeners.add(listener);
+   }
+
+   public void removeAuthenticationlistener(AuthenticationListener listener) {
+      if (listener == null) {
+         throw new IllegalArgumentException("listener is null");
+      }
+      
+      authenticationListeners.remove(listener);
+   }
+
    public WebExecutor getExecutor(HttpServletRequest request, HttpServletResponse response)
    {
       throw new NotYetImplemented();
@@ -101,11 +149,11 @@ public class DefaultServletContainer implements ServletContainer
          {
             throw new IllegalArgumentException();
          }
-         if (listeners.contains(listener))
+         if (webAppListeners.contains(listener))
          {
             return false;
          }
-         listeners.add(listener);
+         webAppListeners.add(listener);
          for (Object response : webAppMap.values())
          {
             WebApp webApp = (WebApp)response;
@@ -124,7 +172,7 @@ public class DefaultServletContainer implements ServletContainer
          {
             throw new IllegalArgumentException();
          }
-         if (listeners.remove(listener))
+         if (webAppListeners.remove(listener))
          {
             for (WebApp webApp : webAppMap.values())
             {
@@ -161,9 +209,29 @@ public class DefaultServletContainer implements ServletContainer
 
    private void fireEvent(WebAppEvent event)
    {
-      for (WebAppListener listener : listeners)
+      for (WebAppListener listener : webAppListeners)
       {
          safeFireEvent(listener, event);
+      }
+   }
+
+   public void fireEvent(EventType type, AuthenticationEvent ae)
+   {
+      String methodName = String.format(
+            "on%s%s",
+            type.toString().substring(0, 1).toUpperCase(),
+            type.toString().substring(1).toLowerCase()
+      );
+      for (AuthenticationListener currentListener : authenticationListeners)
+      {
+         try
+         {
+            currentListener.getClass().getMethod(methodName, AuthenticationEvent.class).invoke(currentListener, ae);
+         }
+         catch (Exception ignore)
+         {
+            ignore.printStackTrace();
+         }
       }
    }
 
@@ -196,6 +264,10 @@ public class DefaultServletContainer implements ServletContainer
 
       //
       return registration.context.include(targetServletContext, request, response, callback, handback);
+   }
+
+   public static enum EventType {
+      LOGIN, LOGOUT
    }
 
    private static class RegistrationImpl implements ServletContainerContext.Registration
