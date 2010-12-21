@@ -64,6 +64,7 @@
       </activation>
       <modules>
         <module>tomcat6</module>
+        <module>tomcat7</module>
         <module>jboss42</module>
         <module>jboss51</module>
       </modules>
@@ -72,6 +73,7 @@
       <id>all-servers</id>
       <modules>
         <module>tomcat6</module>
+        <module>tomcat7</module>
         <module>jboss42</module>
         <module>jboss51</module>
         <module>jetty6</module>
@@ -81,6 +83,19 @@
       <id>tomcat</id>
       <modules>
         <module>tomcat6</module>
+        <module>tomcat7</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>tomcat6</id>
+      <modules>
+        <module>tomcat6</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>tomcat7</id>
+      <modules>
+        <module>tomcat7</module>
       </modules>
     </profile>
     <profile>

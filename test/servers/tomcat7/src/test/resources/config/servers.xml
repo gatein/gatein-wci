@@ -1,6 +1,6 @@
 <servers>
    <server>
-      <server-name>RemoteJBoss_5_1</server-name>
+      <server-name>RemoteTomcat_7_0</server-name>
       <node>
          <node-id>default</node-id>
          <service>
@@ -10,10 +10,14 @@
          </service>
          <deployer>
             <remote>
-               <name>jboss51x</name>
+               <name>tomcat7x</name>
                <host>localhost</host>
                <port>8080</port>
             </remote>
+            <authentication>
+               <username>manager</username>
+               <password>manager</password>
+            </authentication>
          </deployer>
       </node>
    </server>

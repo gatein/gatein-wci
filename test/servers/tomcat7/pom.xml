@@ -2,12 +2,12 @@
    <parent>
       <groupId>org.gatein.wci</groupId>
       <artifactId>wci-test-server-parent</artifactId>
-      <version>2.1.0-Beta01-SNAPSHOT</version>
+      <version>2.1.0-Alpha01-SNAPSHOT</version>
    </parent>
    <modelVersion>4.0.0</modelVersion>
-   <artifactId>wci-test-jboss51</artifactId>
+   <artifactId>wci-test-tomcat7</artifactId>
    <packaging>jar</packaging>
-   <name>GateIn - WCI JBoss 5.1 test component</name>
+   <name>GateIn - WCI Tomcat 7 test component</name>
 
    <dependencies>
       <dependency>
@@ -17,7 +17,7 @@
       </dependency>
       <dependency>
         <groupId>org.gatein.wci</groupId>
-        <artifactId>wci-tomcat6</artifactId>
+        <artifactId>wci-tomcat7</artifactId>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -72,6 +72,16 @@
       <dependency>
          <groupId>org.gatein.common</groupId>
          <artifactId>common-logging</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-api</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-simple</artifactId>
          <scope>test</scope>
       </dependency>
       <!-- JBOSS UNIT DEPENDENCIES -->
@@ -150,7 +160,7 @@
          <artifactId>log4j</artifactId>
          <scope>test</scope>
       </dependency>
-            <dependency>
+      <dependency>
          <groupId>concurrent</groupId>
          <artifactId>concurrent</artifactId>
          <scope>test</scope>
@@ -165,7 +175,7 @@
          <artifactId>xml-apis</artifactId>
          <scope>test</scope>
       </dependency>
-            <dependency>
+      <dependency>
          <groupId>jboss</groupId>
          <artifactId>jboss-serialization</artifactId>
          <scope>test</scope>
@@ -185,14 +195,6 @@
         <groupId>org.codehaus.cargo</groupId>
         <artifactId>cargo-core-uberjar</artifactId>
         <version>${version.cargo}</version>
-        <scope>test</scope>
-      </dependency>
-
-      <!-- JBoss Deployer -->
-      <dependency>
-        <groupId>org.jboss.integration</groupId>
-        <artifactId>jboss-profileservice-spi</artifactId>
-        <version>5.1.0.SP1</version>
         <scope>test</scope>
       </dependency>
 
@@ -325,15 +327,14 @@
                  <property name="dependency.jboss-logging-log4j.jar" value="${maven.dependency.jboss.jboss-common-logging-log4j.jar.path}" />
                  <property name="dependency.gatein-common-common.jar" value="${maven.dependency.org.gatein.common.common-common.jar.path}" />
                  <property name="dependency.gatein-common-logging.jar" value="${maven.dependency.org.gatein.common.common-logging.jar.path}" />
+                 <property name="dependency.slf4j-api.jar" value="${maven.dependency.org.slf4j.slf4j-api.jar.path}" />
+                 <property name="dependency.slf4j-simple.jar" value="${maven.dependency.org.slf4j.slf4j-simple.jar.path}" />
                  <property name="dependency.activation.jar" value="${maven.dependency.javax.activation.activation.jar.path}" />
                  <property name="dependency.junit.jar" value="${maven.dependency.junit.junit.jar.path}" />
                  <property name="dependency.gatein-wci-core.jar" value="${maven.dependency.org.gatein.wci.wci-wci.jar.path}" />
-                 <property name="dependency.gatein-wci-tomcat.jar" value="${maven.dependency.org.gatein.wci.wci-tomcat6.jar.path}" />
+                 <property name="dependency.gatein-wci-tomcat.jar" value="${maven.dependency.org.gatein.wci.wci-tomcat7.jar.path}" />
                  <property name="dependency.gatein-wci-exo.jar" value="${maven.dependency.org.gatein.wci.wci-exo.jar.path}" />
                  <property name="dependency.jboss-serialization.jar" value="${maven.dependency.jboss.jboss-serialization.jar.path}" />
-                 <property name="dependency.cargo-jboss-deployer.jar" value="${maven.dependency.org.codehaus.cargo.cargo-core-tools-jboss-deployer-5.1-and-onwards.jar.path}" />
-                 <property name="dependency.jboss-profile-service.jar" value="${maven.dependency.org.jboss.integration.jboss-profileservice-spi.jar.path}" />
-                 <property name="dependency.cargo-core-container-jboss.jar" value="${maven.dependency.org.codehaus.cargo.cargo-core-container-jboss.jar.path}" />
 
                  <!-- locations of archives to use -->
                  <property name="test.archives.directory" value="${project.build.directory}/test-archives" />
@@ -367,8 +368,6 @@
      </plugins>
    </build>
    <properties>
-     <!-- Fix 1.0.3 deployment problems with jboss51 deployer-->
-     <version.cargo>1.0.2</version.cargo>
    </properties>
 
    <profiles>
