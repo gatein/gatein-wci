@@ -272,7 +272,6 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>cargo-core-uberjar</artifactId>
                   <version>${version.cargo}</version>
-                  <scope>test</scope>
                </dependency>
                <dependency>   
                  <groupId>org.jdom</groupId>
