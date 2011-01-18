@@ -91,6 +91,11 @@
       </dependency>
       <dependency>
         <groupId>org.gatein.wci</groupId>
+       <artifactId>wci-jboss6</artifactId>
+       <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.gatein.wci</groupId>
         <artifactId>wci-jetty</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -144,6 +149,7 @@
     <module>exo</module>
     <module>tomcat/tomcat6</module>
     <module>tomcat/tomcat7</module>
+    <module>jboss/jboss6</module>
     <module>jetty</module>
     <module>test</module>
   </modules>
