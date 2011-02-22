@@ -34,10 +34,10 @@ import org.apache.catalina.LifecycleListener;
 import org.gatein.common.logging.Logger;
 import org.gatein.common.logging.LoggerFactory;
 import org.gatein.wci.RequestDispatchCallback;
-import org.gatein.wci.authentication.AuthenticationResult;
 import org.gatein.wci.authentication.GenericAuthentication;
 import org.gatein.wci.command.CommandDispatcher;
 import org.gatein.wci.impl.DefaultServletContainerFactory;
+import org.gatein.wci.security.Credentials;
 import org.gatein.wci.spi.ServletContainerContext;
 import org.apache.catalina.core.StandardContext;
 
@@ -74,6 +74,9 @@ public class TC6ServletContainerContext implements ServletContainerContext, Cont
    /** . */
    private Registration registration;
 
+   /** . */
+   private GenericAuthentication authentication = new GenericAuthentication();
+
    public TC6ServletContainerContext(Engine engine)
    {
       this.engine = engine;
@@ -99,14 +102,24 @@ public class TC6ServletContainerContext implements ServletContainerContext, Cont
       this.registration = null;
    }
 
-   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password, long validityMillis)
+   public void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials, long validityMillis) throws IOException
    {
-      return GenericAuthentication.getInstance().login(userName, password, request, response, validityMillis);
+      authentication.login(credentials, request, response, validityMillis);
    }
 
-   public void logout(HttpServletRequest request, HttpServletResponse response)
+   public void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials, long validityMillis, String initialURI) throws IOException
    {
-      GenericAuthentication.getInstance().logout(request, response);
+      authentication.login(credentials, request, response, validityMillis, initialURI);
+   }
+
+   public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException
+   {
+      authentication.logout(request, response);
+   }
+
+   public String getContainerInfo()
+   {
+      return "Tomcat/6.x";
    }
 
    public synchronized void containerEvent(ContainerEvent event)

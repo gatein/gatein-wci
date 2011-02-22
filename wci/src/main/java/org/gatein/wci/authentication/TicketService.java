@@ -44,7 +44,7 @@ public class TicketService
       }
       if (credentials == null)
       {
-         throw new NullPointerException();
+         throw new IllegalArgumentException("credentials is null");
       }
       String tokenId = nextTicketId();
       long expirationTimeMillis = System.currentTimeMillis() + validityMillis;

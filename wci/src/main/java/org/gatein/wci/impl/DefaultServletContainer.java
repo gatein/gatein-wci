@@ -24,8 +24,6 @@ package org.gatein.wci.impl;
 
 import org.gatein.wci.authentication.AuthenticationEvent;
 import org.gatein.wci.authentication.AuthenticationListener;
-import org.gatein.wci.authentication.AuthenticationResult;
-import org.gatein.wci.authentication.GenericAuthenticationResult;
 import org.gatein.wci.security.Credentials;
 import org.gatein.wci.spi.ServletContainerContext;
 import org.gatein.wci.spi.WebAppContext;
@@ -99,17 +97,18 @@ public class DefaultServletContainer implements ServletContainer
    }
 
    /** . */
-   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password, long validityMillis) throws ServletException
+   public void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials, long validityMillis) throws ServletException, IOException
    {
-      AuthenticationResult result = registration.context.login(request, response, userName, password, validityMillis);
+      login(request, response, credentials, validityMillis, null);
+   }
+
+   /** . */
+   public void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials, long validityMillis, String initialURI) throws ServletException, IOException
+   {
+      registration.context.login(request, response, credentials, validityMillis, initialURI);
 
       //
-      if (!(result instanceof GenericAuthenticationResult))
-      {
-         fireEvent(EventType.LOGIN, new AuthenticationEvent(request, response, new Credentials(userName, password)));
-      }
-
-      return result;
+      fireEvent(EventType.LOGIN, new AuthenticationEvent(request, response, credentials, registration.context));
    }
 
    public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException
@@ -117,7 +116,7 @@ public class DefaultServletContainer implements ServletContainer
       registration.context.logout(request, response);
 
       //
-      fireEvent(EventType.LOGOUT, new AuthenticationEvent(request, response));
+      fireEvent(EventType.LOGOUT, new AuthenticationEvent(request, response, registration.context));
    }
 
    public void addAuthenticationListener(AuthenticationListener listener) {
@@ -134,6 +133,11 @@ public class DefaultServletContainer implements ServletContainer
       }
       
       authenticationListeners.remove(listener);
+   }
+
+   public String getContainerInfo()
+   {
+      return registration.context.getContainerInfo();
    }
 
    public WebExecutor getExecutor(HttpServletRequest request, HttpServletResponse response)

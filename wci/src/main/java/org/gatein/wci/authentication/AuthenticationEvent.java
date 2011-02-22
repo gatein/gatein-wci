@@ -19,7 +19,9 @@
 
 package org.gatein.wci.authentication;
 
+import org.gatein.wci.ServletContainer;
 import org.gatein.wci.security.Credentials;
+import org.gatein.wci.spi.ServletContainerContext;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,8 +35,9 @@ public class AuthenticationEvent
    private final HttpServletRequest request;
    private final HttpServletResponse response;
    private final Credentials credentials;
+   private final ServletContainerContext containerContext;
 
-   public AuthenticationEvent(HttpServletRequest request, HttpServletResponse response)
+   public AuthenticationEvent(HttpServletRequest request, HttpServletResponse response, ServletContainerContext containerContext)
    {
 
       if (request == null)
@@ -47,12 +50,18 @@ public class AuthenticationEvent
          throw new IllegalArgumentException("response is null");
       }
 
+      if (containerContext == null)
+      {
+         throw new IllegalArgumentException("containerContext is null");
+      }
+
       this.request = request;
       this.response = response;
       this.credentials = null;
+      this.containerContext = containerContext;
   }
 
-   public AuthenticationEvent(HttpServletRequest request, HttpServletResponse response, Credentials credentials)
+   public AuthenticationEvent(HttpServletRequest request, HttpServletResponse response, Credentials credentials, ServletContainerContext containerContext)
    {
 
       if (request == null)
@@ -70,9 +79,15 @@ public class AuthenticationEvent
          throw new IllegalArgumentException("credentials is null");
       }
 
+      if (containerContext == null)
+      {
+         throw new IllegalArgumentException("container is null");
+      }
+
       this.request = request;
       this.response = response;
       this.credentials = credentials;
+      this.containerContext = containerContext;
    }
 
    public HttpServletRequest getRequest()
@@ -88,5 +103,10 @@ public class AuthenticationEvent
    public Credentials getCredentials()
    {
       return credentials;
+   }
+
+   public ServletContainerContext getContainerContext()
+   {
+      return containerContext;
    }
 }

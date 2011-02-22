@@ -35,10 +35,7 @@ import org.apache.catalina.core.StandardContext;
 import org.gatein.common.logging.Logger;
 import org.gatein.common.logging.LoggerFactory;
 import org.gatein.wci.RequestDispatchCallback;
-import org.gatein.wci.authentication.AuthenticationResult;
 import org.gatein.wci.authentication.GenericAuthentication;
-import org.gatein.wci.authentication.GenericAuthenticationResult;
-import org.gatein.wci.authentication.ProgrammaticAuthenticationResult;
 import org.gatein.wci.authentication.TicketService;
 import org.gatein.wci.command.CommandDispatcher;
 import org.gatein.wci.impl.DefaultServletContainerFactory;
@@ -78,6 +75,9 @@ public class JB6ServletContainerContext implements ServletContainerContext, Cont
    /** . */
    private Registration registration;
 
+   /** . */
+   private GenericAuthentication authentication = new GenericAuthentication();
+
    public JB6ServletContainerContext(Engine engine)
    {
       this.engine = engine;
@@ -99,21 +99,30 @@ public class JB6ServletContainerContext implements ServletContainerContext, Cont
       this.registration = null;
    }
 
-   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName,
-         String password, long validityMillis) throws ServletException
-         {
+   public void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials, long validityMillis) throws ServletException, IOException
+   {
+      login(request, response, credentials, validityMillis, null);
+   }
+
+   public void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials, long validityMillis, String initialURI) throws ServletException, IOException
+   {
+      if (initialURI == null)
+      {
+         initialURI = request.getRequestURI();
+      }
       try
       {
-         request.login(userName, password);
+         request.login(credentials.getUsername(), credentials.getPassword());
+         response.sendRedirect(response.encodeRedirectURL(initialURI));
       }
       catch (ServletException se)
       {
          se.printStackTrace();
          try
          {
-            String ticket = GenericAuthentication.TICKET_SERVICE.createTicket(new Credentials(userName, password),
+            String ticket = GenericAuthentication.TICKET_SERVICE.createTicket(new Credentials(credentials.getUsername(), credentials.getUsername()),
                   TicketService.DEFAULT_VALIDITY);
-            String url = "j_security_check?j_username=" + userName + "&j_password=" + ticket;
+            String url = "j_security_check?j_username=" + credentials.getUsername() + "&j_password=" + ticket + "&initialURI=" + initialURI;
             url = response.encodeRedirectURL(url);
             response.sendRedirect(url);
             response.flushBuffer();
@@ -121,15 +130,18 @@ public class JB6ServletContainerContext implements ServletContainerContext, Cont
          catch (Exception ignore)
          {
          }
-         return null;
       }
-      return new ProgrammaticAuthenticationResult();
-         }
+   }
 
    public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException
    {
       request.logout();
       request.getSession().invalidate();
+   }
+
+   public String getContainerInfo()
+   {
+      return "JBossas/6.x";
    }
 
    public synchronized void containerEvent(ContainerEvent event)

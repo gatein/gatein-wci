@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.gatein.wci.RequestDispatchCallback;
-import org.gatein.wci.authentication.AuthenticationResult;
+import org.gatein.wci.security.Credentials;
 
 /**
  * Defines the service provider interface for a servlet container. It is an attempt to abstract the non
@@ -80,10 +80,20 @@ public interface ServletContainerContext
     *
     * @param request the request valid in the current servlet context
     * @param response the response valid in the current servlet context
-    * @param userName the username which try to login
-    * @param password the password of the username
+    * @param credentials the credentials which try to authenticate
+    * @param validityMillis the validity of the authentication
     */
-   AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password, long validityMillis) throws ServletException;
+   void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials, long validityMillis) throws ServletException, IOException;
+
+   /**
+    * Authentication support.
+    *
+    * @param request the request valid in the current servlet context
+    * @param response the response valid in the current servlet context
+    * @param credentials the credentials which try to authenticate
+    * @param validityMillis the validity of the authentication
+    */
+   void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials, long validityMillis, String initialURI) throws ServletException, IOException;
 
    /**
     * Authentication support.
@@ -92,6 +102,18 @@ public interface ServletContainerContext
     * @param response the response valid in the current servlet context
     */
    void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException;
+
+  /**
+   * Returns the name and version of the servlet container in which the
+   * context is running.
+   *
+   * <P>
+   * The form of the returned string is <code>containername/versionnumber</code>.
+   *
+   *
+   * @return   the string containing at least name and version number
+   */
+   public String getContainerInfo();
 
    /**
     * The callback interface that a servlet container context can obtain from its registration against

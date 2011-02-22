@@ -19,10 +19,13 @@
 
 package org.gatein.wci.authentication;
 
+import org.gatein.wci.impl.DefaultServletContainer;
+import org.gatein.wci.impl.DefaultServletContainerFactory;
 import org.gatein.wci.security.Credentials;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>
@@ -31,23 +34,29 @@ import javax.servlet.http.HttpServletResponse;
 public class GenericAuthentication
 {
   public static final TicketService TICKET_SERVICE = new TicketService();
-  private static final GenericAuthentication GENERIC_AUTHENTICATION = new GenericAuthentication();
 
-  private GenericAuthentication() {}
-
-  public AuthenticationResult login(String login, String password, HttpServletRequest request, HttpServletResponse response, long validityMillis)
+  public void login(Credentials credentials, HttpServletRequest request, HttpServletResponse response, long validityMillis) throws IOException
   {
-     String ticket = TICKET_SERVICE.createTicket(new Credentials(login, password), validityMillis);
+     login(credentials, request, response, validityMillis, null);
+  }
 
-     return new GenericAuthenticationResult(login, ticket);
+  public void login(Credentials credentials, HttpServletRequest request, HttpServletResponse response, long validityMillis, String initialURI) throws IOException
+  {
+     String ticket = TICKET_SERVICE.createTicket(new Credentials(credentials.getUsername(), credentials.getPassword()), validityMillis);
+
+     request.getSession().removeAttribute(Credentials.CREDENTIALS);
+
+     if (initialURI == null) {
+        initialURI = request.getRequestURI();
+     }
+     String url = "j_security_check?j_username=" + credentials.getUsername() + "&j_password=" + ticket + "&initialURI=" + initialURI;
+     url = response.encodeRedirectURL(url);
+     response.sendRedirect(url);
+     response.flushBuffer();
   }
 
   public void logout(HttpServletRequest request, HttpServletResponse response)
   {
      request.getSession().invalidate();
-  }
-
-  public static GenericAuthentication getInstance() {
-    return GENERIC_AUTHENTICATION;
   }
 }

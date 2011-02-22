@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.gatein.wci.RequestDispatchCallback;
-import org.gatein.wci.authentication.AuthenticationResult;
 import org.gatein.wci.authentication.GenericAuthentication;
 import org.gatein.wci.command.CommandDispatcher;
 import org.gatein.wci.impl.DefaultServletContainerFactory;
+import org.gatein.wci.security.Credentials;
 import org.gatein.wci.spi.ServletContainerContext;
 import org.mortbay.component.Container;
 import org.mortbay.component.LifeCycle;
@@ -31,6 +31,9 @@ public class Jetty6ServletContainerContext  implements ServletContainerContext, 
 	private Container container;
 	private Server server;
 	private ContextHandlerCollection chc;
+
+   /** . */
+   private GenericAuthentication authentication = new GenericAuthentication();
 	
 	   /** The monitored contexts. */
 	   private final Set<String> monitoredContexts = new HashSet<String>();
@@ -49,7 +52,7 @@ public class Jetty6ServletContainerContext  implements ServletContainerContext, 
 			HttpServletRequest request, HttpServletResponse response,
 			RequestDispatchCallback callback, Object handback)
 			throws ServletException, IOException 
-    {
+   {
 		return dispatcher.include(targetServletContext, request, response,
 				callback, handback);
 	}
@@ -62,17 +65,27 @@ public class Jetty6ServletContainerContext  implements ServletContainerContext, 
 		this.registration = null;
 	}
 
-   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password, long validityMillis)
+   public void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials, long validityMillis) throws IOException
    {
-      return GenericAuthentication.getInstance().login(userName, password, request, response, validityMillis);
+      authentication.login(credentials, request, response, validityMillis, null);
    }
 
-   public void logout(HttpServletRequest request, HttpServletResponse response)
+   public void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials, long validityMillis, String initialURI) throws IOException
    {
-      GenericAuthentication.getInstance().logout(request, response);
+      authentication.login(credentials, request, response, validityMillis, initialURI);
    }
 
-	public void start()
+   public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException
+   {
+      authentication.logout(request, response);
+   }
+
+   public String getContainerInfo()
+   {
+      return "Jetty/6.x";
+   }
+
+   public void start()
 	{
 		DefaultServletContainerFactory.registerContext(this);
 		

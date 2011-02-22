@@ -22,7 +22,7 @@
  ******************************************************************************/
 package org.gatein.wci.container;
 
-import org.gatein.wci.authentication.AuthenticationResult;
+import org.gatein.wci.security.Credentials;
 import org.gatein.wci.spi.ServletContainerContext;
 import org.gatein.wci.RequestDispatchCallback;
 
@@ -61,13 +61,23 @@ public class ServletContainerContextImpl implements ServletContainerContext
       this.registration = null;
    }
 
-   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password, long validityMillis)
+   public void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials, long validityMillis)
    {
       throw new UnsupportedOperationException();
-}
+   }
+
+   public void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials, long validityMillis, String initialURI)
+   {
+      throw new UnsupportedOperationException();
+   }
 
    public void logout(HttpServletRequest request, HttpServletResponse response)
    {
       throw new UnsupportedOperationException();
+   }
+
+   public String getContainerInfo()
+   {
+      return "Impl";
    }
 }

@@ -27,13 +27,11 @@ import org.gatein.wci.WebResponse;
 import org.gatein.wci.authentication.AuthenticationEvent;
 import org.gatein.wci.authentication.AuthenticationException;
 import org.gatein.wci.authentication.AuthenticationListener;
-import org.gatein.wci.authentication.AuthenticationResult;
 import org.gatein.wci.authentication.GenericAuthentication;
-import org.gatein.wci.authentication.GenericAuthenticationResult;
-import org.gatein.wci.authentication.ProgrammaticAuthenticationResult;
 import org.gatein.wci.authentication.TicketService;
 import org.gatein.wci.security.Credentials;
 import org.gatein.wci.impl.DefaultServletContainerFactory;
+import org.gatein.wci.security.WCIController;
 import org.jboss.unit.Failure;
 import org.jboss.unit.driver.DriverCommand;
 import org.jboss.unit.driver.DriverResponse;
@@ -45,6 +43,8 @@ import static org.jboss.unit.api.Assert.*;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>
@@ -52,8 +52,6 @@ import java.io.IOException;
  */
 public class SPIAuthenticationTestCase extends ServletTestCase
 {
-   private final String username = "foo";
-   private final String password = "bar";
 
    /** . */
    private ServletContainer container;
@@ -62,77 +60,83 @@ public class SPIAuthenticationTestCase extends ServletTestCase
    private final Value v = new Value();
 
    /** . */
-   private AuthenticationResult result;
+   private WCIController wciController = new TestController();
 
    @Override
    public DriverResponse service(TestServlet testServlet, WebRequest req, WebResponse resp) throws ServletException, IOException
    {
+      Credentials credentials = wciController.getCredentials(req, resp);
+      
       if (getRequestCount() == 0)
       {
+         assertEquals("/home", wciController.getInitialURI(req));
+         req.setAttribute("javax.servlet.forward.request_uri", "/foo");
+         assertEquals("/foo", wciController.getInitialURI(req));
+
+         // Test Ticket Expiration
+         String expireTicket = GenericAuthentication.TICKET_SERVICE.createTicket(new Credentials("foo", "bar"), 5);
+         boolean expired = false;
+         try
+         {
+            Thread.sleep(5);
+            GenericAuthentication.TICKET_SERVICE.validateTicket(expireTicket, true);
+         }
+         catch (InterruptedException ignore)
+         {
+         }
+         catch (AuthenticationException ae)
+         {
+            expired = true;
+         }
+         if (!expired) return new FailureResponse(Failure.createAssertionFailure(""));
+
          assertNull(req.getUserPrincipal());
          container = DefaultServletContainerFactory.getInstance().getServletContainer();
          container.addAuthenticationListener(new TestListener(v));
          assertEquals("", v.value);
-         result = container.login(req, resp, username, password, TicketService.DEFAULT_VALIDITY);
-         assertNotNull(result);
-         if (result instanceof GenericAuthenticationResult)
-         {
-            GenericAuthenticationResult gAuthentication = (GenericAuthenticationResult) result;
-            // Test Ticket Expiration
-            GenericAuthentication.getInstance();
-            String expireTicket = GenericAuthentication.TICKET_SERVICE.createTicket(new Credentials("foo", "bar"), 5);
-            boolean expired = false;
-            try
-            {
-               Thread.sleep(5);
-               GenericAuthentication.TICKET_SERVICE.validateTicket(expireTicket, true);
-            }
-            catch (InterruptedException ignore)
-            {
-            }
-            catch (AuthenticationException ae)
-            {
-               expired = true;
-            }
-            if (!expired) return new FailureResponse(Failure.createAssertionFailure(""));
+         container.login(req, resp, credentials, TicketService.DEFAULT_VALIDITY);
 
-
-            // Test Ticket Service
-            Credentials srcCredentials = new Credentials(username, password);
-            String ticket = GenericAuthentication.TICKET_SERVICE.createTicket(srcCredentials, TicketService.DEFAULT_VALIDITY);
-            Credentials resultCredentials = GenericAuthentication.TICKET_SERVICE.validateTicket(ticket, false);
-            assertEquals(srcCredentials.getUsername(), resultCredentials.getUsername());
-            assertEquals(srcCredentials.getPassword(), resultCredentials.getPassword());
-            assertNotNull(GenericAuthentication.TICKET_SERVICE.validateTicket(ticket, true));
-            assertNull(GenericAuthentication.TICKET_SERVICE.validateTicket(ticket, true));
-
-            // Test Generic login
-            GenericAuthenticationResult gResult = (GenericAuthenticationResult) result;
-            String t = gResult.getTicket();
-            Credentials credentials = GenericAuthentication.TICKET_SERVICE.validateTicket(t, true);
-            assertNotNull(credentials);
-            assertEquals("", v.value);
-            gAuthentication.perform(req, resp);
-
-            // Test login Event
-            assertEquals("login", v.value);
-            assertTrue(resp.isCommitted());
-            
-         }
-         else if (result instanceof ProgrammaticAuthenticationResult)
+         if ("Tomcat/7.x".equals(container.getContainerInfo()) || "JBossas/6.x".equals(container.getContainerInfo()))
          {
             assertEquals("login", v.value);
             assertNotNull(req.getUserPrincipal());
             assertTrue(req.isUserInRole("test"));
          }
+         else
+         {
+            // Test Ticket Service
+            String ticket = GenericAuthentication.TICKET_SERVICE.createTicket(credentials, TicketService.DEFAULT_VALIDITY);
+            Credentials resultCredentials = GenericAuthentication.TICKET_SERVICE.validateTicket(ticket, false);
+            assertEquals(credentials.getUsername(), resultCredentials.getUsername());
+            assertEquals(credentials.getPassword(), resultCredentials.getPassword());
+            assertNotNull(GenericAuthentication.TICKET_SERVICE.validateTicket(ticket, true));
+            assertNull(GenericAuthentication.TICKET_SERVICE.validateTicket(ticket, true));
+
+            // Test login Event
+            assertEquals("login", v.value);
+            assertTrue(resp.isCommitted());
+         }
 
          //
-         String url = resp.renderURL("/", null, null);
+         Map<String, String[]> params = new HashMap<String, String[]>();
+         params.put("initialURI", new String[]{"/bar"});
+         String url = resp.renderURL("/", params, null);
          return new InvokeGetResponse(url);
       }
       else if (getRequestCount() == 1)
       {
-         if (result instanceof GenericAuthenticationResult)
+         assertEquals("/bar", wciController.getInitialURI(req));
+
+         if ("Tomcat/7.x".equals(container.getContainerInfo()) || "JBossas/6.x".equals(container.getContainerInfo()))
+         {
+            assertEquals("login", v.value);
+
+            container.logout(req, resp);
+
+            assertEquals("logout", v.value);
+            assertNull(req.getUserPrincipal());
+         }
+         else
          {
             // Test logout
             assertNotNull(req.getSession(false));
@@ -143,19 +147,22 @@ public class SPIAuthenticationTestCase extends ServletTestCase
             // Test logout Event
             assertEquals("logout", v.value);
          }
-         else if (result instanceof ProgrammaticAuthenticationResult)
-         {
-            assertEquals("login", v.value);
-
-            container.logout(req, resp);
-
-            assertEquals("logout", v.value);
-            assertNull(req.getUserPrincipal());
-         }
+         
+         String url = resp.renderURL("/", null, null);
+         return new InvokeGetResponse(url);
+      }
+      else if (getRequestCount() == 2)
+      {
+         assertEquals(
+                 "/home/j_security_check?j_username=foo&j_password=bar",
+                 wciController.getAuthURI(req, resp, credentials.getUsername(), credentials.getPassword())
+                 );
+         wciController.sendAuth(req, resp, credentials.getUsername(), credentials.getPassword());
+         assertTrue(resp.isCommitted());
          return new EndTestResponse();
       }
 
-      return new FailureResponse(Failure.createAssertionFailure(""));
+      return new FailureResponse(Failure.createAssertionFailure("End test reached"));
    }
 
    @Override

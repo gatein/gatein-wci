@@ -23,9 +23,9 @@
 package org.gatein.wci.impl.generic;
 
 import org.gatein.wci.RequestDispatchCallback;
-import org.gatein.wci.authentication.AuthenticationResult;
 import org.gatein.wci.authentication.GenericAuthentication;
 import org.gatein.wci.impl.DefaultServletContainerFactory;
+import org.gatein.wci.security.Credentials;
 import org.gatein.wci.spi.ServletContainerContext;
 import org.gatein.wci.command.CommandDispatcher;
 
@@ -54,6 +54,9 @@ public class GenericServletContainerContext implements ServletContainerContext, 
    private static GenericServletContainerContext instance;
 
    private static HashMap<ServletContext, String> requestDispatchMap = new HashMap<ServletContext, String>();
+
+   /** . */
+   private GenericAuthentication authentication = new GenericAuthentication();
    
    public static GenericServletContainerContext getInstance()
    {
@@ -99,7 +102,6 @@ public class GenericServletContainerContext implements ServletContainerContext, 
    }
 
    /** . */
-   //private final CommandDispatcher dispatcher = new CommandDispatcher("/gateinservlet");
 
    public Object include(
       ServletContext targetServletContext,
@@ -130,15 +132,26 @@ public class GenericServletContainerContext implements ServletContainerContext, 
       this.registration = null;
    }
 
-   public AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password, long validityMillis)
+   public void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials, long validityMillis) throws IOException
    {
-      return GenericAuthentication.getInstance().login(userName, password, request, response, validityMillis);
+      authentication.login(credentials, request, response, validityMillis);
    }
 
-   public void logout(HttpServletRequest request, HttpServletResponse response)
+   public void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials, long validityMillis, String initialURI) throws IOException
    {
-      GenericAuthentication.getInstance().logout(request, response);
+      authentication.login(credentials, request, response, validityMillis, initialURI);
    }
+
+   public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException
+   {
+      authentication.logout(request, response);
+   }
+
+   public String getContainerInfo()
+   {
+      return "Generic";
+   }
+
    //
 
    public void contextInitialized(ServletContextEvent servletContextEvent)

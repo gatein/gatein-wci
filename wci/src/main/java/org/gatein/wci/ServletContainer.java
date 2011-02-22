@@ -23,7 +23,7 @@
 package org.gatein.wci;
 
 import org.gatein.wci.authentication.AuthenticationListener;
-import org.gatein.wci.authentication.AuthenticationResult;
+import org.gatein.wci.security.Credentials;
 import org.gatein.wci.spi.ServletContainerContext;
 
 import javax.servlet.ServletContext;
@@ -99,10 +99,18 @@ public interface ServletContainer
     *
     * @param request the request valid in the current servlet context
     * @param response the response valid in the current servlet context
-    * @param userName the username which try to login
-    * @param password the password of the username
+    * @param credentials the credentials which try to authenticate
     */
-   AuthenticationResult login(HttpServletRequest request, HttpServletResponse response, String userName, String password, long validityMillis) throws ServletException;
+   void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials, long validityMillis) throws ServletException, IOException;
+
+   /**
+    * Authentication support.
+    *
+    * @param request the request valid in the current servlet context
+    * @param response the response valid in the current servlet context
+    * @param credentials the credentials which try to authenticate
+    */
+   void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials, long validityMillis, String initialURI) throws ServletException, IOException;
 
    /**
     * Authentication support.
@@ -125,4 +133,16 @@ public interface ServletContainer
     * @param listener AuthenticationListener to remove
     */
    void removeAuthenticationlistener(AuthenticationListener listener);
+
+   /**
+   * Returns the name and version of the servlet container in which the
+   * context is running.
+   *
+   * <P>
+   * The form of the returned string is <code>containername/versionnumber</code>.
+   *
+   *
+   * @return   the string containing at least name and version number
+   */
+   public String getContainerInfo();
 }

@@ -17,12 +17,41 @@
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
 
-package org.gatein.wci.authentication;
+package org.gatein.wci.spi;
+
+import org.gatein.wci.security.Credentials;
+import org.gatein.wci.security.WCIController;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>
  * @version $Revision$
  */
-public abstract class AuthenticationResult
+public class TestController extends WCIController
 {
+   @Override
+   public void showLoginForm(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException
+   {
+   }
+
+   @Override
+   public void showErrorLoginForm(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException
+   {
+   }
+
+   @Override
+   public Credentials getCredentials(final HttpServletRequest req, final HttpServletResponse resp)
+   {
+      return new Credentials("foo", "bar");
+   }
+
+   @Override
+   public String getHomeURI(final HttpServletRequest req)
+   {
+      return "/home";
+   }
 }
