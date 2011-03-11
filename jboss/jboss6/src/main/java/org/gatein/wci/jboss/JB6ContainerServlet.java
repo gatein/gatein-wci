@@ -29,6 +29,8 @@ import org.apache.catalina.Container;
 import org.apache.catalina.ContainerServlet;
 import org.apache.catalina.Engine;
 import org.apache.catalina.Wrapper;
+import org.gatein.common.logging.Logger;
+import org.gatein.common.logging.LoggerFactory;
 
 /**
  * @author <a href="mailto:mwringe@redhat.com">Matt Wringe</a>
@@ -36,6 +38,11 @@ import org.apache.catalina.Wrapper;
  */
 public class JB6ContainerServlet extends HttpServlet implements ContainerServlet
 {
+   private static final Logger log = LoggerFactory.getLogger(JB6ContainerServlet.class);
+
+   /** Servlet context init parameter name that can be used to turn off cross-context logout */
+   private static final String CROSS_CONTEXT_LOGOUT_KEY = "org.gatein.wci.cross_context_logout";
+
    /** . */
    private Wrapper wrapper;
 
@@ -107,6 +114,7 @@ public class JB6ContainerServlet extends HttpServlet implements ContainerServlet
          {
             Engine engine = (Engine) container;
             containerContext = new JB6ServletContainerContext(engine);
+            containerContext.setCrossContextLogout(getCrossContextLogoutConfig());
             containerContext.start();
             break;
          }
@@ -122,5 +130,22 @@ public class JB6ContainerServlet extends HttpServlet implements ContainerServlet
          //
          containerContext = null;
       }
+   }
+
+   private boolean getCrossContextLogoutConfig()
+   {
+      String val = getServletContext().getInitParameter(CROSS_CONTEXT_LOGOUT_KEY);
+      if (val == null || Boolean.valueOf(val))
+      {
+         return true;
+      }
+
+      if (!"false".equalsIgnoreCase(val))
+      {
+         log.warn("Context init param " + CROSS_CONTEXT_LOGOUT_KEY + " value is invalid: " + val + " - falling back to: false");
+      }
+
+      log.info("Cross-context session invalidation on logout disabled");
+      return false;
    }
 }

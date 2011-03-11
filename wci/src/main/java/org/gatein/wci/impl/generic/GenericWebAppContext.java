@@ -78,4 +78,9 @@ public class GenericWebAppContext implements WebAppContext
    {
       return false;
    }
+
+   public boolean invalidateSession(String sessId)
+   {
+      return false;
+   }
 }

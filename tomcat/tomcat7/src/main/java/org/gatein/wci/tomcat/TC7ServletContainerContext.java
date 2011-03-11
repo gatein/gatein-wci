@@ -36,7 +36,11 @@ import org.apache.catalina.core.StandardContext;
 import org.gatein.common.logging.Logger;
 import org.gatein.common.logging.LoggerFactory;
 import org.gatein.wci.RequestDispatchCallback;
+import org.gatein.wci.ServletContainerVisitor;
+import org.gatein.wci.WebApp;
+
 import org.gatein.wci.authentication.GenericAuthentication;
+
 import org.gatein.wci.authentication.TicketService;
 import org.gatein.wci.command.CommandDispatcher;
 import org.gatein.wci.impl.DefaultServletContainerFactory;
@@ -47,6 +51,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
@@ -76,6 +81,9 @@ public class TC7ServletContainerContext implements ServletContainerContext, Cont
    /** . */
    private Registration registration;
 
+   /** Perform cross-context session invalidation on logout, or not */
+   private boolean crossContextLogout = true;
+
    public TC7ServletContainerContext(Engine engine)
    {
       this.engine = engine;
@@ -99,6 +107,11 @@ public class TC7ServletContainerContext implements ServletContainerContext, Cont
    public void unsetCallback(Registration registration)
    {
       this.registration = null;
+   }
+
+   public void setCrossContextLogout(boolean val)
+   {
+      crossContextLogout = val;
    }
 
    public void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials, long validityMillis) throws ServletException, IOException
@@ -135,8 +148,23 @@ public class TC7ServletContainerContext implements ServletContainerContext, Cont
 
    public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException
    {
+      HttpSession sess = request.getSession(false);
       request.logout();
-      request.getSession().invalidate();
+
+      if (sess == null)
+         return;
+
+      if (!crossContextLogout)
+         return;
+
+      final String sessId = sess.getId();
+      DefaultServletContainerFactory.getInstance().getServletContainer().visit(new ServletContainerVisitor()
+      {
+         public void accept(WebApp webApp)
+         {
+            webApp.invalidateSession(sessId);
+         }
+      });
    }
 
    public String getContainerInfo()

@@ -76,4 +76,9 @@ public class WebAppContextImpl implements WebAppContext
    {
       throw new UnsupportedOperationException();
    }
+
+   public boolean invalidateSession(String sessId)
+   {
+      return false;
+   }
 }

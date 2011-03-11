@@ -22,6 +22,8 @@
  ******************************************************************************/
 package org.gatein.wci.tomcat;
 
+import org.apache.catalina.Manager;
+import org.apache.catalina.Session;
 import org.w3c.dom.Document;
 import org.apache.catalina.Context;
 import org.apache.catalina.Wrapper;
@@ -122,6 +124,27 @@ public class TC6WebAppContext implements WebAppContext
 
    public boolean importFile(String parentDirRelativePath, String name, InputStream source, boolean overwrite) throws IOException
    {
+      return false;
+   }
+
+   public boolean invalidateSession(String sessId)
+   {
+      Manager mgr = context.getManager();
+      if (mgr != null)
+      {
+         try
+         {
+            Session sess = mgr.findSession(sessId);
+            if (sess != null)
+            {
+               sess.expire();
+               return true;
+            }
+         }
+         catch (IOException ignored)
+         {
+         }
+      }
       return false;
    }
 }

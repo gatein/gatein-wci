@@ -22,6 +22,7 @@
  ******************************************************************************/
 package org.gatein.wci.impl;
 
+import org.gatein.wci.ServletContainerVisitor;
 import org.gatein.wci.authentication.AuthenticationEvent;
 import org.gatein.wci.authentication.AuthenticationListener;
 import org.gatein.wci.security.Credentials;
@@ -270,6 +271,17 @@ public class DefaultServletContainer implements ServletContainer
       return registration.context.include(targetServletContext, request, response, callback, handback);
    }
 
+   public void visit(ServletContainerVisitor visitor)
+   {
+      synchronized (lock)
+      {
+         for (WebApp webApp: webAppMap.values())
+         {
+            visitor.accept(webApp);
+         }
+      }
+   }
+
    public static enum EventType {
       LOGIN, LOGOUT
    }
@@ -432,6 +444,11 @@ public class DefaultServletContainer implements ServletContainer
       public boolean importFile(String parentDirRelativePath, String name, InputStream source, boolean overwrite) throws IOException
       {
          return context.importFile(parentDirRelativePath, name, source, overwrite);
+      }
+
+      public boolean invalidateSession(String sessId)
+      {
+         return context.invalidateSession(sessId);
       }
    }
 }

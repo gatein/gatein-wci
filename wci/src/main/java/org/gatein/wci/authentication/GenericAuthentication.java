@@ -19,8 +19,6 @@
 
 package org.gatein.wci.authentication;
 
-import org.gatein.wci.impl.DefaultServletContainer;
-import org.gatein.wci.impl.DefaultServletContainerFactory;
 import org.gatein.wci.security.Credentials;
 
 import javax.servlet.http.HttpServletRequest;

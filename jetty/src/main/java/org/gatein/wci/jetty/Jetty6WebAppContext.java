@@ -119,4 +119,9 @@ public class Jetty6WebAppContext implements WebAppContext
    {
       return false;
    }
+
+   public boolean invalidateSession(String sessId)
+   {
+      return false;
+   }
 }

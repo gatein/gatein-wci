@@ -145,4 +145,11 @@ public interface ServletContainer
    * @return   the string containing at least name and version number
    */
    public String getContainerInfo();
+   
+   /**
+    * Visit the registered WebApps
+    *
+    * @param visitor ServletContainerVisitor instance
+    */
+   void visit(ServletContainerVisitor visitor); 
 }

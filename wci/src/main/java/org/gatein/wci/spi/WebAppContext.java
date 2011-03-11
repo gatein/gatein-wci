@@ -86,4 +86,12 @@ public interface WebAppContext
     * @throws java.io.IOException if the file cannot be created
     */
    boolean importFile(String parentDirRelativePath, String name, InputStream source, boolean overwrite) throws IOException;
+
+   /**
+    * Invalidate session for the specified id.
+    *
+    * @param sessId Session id
+    * @return true if session was found, false otherwise
+    */
+   boolean invalidateSession(String sessId);
 }
