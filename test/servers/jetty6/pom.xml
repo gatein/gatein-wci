@@ -2,7 +2,7 @@
    <parent>
       <groupId>org.gatein.wci</groupId>
       <artifactId>wci-test-server-parent</artifactId>
-      <version>2.1.0-Alpha04-SNAPSHOT</version>
+      <version>2.1.0-Beta01</version>
    </parent>
    <modelVersion>4.0.0</modelVersion>
    <artifactId>wci-test-jetty6</artifactId>
@@ -99,6 +99,10 @@
              <groupId>org.codehaus.cargo</groupId>
              <artifactId>cargo-core-uberjar</artifactId>
            </exclusion>
+           <exclusion>
+               <groupId>apache-httpclient</groupId>
+               <artifactId>commons-httpclient</artifactId>
+            </exclusion>
          </exclusions>
       </dependency>
       <dependency>
@@ -120,6 +124,22 @@
              <groupId>org.codehaus.cargo</groupId>
              <artifactId>cargo-core-uberjar</artifactId>
            </exclusion>
+           <exclusion>
+               <groupId>hibernate</groupId>
+               <artifactId>hibernate3</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>apache-log4j</groupId>
+               <artifactId>log4j</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>apache-slide</groupId>
+               <artifactId>webdavlib</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>apache-httpclient</groupId>
+               <artifactId>commons-httpclient</artifactId>
+            </exclusion>
          </exclusions>
       </dependency>
       <dependency>
@@ -131,6 +151,14 @@
              <groupId>org.codehaus.cargo</groupId>
              <artifactId>cargo-core-uberjar</artifactId>
            </exclusion>
+           <exclusion>
+               <groupId>hibernate</groupId>
+               <artifactId>hibernate3</artifactId>
+           </exclusion>
+           <exclusion>
+               <groupId>apache-log4j</groupId>
+               <artifactId>log4j</artifactId>
+            </exclusion>
          </exclusions>
       </dependency>
       <!-- JBOSS MICROCONAINER DEPENDENCIES -->
@@ -156,7 +184,7 @@
       </dependency>
       <!-- OTHER DEPENDENCIES -->
       <dependency>
-         <groupId>apache-log4j</groupId>
+         <groupId>log4j</groupId>
          <artifactId>log4j</artifactId>
          <scope>test</scope>
       </dependency>
@@ -301,30 +329,30 @@
                <tasks>
                 
                  <!-- properties to pass to the build.xml --> 
-                 <property name="project.build.directory" value="${project.build.directory}"/>
-                 <property name="plugin_classpath" refid="maven.plugin.classpath"/>
+                 <property name="project.build.directory" value="${project.build.directory}" />
+                 <property name="plugin_classpath" refid="maven.plugin.classpath" />
                  <property name="test_classpath" refid="maven.test.classpath" />
 
                  <!-- hack here allows for profiles to effect tasks in the build.xml -->
                  <!-- this should be removed when the antrun plugin properly handles properties -->
                  <condition property="test.generic.enable">
-                   <istrue value="${test.generic}"/>
+                   <istrue value="${test.generic}" />
                  </condition>
                  <condition property="test.native.enable">
-                   <istrue value="${test.native}"/>
+                   <istrue value="${test.native}" />
                  </condition>
                  <condition property="test.exo.enable">
-                   <istrue value="${test.exo}"/>
+                   <istrue value="${test.exo}" />
                  </condition>
                  <condition property="test.endpoint.enable">
-                   <istrue value="${test.endpoint}"/>
+                   <istrue value="${test.endpoint}" />
                  </condition>
                  <condition property="cargo.debug" value="${test.cargo.debug}">
-                   <isset property="test.cargo.debug"/>
+                   <isset property="test.cargo.debug" />
                  </condition>
                  <condition property="cargo.debug" value="">
                    <not>
-                     <isset property="test.cargo.debug"/>
+                     <isset property="test.cargo.debug" />
                    </not>
                  </condition>
                  <!-- end profiles hack -->
@@ -346,21 +374,21 @@
                  <property name="dependency.concurrent.jar" value="${maven.dependency.concurrent.concurrent.jar.path}" />
 
                  <!-- locations of archives to use -->
-                 <property name="test.archives.directory" value="${project.build.directory}/test-archives"/>
-                 <property name="test.generic.server.war" value="${test.archives.directory}/test-spi-generic-server.war"/>
-                 <property name="test.native.server.war" value="${test.archives.directory}/test-spi-native-server.war"/>
-                 <property name="test.exo.server.war" value="${test.archives.directory}/test-spi-exo-server.war"/>
+                 <property name="test.archives.directory" value="${project.build.directory}/test-archives" />
+                 <property name="test.generic.server.war" value="${test.archives.directory}/test-spi-generic-server.war" />
+                 <property name="test.native.server.war" value="${test.archives.directory}/test-spi-native-server.war" />
+                 <property name="test.exo.server.war" value="${test.archives.directory}/test-spi-exo-server.war" />
 
-                 <property name="test.endpoint.default.server.mapping.server.war" value="${test.archives.directory}/test-endpoint-default-servlet-mapping.war"/>
-                 <property name="test.endpoint.root.mapping.server.war"   value="${test.archives.directory}/test-endpoint-root-path-mapping.war"/>
-                 <property name="test.endpoint.path.mapping.server.war"    value="${test.archives.directory}/test-endpoint-path-mapping.war"/>
+                 <property name="test.endpoint.default.server.mapping.server.war" value="${test.archives.directory}/test-endpoint-default-servlet-mapping.war" />
+                 <property name="test.endpoint.root.mapping.server.war" value="${test.archives.directory}/test-endpoint-root-path-mapping.war" />
+                 <property name="test.endpoint.path.mapping.server.war" value="${test.archives.directory}/test-endpoint-path-mapping.war" />
 
-                 <property name="test.generic.portlet.war" value="${maven.dependency.org.gatein.wci.wci-test-gatein-portlet.war.path}"/>
-                 <property name="test.native.portlet.war" value="${maven.dependency.org.gatein.wci.wci-test-native-portlet.war.path}"/>
-                 <property name="test.exo.portlet.war" value="${maven.dependency.org.gatein.wci.wci-test-exo-portlet.war.path}"/>                  
+                 <property name="test.generic.portlet.war" value="${maven.dependency.org.gatein.wci.wci-test-gatein-portlet.war.path}" />
+                 <property name="test.native.portlet.war" value="${maven.dependency.org.gatein.wci.wci-test-native-portlet.war.path}" />
+                 <property name="test.exo.portlet.war" value="${maven.dependency.org.gatein.wci.wci-test-exo-portlet.war.path}" />                  
 
                  <!-- location of common.xml shared between the different server's build.xml -->
-                 <property name="common.xml.file" value="${test.common.xml}"/>
+                 <property name="common.xml.file" value="${test.common.xml}" />
                  <!-- -->
 
                  <!-- Cargo Jetty deployer -->
@@ -368,7 +396,7 @@
 
  
                  <ant antfile="${basedir}/src/integration-tests/build.xml" inheritRefs="true">
-                   <target name="tests"/>
+                   <target name="tests" />
                  </ant>
                </tasks>
              </configuration>

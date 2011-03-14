@@ -156,7 +156,7 @@
       </dependency>
       <!-- OTHER DEPENDENCIES -->
       <dependency>
-         <groupId>apache-log4j</groupId>
+         <groupId>log4j</groupId>
          <artifactId>log4j</artifactId>
          <scope>test</scope>
       </dependency>
@@ -329,7 +329,7 @@
                  <property name="dependency.gatein-common-logging.jar" value="${maven.dependency.org.gatein.common.common-logging.jar.path}" />
                  <property name="dependency.slf4j-api.jar" value="${maven.dependency.org.slf4j.slf4j-api.jar.path}" />
                  <property name="dependency.slf4j-simple.jar" value="${maven.dependency.org.slf4j.slf4j-simple.jar.path}" />
-                 <property name="dependency.log4j.jar" value="${maven.dependency.apache-log4j.log4j.jar.path}" />
+                 <property name="dependency.log4j.jar" value="${maven.dependency.log4j.log4j.jar.path}" />
                  <property name="dependency.activation.jar" value="${maven.dependency.javax.activation.activation.jar.path}" />
                  <property name="dependency.junit.jar" value="${maven.dependency.junit.junit.jar.path}" />
                  <property name="dependency.gatein-wci-core.jar" value="${maven.dependency.org.gatein.wci.wci-wci.jar.path}" />
