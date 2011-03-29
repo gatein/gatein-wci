@@ -8,8 +8,11 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.gatein.wci.RequestDispatchCallback;
+import org.gatein.wci.ServletContainerVisitor;
+import org.gatein.wci.WebApp;
 import org.gatein.wci.authentication.GenericAuthentication;
 import org.gatein.wci.command.CommandDispatcher;
 import org.gatein.wci.impl.DefaultServletContainerFactory;
@@ -39,7 +42,10 @@ public class Jetty6ServletContainerContext  implements ServletContainerContext, 
 	   private final Set<String> monitoredContexts = new HashSet<String>();
 	   
 	   private final Set<String> monitoredContextHandlerCollection = new HashSet<String>();
-	
+
+   /** Perform cross-context session invalidation on logout, or not */
+   private boolean crossContextLogout = true;
+
 	public Jetty6ServletContainerContext(Server server) {
 		this.server = server;
 		this.container = server.getContainer();
@@ -65,6 +71,11 @@ public class Jetty6ServletContainerContext  implements ServletContainerContext, 
 		this.registration = null;
 	}
 
+   public void setCrossContextLogout(boolean val)
+   {
+      crossContextLogout = val;
+   }
+
    public void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials, long validityMillis) throws IOException
    {
       authentication.login(credentials, request, response, validityMillis, null);
@@ -77,7 +88,25 @@ public class Jetty6ServletContainerContext  implements ServletContainerContext, 
 
    public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException
    {
-      authentication.logout(request, response);
+      HttpSession sess = request.getSession(false);
+
+      if (sess == null)
+         return;
+
+      sess.invalidate();
+
+      if (!crossContextLogout)
+         return;
+
+      final String sessId = sess.getId();
+      DefaultServletContainerFactory.getInstance().getServletContainer().visit(new ServletContainerVisitor()
+      {
+         public void accept(WebApp webApp)
+         {
+            webApp.invalidateSession(sessId);
+         }
+      });
+
    }
 
    public String getContainerInfo()

@@ -26,9 +26,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.gatein.wci.command.CommandServlet;
 import org.gatein.wci.spi.WebAppContext;
+import org.mortbay.jetty.SessionManager;
 import org.mortbay.jetty.servlet.Context;
 import org.mortbay.jetty.servlet.ServletHolder;
 import org.w3c.dom.Document;
@@ -122,6 +124,16 @@ public class Jetty6WebAppContext implements WebAppContext
 
    public boolean invalidateSession(String sessId)
    {
+      SessionManager mgr = context.getSessionHandler().getSessionManager();
+      if (mgr != null)
+      {
+            HttpSession sess = mgr.getHttpSession(sessId);
+            if (sess != null)
+            {
+               sess.invalidate();
+               return true;
+            }
+      }
       return false;
    }
 }
