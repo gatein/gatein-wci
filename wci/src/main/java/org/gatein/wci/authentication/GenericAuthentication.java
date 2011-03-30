@@ -42,8 +42,6 @@ public class GenericAuthentication
   {
      String ticket = TICKET_SERVICE.createTicket(new Credentials(credentials.getUsername(), credentials.getPassword()), validityMillis);
 
-     request.getSession().removeAttribute(Credentials.CREDENTIALS);
-
      if (initialURI == null) {
         initialURI = request.getRequestURI();
      }
