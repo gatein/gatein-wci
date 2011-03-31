@@ -32,7 +32,7 @@
     <version.saxpath>1.0-FCS</version.saxpath>
     <version.discovery>0.4</version.discovery>
     <!-- used in test module by maven-antrun-extended-plugin -->
-    <version.cargo>1.0.3</version.cargo>
+    <version.cargo>1.0.6</version.cargo>
     <version.cargo.jetty.deployer>1.0.1</version.cargo.jetty.deployer>
     <version.oswego.concurrent>1.3.4</version.oswego.concurrent>
 
