@@ -50,6 +50,7 @@
             <property name="cargo.jvmargs" value="${cargo.debug}"/>
 
             <file file="${target.dir}/test-classes/config/server/tomcat-users.xml" tofile="conf/tomcat-users.xml"/>
+            <configfile file="${target.dir}/test-classes/config/server/server.xml" tofile="conf/server.xml"/>
             <deployable type="war" file="${cargo.war}"> 
               <property name="context" value="${cargo.war.context}"/>
             </deployable>
