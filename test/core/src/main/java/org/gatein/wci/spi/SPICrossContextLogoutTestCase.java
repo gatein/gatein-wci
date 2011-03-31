@@ -332,7 +332,7 @@ public class SPICrossContextLogoutTestCase extends EndPointTestCase
       public String value = "";
    }
 
-   static class TestListener implements AuthenticationListener
+   public static class TestListener implements AuthenticationListener
    {
       private Value value;
 
