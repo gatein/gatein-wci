@@ -139,7 +139,7 @@
 
       <taskdef name="jboss-unit" classname="org.jboss.unit.tooling.ant.JBossUnitTask" classpath="${plugin_classpath}"/>
 
-      <jboss-unit>
+      <jboss-unit failOnError="true">
 
         <tests config="${target.dir}/test-classes/config/remote-jboss-unit.xml">
                     <property name="archivePath" value="${test.archive.path}"/>
