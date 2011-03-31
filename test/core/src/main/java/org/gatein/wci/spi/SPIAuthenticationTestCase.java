@@ -139,7 +139,6 @@ public class SPIAuthenticationTestCase extends ServletTestCase
          else
          {
             // Test logout
-            assertNotNull(req.getSession(false));
             assertEquals("login", v.value);
             container.logout(req, resp);
             assertNull(req.getSession(false));
