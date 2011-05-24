@@ -229,7 +229,7 @@
       <!-- Jetty Deployer -->
       <dependency>
         <groupId>org.codehaus.cargo</groupId>
-        <artifactId>cargo-jetty-deployer</artifactId>
+        <artifactId>cargo-jetty-6-and-earlier-deployer</artifactId> 
         <type>war</type>
         <version>${version.cargo.jetty.deployer}</version>
       </dependency>
@@ -392,7 +392,7 @@
                  <!-- -->
 
                  <!-- Cargo Jetty deployer -->
-                 <property name="dependency.cargo.jetty-deployer" value="${maven.dependency.org.codehaus.cargo.cargo-jetty-deployer.war.path}" />
+                 <property name="dependency.cargo.jetty-deployer" value="${maven.dependency.org.codehaus.cargo.cargo-jetty-6-and-earlier-deployer.war.path}" />
 
  
                  <ant antfile="${basedir}/src/integration-tests/build.xml" inheritRefs="true">
