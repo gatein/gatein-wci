@@ -6,7 +6,7 @@
    </parent>
    <modelVersion>4.0.0</modelVersion>
    <artifactId>wci-tomcat6</artifactId>
-  <version>2.1.0-Beta03</version>
+  <version>2.1.0-Beta04-SNAPSHOT</version>
    <packaging>jar</packaging>
    <name>GateIn - WCI Tomcat 6 compatibility component</name>
 
@@ -20,11 +20,4 @@
       <artifactId>catalina</artifactId>
     </dependency>
    </dependencies>
-
-
-  <scm>
-    <connection>scm:svn:http://anonsvn.jboss.org/repos/gatein/components/wci/tags/2.1.0-Beta03/wci-tomcat/wci-tomcat6</connection>
-    <developerConnection>scm:svn:https://svn.jboss.org/repos/gatein/components/wci/tags/2.1.0-Beta03/wci-tomcat/wci-tomcat6</developerConnection>
-    <url>http://fisheye.jboss.org/browse/gatein/components/wci/tags/2.1.0-Beta03/wci-tomcat/wci-tomcat6</url>
-  </scm>
 </project>

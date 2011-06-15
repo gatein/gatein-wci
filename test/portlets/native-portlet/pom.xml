@@ -6,13 +6,7 @@
    </parent>
    <modelVersion>4.0.0</modelVersion>
    <artifactId>wci-test-native-portlet</artifactId>
-  <version>2.1.0-Beta03</version>
+  <version>2.1.0-Beta04-SNAPSHOT</version>
    <packaging>war</packaging>
    <name>GateIn - WCI Native Test Portlet</name>
-
-  <scm>
-    <connection>scm:svn:http://anonsvn.jboss.org/repos/gatein/components/wci/tags/2.1.0-Beta03/wci-test-parent/wci-test-portlets/wci-test-native-portlet</connection>
-    <developerConnection>scm:svn:https://svn.jboss.org/repos/gatein/components/wci/tags/2.1.0-Beta03/wci-test-parent/wci-test-portlets/wci-test-native-portlet</developerConnection>
-    <url>http://fisheye.jboss.org/browse/gatein/components/wci/tags/2.1.0-Beta03/wci-test-parent/wci-test-portlets/wci-test-native-portlet</url>
-  </scm>
 </project>

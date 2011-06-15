@@ -6,13 +6,7 @@
    </parent>
    <modelVersion>4.0.0</modelVersion>
    <artifactId>wci-test-exo-portlet</artifactId>
-  <version>2.1.0-Beta03</version>
+  <version>2.1.0-Beta04-SNAPSHOT</version>
    <packaging>war</packaging>
    <name>GateIn - WCI eXo Backwards Compatibility Test Portlet</name>
-
-  <scm>
-    <connection>scm:svn:http://anonsvn.jboss.org/repos/gatein/components/wci/tags/2.1.0-Beta03/wci-test-parent/wci-test-portlets/wci-test-exo-portlet</connection>
-    <developerConnection>scm:svn:https://svn.jboss.org/repos/gatein/components/wci/tags/2.1.0-Beta03/wci-test-parent/wci-test-portlets/wci-test-exo-portlet</developerConnection>
-    <url>http://fisheye.jboss.org/browse/gatein/components/wci/tags/2.1.0-Beta03/wci-test-parent/wci-test-portlets/wci-test-exo-portlet</url>
-  </scm>
 </project>
