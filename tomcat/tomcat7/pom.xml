@@ -6,6 +6,7 @@
    </parent>
    <modelVersion>4.0.0</modelVersion>
    <artifactId>wci-tomcat7</artifactId>
+  <version>2.1.0-Beta03</version>
    <packaging>jar</packaging>
    <name>GateIn - WCI Tomcat 7 compatibility component</name>
 
@@ -21,4 +22,10 @@
     </dependency>
    </dependencies>
 
+
+  <scm>
+    <connection>scm:svn:http://anonsvn.jboss.org/repos/gatein/components/wci/tags/2.1.0-Beta03/wci-tomcat/wci-tomcat7</connection>
+    <developerConnection>scm:svn:https://svn.jboss.org/repos/gatein/components/wci/tags/2.1.0-Beta03/wci-tomcat/wci-tomcat7</developerConnection>
+    <url>http://fisheye.jboss.org/browse/gatein/components/wci/tags/2.1.0-Beta03/wci-tomcat/wci-tomcat7</url>
+  </scm>
 </project>

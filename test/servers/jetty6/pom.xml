@@ -2,7 +2,7 @@
    <parent>
       <groupId>org.gatein.wci</groupId>
       <artifactId>wci-test-server-parent</artifactId>
-      <version>2.1.0-Beta03-SNAPSHOT</version>
+      <version>2.1.0-Beta03</version>
    </parent>
    <modelVersion>4.0.0</modelVersion>
    <artifactId>wci-test-jetty6</artifactId>
@@ -327,7 +327,7 @@
              <!--<phase>integration-test</phase>-->
              <!--<configuration>-->
                <!--<tasks>-->
-                <!---->
+                
                  <!--&lt;!&ndash; properties to pass to the build.xml &ndash;&gt; -->
                  <!--<property name="project.build.directory" value="${project.build.directory}" />-->
                  <!--<property name="plugin_classpath" refid="maven.plugin.classpath" />-->
@@ -394,7 +394,7 @@
                  <!--&lt;!&ndash; Cargo Jetty deployer &ndash;&gt;-->
                  <!--<property name="dependency.cargo.jetty-deployer" value="${maven.dependency.org.codehaus.cargo.cargo-jetty-6-and-earlier-deployer.war.path}" />-->
 
- <!---->
+ 
                  <!--<ant antfile="${basedir}/src/integration-tests/build.xml" inheritRefs="true">-->
                    <!--<target name="tests" />-->
                  <!--</ant>-->

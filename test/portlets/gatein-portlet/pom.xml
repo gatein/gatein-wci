@@ -6,8 +6,15 @@
    </parent>
    <modelVersion>4.0.0</modelVersion>
    <artifactId>wci-test-gatein-portlet</artifactId>
+  <version>2.1.0-Beta03</version>
    <packaging>war</packaging>
    <name>GateIn - WCI Gatein Test Portlet</name>
 
 
+
+  <scm>
+    <connection>scm:svn:http://anonsvn.jboss.org/repos/gatein/components/wci/tags/2.1.0-Beta03/wci-test-parent/wci-test-portlets/wci-test-gatein-portlet</connection>
+    <developerConnection>scm:svn:https://svn.jboss.org/repos/gatein/components/wci/tags/2.1.0-Beta03/wci-test-parent/wci-test-portlets/wci-test-gatein-portlet</developerConnection>
+    <url>http://fisheye.jboss.org/browse/gatein/components/wci/tags/2.1.0-Beta03/wci-test-parent/wci-test-portlets/wci-test-gatein-portlet</url>
+  </scm>
 </project>
