@@ -153,9 +153,8 @@
   <modules>
     <module>wci</module>
     <module>exo</module>
-    <module>tomcat/tomcat6</module>
-    <module>tomcat/tomcat7</module>
-    <module>jboss/jboss6</module>
+    <module>tomcat</module>
+    <module>jboss</module>
     <module>jetty</module>
     <module>test</module>
   </modules>

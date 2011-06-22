@@ -41,9 +41,7 @@
 
    <modules>
      <module>core</module>
-     <module>portlets/gatein-portlet</module>
-     <module>portlets/exo-portlet</module>
-     <module>portlets/native-portlet</module>
+     <module>portlets</module>
      <module>servers</module>
    </modules>
 
