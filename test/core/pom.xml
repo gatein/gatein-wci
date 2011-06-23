@@ -29,10 +29,12 @@
       <dependency>
          <groupId>org.jboss.unit</groupId>
          <artifactId>jboss-unit</artifactId>
+         <version>${version.jboss.unit}</version>
       </dependency>
       <dependency>
          <groupId>org.jboss.unit</groupId>
          <artifactId>jboss-unit-remote</artifactId>
+         <version>${version.jboss.unit}</version>
          <exclusions>
             <exclusion>
                <groupId>hibernate</groupId>
@@ -72,12 +74,12 @@
        <plugin>
          <groupId>org.jboss.unit</groupId>
          <artifactId>jboss-unit-tooling-maven2</artifactId>
-         <version>1.2.3</version>
+         <version>${version.jboss.unit}</version>
          <dependencies>
            <dependency>
              <groupId>org.jboss.unit</groupId>
              <artifactId>jboss-unit</artifactId>
-             <version>1.2.3</version>
+             <version>${version.jboss.unit}</version>
             </dependency>
           </dependencies>
           <configuration>

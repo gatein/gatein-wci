@@ -25,9 +25,11 @@ package org.gatein.wci;
 import org.jboss.unit.driver.DriverResponse;
 import org.jboss.unit.driver.DriverCommand;
 import org.jboss.unit.driver.AbstractTestDriver;
+import org.jboss.unit.driver.response.FailureResponse;
 import org.jboss.unit.info.TestCaseInfo;
 import org.jboss.unit.info.ParameterInfo;
 import org.jboss.unit.info.TestInfo;
+import org.jboss.unit.Failure;
 import org.jboss.unit.TestId;
 import org.jboss.unit.remote.ResponseContext;
 import org.jboss.unit.remote.RequestContext;
@@ -37,6 +39,8 @@ import org.gatein.wci.WebResponse;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.Collections;
@@ -99,7 +103,7 @@ public abstract class ServletTestCase extends AbstractTestDriver implements Remo
       this.requestContext = requestContext;
    }
 
-   public ResponseContext popContext(TestId testId)
+   public synchronized ResponseContext popContext(TestId testId)
    {
       return responseContext;
    }
@@ -114,6 +118,21 @@ public abstract class ServletTestCase extends AbstractTestDriver implements Remo
       this.responseContext = responseContext;
    }
 
+   public synchronized void runTest(TestServlet testServlet, WebRequest req, WebResponse resp) throws ServletException, IOException
+   {
+	   DriverResponse response;
+	   try
+	   {
+		   response = service(testServlet, req, resp);
+	   }
+	   catch (AssertionError e)
+	   {
+		   response = new FailureResponse(Failure.createFailure(e));
+	   }
+	   setResponseContext(new ResponseContext(response, new HashMap<String, Serializable>()));
+	   resp.setStatus(200);
+   }
+   
    public abstract DriverResponse service(TestServlet testServlet, WebRequest req, WebResponse resp) throws ServletException, IOException;
 
    public abstract DriverResponse invoke(TestServlet testServlet, DriverCommand driverCommand);

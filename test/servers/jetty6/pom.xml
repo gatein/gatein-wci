@@ -89,11 +89,13 @@
          <groupId>org.jboss.unit</groupId>
          <artifactId>jboss-unit</artifactId>
          <scope>test</scope>
+         <version>${version.jboss.unit}</version>
       </dependency>
       <dependency>
          <groupId>org.jboss.unit</groupId>
          <artifactId>jboss-unit-remote</artifactId>
          <scope>test</scope>
+         <version>${version.jboss.unit}</version>
          <exclusions>
            <exclusion>
              <groupId>org.codehaus.cargo</groupId>
@@ -109,16 +111,19 @@
          <groupId>org.jboss.unit</groupId>
          <artifactId>jboss-unit-mc</artifactId>
          <scope>test</scope>
+         <version>${version.jboss.unit}</version>
       </dependency>
       <dependency>
          <groupId>org.jboss.unit</groupId>
          <artifactId>jboss-unit-tooling-ant</artifactId>
          <scope>test</scope>
+         <version>${version.jboss.unit}</version>
       </dependency>
       <dependency>
          <groupId>org.jboss.unit</groupId>
          <artifactId>portal-test</artifactId>
          <scope>test</scope>
+         <version>${version.jboss.unit}</version>
          <exclusions>
            <exclusion>
              <groupId>org.codehaus.cargo</groupId>
@@ -146,6 +151,7 @@
          <groupId>org.jboss.unit</groupId>
          <artifactId>portal-test-generic</artifactId>
          <scope>test</scope>
+         <version>${version.jboss.unit}</version>
          <exclusions>
            <exclusion>
              <groupId>org.codehaus.cargo</groupId>

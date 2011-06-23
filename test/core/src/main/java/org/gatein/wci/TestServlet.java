@@ -67,17 +67,7 @@ public final class TestServlet extends EndPointServlet
 
    protected void service(WebRequest req, WebResponse resp) throws ServletException, IOException
    {
-      DriverResponse response;
-      try
-      {
-         response = currentTestCase.service(this, req, resp);
-      }
-      catch (AssertionError e)
-      {
-         response = new FailureResponse(Failure.createFailure(e));
-      }
-      currentTestCase.setResponseContext(new ResponseContext(response, new HashMap<String, Serializable>()));
-      resp.setStatus(200);
+	   currentTestCase.runTest(this, req, resp);
    }
 
    public void destroy()
