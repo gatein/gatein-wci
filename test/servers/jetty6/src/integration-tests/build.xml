@@ -44,7 +44,7 @@
          <extraClasspath>
             <path refid="server.libs"/>
          </extraClasspath>
-         <configuration home="${test.cargo.dir}">
+         <configuration home="${test.cargo.dir}/${test.id}">
             <property name="cargo.servlet.port" value="8080"/>
             <property name="cargo.logging" value="high"/>
             <property name="cargo.jvmargs" value="${cargo.debug}"/>
@@ -59,7 +59,11 @@
             </deployable>
  
         </configuration>
-        </cargo> 
+        </cargo>
+        <!-- A bit of a hack, we sleep for 5 seconds to make sure the deployments are completed
+             before continuing. If we were using maven, we could use the ping url feature to know
+             when the ${cargo.war} is deployed, but this feature is missing in the ant plugin -->
+        <sleep seconds="5"/>
   </target>
 
   <target name="cargo.stop" depends="cargo.setup">
@@ -68,9 +72,12 @@
          home="${test.cargo.home}"
          log="${cargo.log.dir}/cargo.${test.id}.shutdown.log"
          action="stop">
-         <configuration home="${test.cargo.dir}">
+         <configuration home="${test.cargo.dir}/${test.id}">
          </configuration>
       </cargo>
+      <!-- Another bit of hack, wait for a bit to make sure the server is really shutdown
+           before continuing with the other tests -->
+      <sleep seconds="5"/>
    </target>
 
 </project>
