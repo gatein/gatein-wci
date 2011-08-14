@@ -32,6 +32,7 @@
          <path path="${dependency.gatein-wci-tomcat.jar}"/>
          <path path="${dependency.gatein-wci-exo.jar}"/>
          <path path="${dependency.jboss-serialization.jar}"/>
+         <path path="${dependency.tomcat.jar}"/>
   </path>
 
   <target name="cargo.start" depends="cargo.setup">
