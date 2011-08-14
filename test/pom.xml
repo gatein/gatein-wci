@@ -11,6 +11,13 @@
 
    <dependencyManagement>
      <dependencies>
+
+       <dependency>
+         <groupId>commons-httpclient</groupId>
+         <artifactId>commons-httpclient</artifactId>
+         <version>3.1</version>
+       </dependency>
+
        <dependency>
          <groupId>org.gatein.wci</groupId>
          <artifactId>wci-test-core</artifactId>
@@ -38,6 +45,12 @@
      </dependencies>
    </dependencyManagement>
 
+   <dependencies>
+      <dependency>
+        <groupId>commons-httpclient</groupId>
+        <artifactId>commons-httpclient</artifactId>
+      </dependency>
+   </dependencies>
 
    <modules>
      <module>core</module>
