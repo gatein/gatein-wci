@@ -37,9 +37,6 @@ public class WCILoginController extends HttpServlet
    /** . */
    private static final Logger log = LoggerFactory.getLogger(WCILoginController.class);
 
-   /** . */
-   protected Credentials credentials;
-
    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
    {
       String username = req.getParameter("username");
@@ -52,23 +49,13 @@ public class WCILoginController extends HttpServlet
        ) return;
 
       //
-      if (username == null)
-      {
-         log.error("Tried to access the portal login controller without username provided");
-         resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "No username provided");
-         return;
+      
+      if (username != null && password != null)
+      {         
+         log.debug("Found username and password and set credentials in http session");
+         Credentials credentials = new Credentials(username, password);
+         req.getSession().setAttribute(Credentials.CREDENTIALS, credentials);
       }
-      if (password == null)
-      {
-         log.error("Tried to access the portal login controller without password provided");
-         resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "No password provided");
-         return;
-      }
-
-      //
-      log.debug("Found username and password and set credentials in http session");
-      credentials = new Credentials(username, password);
-      req.getSession().setAttribute(Credentials.CREDENTIALS, credentials);
    }
 
    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
