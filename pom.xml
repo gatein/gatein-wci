@@ -12,7 +12,7 @@
   <parent>
     <groupId>org.gatein</groupId>
     <artifactId>gatein-parent</artifactId>
-    <version>1.1.0-Beta02</version>
+    <version>1.1.0-GA</version>
   </parent>
   
   <scm>
@@ -22,7 +22,7 @@
   </scm>
   
   <properties>
-    <version.gatein.common>2.0.4-Beta03</version.gatein.common>
+    <version.gatein.common>2.0.4-GA</version.gatein.common>
 
     <version.junit>3.8.2-brew</version.junit>
     <version.jboss.unit>1.2.3</version.jboss.unit>
@@ -44,7 +44,7 @@
       <dependency>
         <groupId>org.gatein</groupId>
         <artifactId>gatein-dep</artifactId>
-        <version>1.1.0-Beta06</version>
+        <version>1.1.0-GA</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
