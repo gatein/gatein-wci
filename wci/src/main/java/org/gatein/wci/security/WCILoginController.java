@@ -43,7 +43,7 @@ public class WCILoginController extends HttpServlet
       String password = req.getParameter("password");
 
       if (
-            req.getSession().getAttribute(Credentials.CREDENTIALS) != null
+            getCredentials(req) != null
             && username == null
             && password == null
        ) return;
@@ -52,14 +52,24 @@ public class WCILoginController extends HttpServlet
       
       if (username != null && password != null)
       {         
-         log.debug("Found username and password and set credentials in http session");
+         log.debug("Found username and password. Save credentials for later use.");
          Credentials credentials = new Credentials(username, password);
-         req.getSession().setAttribute(Credentials.CREDENTIALS, credentials);
+         setCredentials(req, credentials);
       }
    }
 
    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
    {
       doGet(req, resp);
+   }
+
+   protected Credentials getCredentials(HttpServletRequest req)
+   {
+      return (Credentials)req.getSession().getAttribute(Credentials.CREDENTIALS);
+   }
+
+   protected void setCredentials(HttpServletRequest req, Credentials credentials)
+   {
+      req.getSession().setAttribute(Credentials.CREDENTIALS, credentials);
    }
 }

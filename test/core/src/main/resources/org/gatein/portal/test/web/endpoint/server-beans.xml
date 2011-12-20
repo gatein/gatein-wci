@@ -102,5 +102,14 @@
       </uninstall>
    </bean>
 
+   <bean name="LoginControllerTestCase" class="org.gatein.wci.endpoint.LoginControllerTestCase">
+      <install bean="TestSuite" method="mount">
+         <parameter><this/></parameter>
+      </install>
+      <uninstall bean="TestSuite" method="unmount">
+         <parameter><this/></parameter>
+      </uninstall>
+   </bean>
+
 </deployment>
 
