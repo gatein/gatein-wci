@@ -13,5 +13,7 @@
       <module>exo-portlet</module>
       <module>gatein-portlet</module>
       <module>native-portlet</module>
+      <module>native-skipped-portlet</module>
+      <module>native-skipped-with-gateinservlet-portlet</module>
    </modules>
 </project>

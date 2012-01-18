@@ -24,6 +24,7 @@ package org.gatein.wci.container;
 
 import org.gatein.wci.security.Credentials;
 import org.gatein.wci.spi.ServletContainerContext;
+import org.gatein.wci.spi.WebAppContext;
 import org.gatein.wci.RequestDispatchCallback;
 
 import javax.servlet.ServletContext;
@@ -79,5 +80,19 @@ public class ServletContainerContextImpl implements ServletContainerContext
    public String getContainerInfo()
    {
       return "Impl";
+   }
+
+   @Override
+   public void registerWebApp(WebAppContext webappContext, String dispatchPath)
+   {
+      // FIXME registerWebApp
+      
+   }
+
+   @Override
+   public void unregisterWebApp(ServletContext servletContext)
+   {
+      // FIXME unregisterWebApp
+      
    }
 }

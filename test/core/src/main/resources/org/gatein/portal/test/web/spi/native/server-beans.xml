@@ -93,4 +93,13 @@
       </uninstall>
    </bean>
 
+   <bean name="SPINativeSkipTestCase" class="org.gatein.wci.spi.SPINativeSkipTestCase">
+      <install bean="TestSuite" method="mount">
+         <parameter><this/></parameter>
+      </install>
+      <uninstall bean="TestSuite" method="unmount">
+         <parameter><this/></parameter>
+      </uninstall>
+   </bean>
+
 </deployment>

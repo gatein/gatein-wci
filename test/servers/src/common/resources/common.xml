@@ -64,13 +64,14 @@
 
   <target name="test-native" if="test.native.enable">
     <property name="test.archive.path" value="${test.apps.dir}/${test.server.name}-${test.server.version}-native"/>
-    <!-- setup the generic tests -->
+    <!-- setup the native tests -->
     <mkdir dir="${test.archive.path}"/>
     <copy file="${test.native.portlet.war}" tofile="${test.archive.path}/test-spi-app.war"/>
     <copy file="${test.native.server.war}" tofile="${test.archive.path}/test-spi-server.war"/>
     <copy file="${test.generic.portlet.war}" tofile="${test.archive.path}/test-generic-app.war"/>
     <copy file="${test.exo.portlet.war}" tofile="${test.archive.path}/test-exo-app.war"/>
-
+    <copy file="${test.native-skip.portlet.war}" tofile="${test.archive.path}/test-native-skip-app.war"/>
+    <copy file="${test.native-skip-with-gateinservlet.portlet.war}" tofile="${test.archive.path}/test-native-skip-with-gateinservlet-app.war"/>
 
       <antcall target="tests.execute">
          <param name="test.id" value="${test.remote.server.name}-spi-native"/>

@@ -32,6 +32,18 @@
       </dependency>
       <dependency>
         <groupId>org.gatein.wci</groupId>
+        <artifactId>wci-test-native-skipped-portlet</artifactId>
+        <type>war</type>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.gatein.wci</groupId>
+        <artifactId>wci-test-native-skipped-with-gateinservlet-portlet</artifactId>
+        <type>war</type>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.gatein.wci</groupId>
         <artifactId>wci-test-gatein-portlet</artifactId>
         <type>war</type>
         <version>${project.version}</version>
