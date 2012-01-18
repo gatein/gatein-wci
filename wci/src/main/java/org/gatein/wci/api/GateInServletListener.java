@@ -45,13 +45,13 @@ public class GateInServletListener implements ServletContextListener
 		
 		GenericWebAppContext webAppContext = new GenericWebAppContext(servletContext, contextPath, classLoader);
 
-		GenericServletContainerContext.register(webAppContext, "/PortletWrapper");
+		GateInServletRegistrations.register(webAppContext, "/PortletWrapper");
 	}
 
 	public void contextDestroyed(ServletContextEvent event)
 	{
 		ServletContext servletContext = event.getServletContext();
-		GenericServletContainerContext.unregister(servletContext);
+		GateInServletRegistrations.unregister(servletContext);
 	}
 
 }

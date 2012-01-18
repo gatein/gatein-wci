@@ -76,6 +76,21 @@ public interface ServletContainerContext
    void unsetCallback(Registration registration);
 
    /**
+    * Manually register a webapp with this ServletContainerContext.
+    *
+    * @param webappContext the WebAppContext associated with the application
+    * @param dispathPath the path to be used
+    */
+   void registerWebApp(WebAppContext webappContext, String dispatchPath);
+
+   /**
+    * Manually unregister a webapp associated with this ServletContainerContext.
+    *
+    * @param servletContext the servletContext of the application to be deregistered
+    */
+   void unregisterWebApp(ServletContext servletContext);
+
+   /**
     * Authentication support.
     *
     * @param request the request valid in the current servlet context

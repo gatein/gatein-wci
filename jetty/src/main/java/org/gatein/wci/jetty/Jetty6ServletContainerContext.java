@@ -1,7 +1,9 @@
 package org.gatein.wci.jetty;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletContext;
@@ -13,6 +15,8 @@ import javax.servlet.http.HttpSession;
 import org.gatein.wci.RequestDispatchCallback;
 import org.gatein.wci.ServletContainerVisitor;
 import org.gatein.wci.WebApp;
+import org.gatein.wci.api.GateInServlet;
+import org.gatein.wci.api.GateInServletRegistrations;
 import org.gatein.wci.authentication.GenericAuthentication;
 import org.gatein.wci.command.CommandDispatcher;
 import org.gatein.wci.impl.DefaultServletContainerFactory;
@@ -41,6 +45,9 @@ public class Jetty6ServletContainerContext  implements ServletContainerContext, 
 	   /** The monitored contexts. */
 	   private final Set<String> monitoredContexts = new HashSet<String>();
 	   
+	   /** The monitored contexts which were manually added. */
+	   private static Map<String, String> manualMonitoredContexts = new HashMap<String, String>();
+	   
 	   private final Set<String> monitoredContextHandlerCollection = new HashSet<String>();
 
    /** Perform cross-context session invalidation on logout, or not */
@@ -58,13 +65,22 @@ public class Jetty6ServletContainerContext  implements ServletContainerContext, 
 			HttpServletRequest request, HttpServletResponse response,
 			RequestDispatchCallback callback, Object handback)
 			throws ServletException, IOException 
-   {
-		return dispatcher.include(targetServletContext, request, response,
-				callback, handback);
-	}
+    {
+	   if (manualMonitoredContexts.containsKey(targetServletContext.getServletContextName()))
+	   {
+	      String dispatherPath = manualMonitoredContexts.get(targetServletContext.getServletContextName());
+	      CommandDispatcher dispatcher = new CommandDispatcher(dispatherPath);
+	      return dispatcher.include(targetServletContext, request, response, callback, handback);
+	   }
+	   else
+	   {
+	      return dispatcher.include(targetServletContext, request, response, callback, handback);
+	   }
+    }
 
 	public void setCallback(Registration registration) {
 		this.registration = registration;
+		GateInServletRegistrations.setServletContainerContext(this);
 	}
 
 	public void unsetCallback(Registration registration) {
@@ -182,36 +198,46 @@ public class Jetty6ServletContainerContext  implements ServletContainerContext, 
 
 	private void startWebAppContext(WebAppContext webappContext) 
 	{
-	      try
+	   try
+	   {
+	      // skip if the webapp has explicitly stated it doesn't want native registration
+	      // usefull when portlets are dependent on servlet ordering
+	      if (!isDisabledNativeRegistration(webappContext.getServletContext()))
 	      {
 	         Jetty6WebAppContext context = new Jetty6WebAppContext(webappContext);
-	         
+
 	         //
 	         if (registration != null)
 	         {
 	            registration.registerWebApp(context);
 	         }
 	      }
-	      catch (Exception e)
-	      {
-	         e.printStackTrace();
-	      }
-		
+	   }
+	   catch (Exception e)
+	   {
+	      e.printStackTrace();
+	   }
+
 	}
 
 	private void stopWebAppContext(WebAppContext webappContext) 
 	{
-	      try
+	   try
+	   {
+	      // skip if the webapp has explicitly stated it doesn't want native registration
+	      // usefull when portlets are dependent on servlet ordering
+	      if (!isDisabledNativeRegistration(webappContext.getServletContext()))
 	      {
 	         if (registration != null)
 	         {
 	            registration.unregisterWebApp(webappContext.getContextPath());
 	         }
 	      }
-	      catch (Exception e)
-	      {
-	         e.printStackTrace();
-	      }
+	   }
+	   catch (Exception e)
+	   {
+	      e.printStackTrace();
+	   }
 	}
 
 	private void registerWebAppContext(WebAppContext wac) 
@@ -302,5 +328,41 @@ public class Jetty6ServletContainerContext  implements ServletContainerContext, 
 		//Ignore event
 	}
 	
+	private boolean isDisabledNativeRegistration(ServletContext servletContext)
+	{
+	   if (servletContext != null)
+	   {
+	      String disableWCINativeRegistration = servletContext.getInitParameter(GateInServlet.WCIDISABLENATIVEREGISTRATION);
+	      if (disableWCINativeRegistration != null && disableWCINativeRegistration.equalsIgnoreCase("true"))
+	      {
+	         return true;
+	      }
+	      else
+	      {
+	         return false;
+	      }
+	   }
+	   else
+	   {
+	      return false;
+	   }
+	}
+
+   @Override
+   public void registerWebApp(org.gatein.wci.spi.WebAppContext webappContext, String dispatchPath)
+   {
+      if (isDisabledNativeRegistration(webappContext.getServletContext()))
+      {
+         this.manualMonitoredContexts.put(webappContext.getServletContext().getServletContextName(), dispatchPath);
+         registration.registerWebApp(webappContext);
+      }
+   }
+
+   @Override
+   public void unregisterWebApp(ServletContext servletContext)
+   {
+      this.manualMonitoredContexts.remove(servletContext.getServletContextName());
+      registration.unregisterWebApp(servletContext.getContextPath());
+   }
 }
 

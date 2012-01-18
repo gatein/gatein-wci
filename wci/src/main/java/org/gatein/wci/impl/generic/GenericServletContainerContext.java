@@ -23,10 +23,13 @@
 package org.gatein.wci.impl.generic;
 
 import org.gatein.wci.RequestDispatchCallback;
+import org.gatein.wci.api.GateInServletRegistrations;
 import org.gatein.wci.authentication.GenericAuthentication;
+import org.gatein.wci.impl.DefaultServletContainer;
 import org.gatein.wci.impl.DefaultServletContainerFactory;
 import org.gatein.wci.security.Credentials;
 import org.gatein.wci.spi.ServletContainerContext;
+import org.gatein.wci.spi.WebAppContext;
 import org.gatein.wci.command.CommandDispatcher;
 
 import javax.servlet.ServletContext;
@@ -46,10 +49,6 @@ import java.util.HashMap;
  */
 public class GenericServletContainerContext implements ServletContainerContext, ServletContextListener
 {
-
-   /** . */
-   private static final Map<String, GenericWebAppContext> pendingContexts = Collections.synchronizedMap(new HashMap<String, GenericWebAppContext>());
-
    /** . */
    private static GenericServletContainerContext instance;
 
@@ -70,37 +69,6 @@ public class GenericServletContainerContext implements ServletContainerContext, 
    {
    }
 
-   public static void register(GenericWebAppContext webAppContext, String dispatcherPath)
-   {
-      requestDispatchMap.put(webAppContext.getServletContext(), dispatcherPath);
-      if (instance != null && instance.registration != null)
-      {
-         instance.registration.registerWebApp(webAppContext);
-      }
-      else
-      {
-         pendingContexts.put(webAppContext.getContextPath(), webAppContext);
-      }
-   }
-
-   public static void unregister(ServletContext servletContext)
-   {
-      requestDispatchMap.remove(servletContext);
-      
-      String contextPath = servletContext.getContextPath();
-      
-      if (instance != null && instance.registration != null)
-      {
-         instance.registration.unregisterWebApp(contextPath);
-      }
-
-      //
-      if (pendingContexts.containsKey(contextPath))
-      {
-         pendingContexts.remove(contextPath);
-      }
-   }
-
    /** . */
 
    public Object include(
@@ -119,12 +87,7 @@ public class GenericServletContainerContext implements ServletContainerContext, 
    public void setCallback(Registration registration)
    {
       this.registration = registration;
-
-      //
-      for (GenericWebAppContext pendingContext : pendingContexts.values())
-      {
-         registration.registerWebApp(pendingContext);
-      }
+      GateInServletRegistrations.setServletContainerContext(this);
    }
 
    public void unsetCallback(Registration registration)
@@ -171,5 +134,19 @@ public class GenericServletContainerContext implements ServletContainerContext, 
    public void contextDestroyed(ServletContextEvent servletContextEvent)
    {
       // Should we really do something ?
+   }
+
+   @Override
+   public void registerWebApp(WebAppContext webappContext, String dispatcherPath)
+   {
+      requestDispatchMap.put(webappContext.getServletContext(), dispatcherPath);
+      instance.registration.registerWebApp(webappContext);
+   }
+
+   @Override
+   public void unregisterWebApp(ServletContext servletContext)
+   {
+      requestDispatchMap.remove(servletContext);
+      instance.registration.unregisterWebApp(servletContext.getContextPath());
    }
 }

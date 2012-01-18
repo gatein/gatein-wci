@@ -25,6 +25,7 @@ package org.gatein.wci.api;
 import org.gatein.wci.command.CommandServlet;
 import org.gatein.wci.impl.generic.GenericServletContainerContext;
 import org.gatein.wci.impl.generic.GenericWebAppContext;
+import org.gatein.wci.spi.WebAppContext;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletContext;
@@ -41,6 +42,8 @@ public class GateInServlet extends CommandServlet
    private String contextPath;
    
    private ServletContext servletContext;
+   
+   public static final String WCIDISABLENATIVEREGISTRATION = "gatein.wci.native.DisableRegistration";
 
    public void init() throws ServletException
    {
@@ -52,10 +55,11 @@ public class GateInServlet extends CommandServlet
          //
          String contextPath = (String)m.invoke(servletContext);
          ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-         GenericWebAppContext webAppContext = new GenericWebAppContext(servletContext, contextPath, classLoader);
+         
+         WebAppContext webAppContext = new GenericWebAppContext(servletContext, contextPath, classLoader);
 
-         //
-         GenericServletContainerContext.register(webAppContext, "/gateinservlet");
+         GateInServletRegistrations.register(webAppContext, "/gateinservlet");
+
          this.contextPath = contextPath;
          this.servletContext = servletContext;
       }
@@ -69,8 +73,7 @@ public class GateInServlet extends CommandServlet
    {
       if (contextPath != null)
       {
-         //GenericServletContainerContext.unregister(contextPath);
-         GenericServletContainerContext.unregister(servletContext);
+         GateInServletRegistrations.unregister(servletContext);
       }
    }
 }

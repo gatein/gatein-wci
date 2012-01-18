@@ -22,6 +22,17 @@
  ******************************************************************************/
 package org.gatein.wci.tomcat;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.apache.catalina.Container;
 import org.apache.catalina.ContainerEvent;
 import org.apache.catalina.ContainerListener;
@@ -31,27 +42,20 @@ import org.apache.catalina.Host;
 import org.apache.catalina.Lifecycle;
 import org.apache.catalina.LifecycleEvent;
 import org.apache.catalina.LifecycleListener;
+import org.apache.catalina.core.StandardContext;
 import org.gatein.common.logging.Logger;
 import org.gatein.common.logging.LoggerFactory;
 import org.gatein.wci.RequestDispatchCallback;
 import org.gatein.wci.ServletContainerVisitor;
 import org.gatein.wci.WebApp;
-
+import org.gatein.wci.api.GateInServlet;
+import org.gatein.wci.api.GateInServletRegistrations;
 import org.gatein.wci.authentication.GenericAuthentication;
 import org.gatein.wci.command.CommandDispatcher;
 import org.gatein.wci.impl.DefaultServletContainerFactory;
 import org.gatein.wci.security.Credentials;
 import org.gatein.wci.spi.ServletContainerContext;
-import org.apache.catalina.core.StandardContext;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import org.gatein.wci.spi.WebAppContext;
 
 /**
  * An implementation of the <code>ServletContainerContext</code> for Tomcat.
@@ -71,6 +75,9 @@ public class TC6ServletContainerContext implements ServletContainerContext, Cont
 
    /** The monitored contexts. */
    private final Set<String> monitoredContexts = new HashSet<String>();
+   
+   /** The monitored contexts which were manually added. */
+   private static HashMap<String, String> manualMonitoredContexts = new HashMap<String, String>();
 
    /** . */
    private final Engine engine;
@@ -96,12 +103,22 @@ public class TC6ServletContainerContext implements ServletContainerContext, Cont
       RequestDispatchCallback callback,
       Object handback) throws ServletException, IOException
    {
-      return dispatcher.include(targetServletContext, request, response, callback, handback);
+      if (manualMonitoredContexts.containsKey(targetServletContext.getServletContextName()))
+      {
+         String dispatherPath = manualMonitoredContexts.get(targetServletContext.getServletContextName());
+         CommandDispatcher dispatcher = new CommandDispatcher(dispatherPath);
+         return dispatcher.include(targetServletContext, request, response, callback, handback);
+      }
+      else
+      {
+         return dispatcher.include(targetServletContext, request, response, callback, handback);
+      }
    }
 
    public void setCallback(Registration registration)
    {
       this.registration = registration;
+      GateInServletRegistrations.setServletContainerContext(this);
    }
 
    public void unsetCallback(Registration registration)
@@ -328,13 +345,19 @@ public class TC6ServletContainerContext implements ServletContainerContext, Cont
    {
       try
       {
-         log.debug("Context added " + context.getPath());
-         TC6WebAppContext webAppContext = new TC6WebAppContext(context);
-
-         //
-         if (registration != null)
+         // skip if the webapp has explicitly stated it doesn't want native registration
+         // usefull when portlets are dependent on servlet ordering
+         if (!isDisabledNativeRegistration(context.getServletContext()))
          {
-            registration.registerWebApp(webAppContext);
+
+            log.debug("Context added " + context.getPath());
+            TC6WebAppContext webAppContext = new TC6WebAppContext(context);
+
+            //
+            if (registration != null)
+            {
+               registration.registerWebApp(webAppContext);
+            }
          }
       }
       catch (Exception e)
@@ -347,14 +370,56 @@ public class TC6ServletContainerContext implements ServletContainerContext, Cont
    {
       try
       {
-         if (registration != null)
+         // skip if the webapp has explicitly stated it doesn't want native registration
+         // usefull when portlets are dependent on servlet ordering
+         if (!isDisabledNativeRegistration(context.getServletContext()))
          {
-            registration.unregisterWebApp(context.getPath());
+            if (registration != null)
+            {
+               registration.unregisterWebApp(context.getPath());
+            }
          }
       }
       catch (Exception e)
       {
          e.printStackTrace();
       }
+   }
+
+   private boolean isDisabledNativeRegistration(ServletContext servletContext)
+   {
+      if (servletContext != null)
+      {
+         String disableWCINativeRegistration = servletContext.getInitParameter(GateInServlet.WCIDISABLENATIVEREGISTRATION);
+         if (disableWCINativeRegistration != null && disableWCINativeRegistration.equalsIgnoreCase("true"))
+         {
+            return true;
+         }
+         else
+         {
+            return false;
+         }
+      }
+      else
+      {
+         return false;
+      }
+   }
+   
+   @Override
+   public void registerWebApp(WebAppContext webappContext, String dispatchPath)
+   {
+      if (isDisabledNativeRegistration(webappContext.getServletContext()))
+      {
+         this.manualMonitoredContexts.put(webappContext.getServletContext().getServletContextName(), dispatchPath);
+         registration.registerWebApp(webappContext);
+      }
+   }
+
+   @Override
+   public void unregisterWebApp(ServletContext servletContext)
+   {
+      this.manualMonitoredContexts.remove(servletContext.getServletContextName());
+      registration.unregisterWebApp(servletContext.getContextPath());
    }
 }
