@@ -2,7 +2,7 @@
    <parent>
       <groupId>org.gatein.wci</groupId>
       <artifactId>wci-test-server-parent</artifactId>
-      <version>2.1.1-Beta01-SNAPSHOT</version>
+      <version>2.1.1-Beta01</version>
    </parent>
    <modelVersion>4.0.0</modelVersion>
    <artifactId>wci-test-jboss6</artifactId>
@@ -415,8 +415,8 @@
 
                  <property name="test.generic.portlet.war" value="${maven.dependency.org.gatein.wci.wci-test-gatein-portlet.war.path}" />
                  <property name="test.native.portlet.war" value="${maven.dependency.org.gatein.wci.wci-test-native-portlet.war.path}" />
-                 <property name="test.native-skip.portlet.war" value="${maven.dependency.org.gatein.wci.wci-test-native-skipped-portlet.war.path}"/>
-                 <property name="test.native-skip-with-gateinservlet.portlet.war" value="${maven.dependency.org.gatein.wci.wci-test-native-skipped-with-gateinservlet-portlet.war.path}"/>
+                 <property name="test.native-skip.portlet.war" value="${maven.dependency.org.gatein.wci.wci-test-native-skipped-portlet.war.path}" />
+                 <property name="test.native-skip-with-gateinservlet.portlet.war" value="${maven.dependency.org.gatein.wci.wci-test-native-skipped-with-gateinservlet-portlet.war.path}" />
                  <property name="test.exo.portlet.war" value="${maven.dependency.org.gatein.wci.wci-test-exo-portlet.war.path}" />                  
 
                  <!-- location of common.xml shared between the different server's build.xml -->
