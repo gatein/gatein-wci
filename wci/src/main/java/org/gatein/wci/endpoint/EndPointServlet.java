@@ -44,6 +44,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -122,7 +123,13 @@ public abstract class EndPointServlet extends HttpServlet
       //
       try
       {
-         Document doc = XMLTools.getDocumentBuilderFactory().newDocumentBuilder().parse(new ByteArrayInputStream(bytes));
+         DocumentBuilderFactory factory = XMLTools.getDocumentBuilderFactory();
+         factory.setValidating(false);
+         factory.setFeature("http://xml.org/sax/features/namespaces", false);
+         factory.setFeature("http://xml.org/sax/features/validation", false);
+         factory.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
+         factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+         Document doc = factory.newDocumentBuilder().parse(new ByteArrayInputStream(bytes));
          
          //
          NodeList nodes = (NodeList)expr.evaluate(doc, XPathConstants.NODESET);
