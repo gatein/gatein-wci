@@ -419,7 +419,15 @@ public class TC6ServletContainerContext implements ServletContainerContext, Cont
    @Override
    public void unregisterWebApp(ServletContext servletContext)
    {
-      this.manualMonitoredContexts.remove(servletContext.getServletContextName());
-      registration.unregisterWebApp(servletContext.getContextPath());
+	   if (isDisabledNativeRegistration(servletContext))
+	   {
+		   this.manualMonitoredContexts.remove(servletContext.getServletContextName());
+		   //if the registration is null, then this ServletContainerContext has been stopped already
+		   //and all the registrations have already been removed.
+		   if (registration != null)
+		   {
+			   registration.unregisterWebApp(servletContext.getContextPath());
+		   }
+	   }
    }
 }
