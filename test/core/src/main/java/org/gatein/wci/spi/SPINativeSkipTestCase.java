@@ -73,7 +73,6 @@ public class SPINativeSkipTestCase extends ServletTestCase
    public DriverResponse service(TestServlet testServlet, WebRequest req, WebResponse resp) throws ServletException,
          IOException
    {
-      System.out.println("SERVICE GETREQUESTCOUNT : " + getRequestCount());
       if (getRequestCount() == 2)
       {
       // Check that this web app is here
@@ -132,7 +131,6 @@ public class SPINativeSkipTestCase extends ServletTestCase
    @Override
    public DriverResponse invoke(TestServlet testServlet, DriverCommand driverCommand)
    {
-      System.out.println("INVOKE GETREQUESTCOUNT : " + getRequestCount());
       if (getRequestCount() == -1)
       {
          container = DefaultServletContainerFactory.getInstance().getServletContainer();

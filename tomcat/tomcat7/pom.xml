@@ -6,7 +6,6 @@
    </parent>
    <modelVersion>4.0.0</modelVersion>
    <artifactId>wci-tomcat7</artifactId>
-   <version>2.1.1-Beta04-SNAPSHOT</version>
    <packaging>jar</packaging>
    <name>GateIn - WCI Tomcat 7 compatibility component</name>
 
