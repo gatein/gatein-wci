@@ -16,9 +16,9 @@
   </parent>
   
   <scm>
-    <connection>scm:svn:http://anonsvn.jboss.org/repos/gatein/components/wci/trunk/</connection>
-    <developerConnection>scm:svn:https://svn.jboss.org/repos/gatein/components/wci/trunk/</developerConnection>
-    <url>http://fisheye.jboss.org/browse/gatein/components/wci/trunk/</url>
+    <connection>scm:git:git://github.com/gatein/gatein-wci.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/gatein/gatein-wci.git</developerConnection>
+    <url>https://github.com/gatein/gatein-wci</url>
   </scm>
   
   <properties>
@@ -36,6 +36,15 @@
     <version.cargo.jetty.deployer>1.1.0</version.cargo.jetty.deployer>
     <version.oswego.concurrent>1.3.4</version.oswego.concurrent>
 
+    <!-- maven-release-plugin -->
+    <useReleaseProfile>false</useReleaseProfile>
+    <arguments>-Prelease</arguments>
+    <version.release.plugin>2.2.1</version.release.plugin>
+    <pushChanges>false</pushChanges>
+    <autoVersionSubmodules>true</autoVersionSubmodules>
+      
+    <!-- buildnumber-maven-plugin : needs 1.0 for git -->
+    <version.buildnumber.plugin>1.0</version.buildnumber.plugin>
   </properties>
   
   <dependencyManagement>
