@@ -111,6 +111,11 @@
       </dependency>
       <dependency>
        <groupId>org.gatein.wci</groupId>
+        <artifactId>wci-glassfish3</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+       <groupId>org.gatein.wci</groupId>
        <artifactId>wci-exo</artifactId>
        <version>${project.version}</version>
       </dependency>
@@ -165,6 +170,7 @@
     <module>tomcat</module>
     <module>jboss</module>
     <module>jetty</module>
+    <module>glassfish</module>
     <module>test</module>
   </modules>
   
