@@ -12,7 +12,7 @@
             <remote>
                <name>glassfish3x</name>
                <host>localhost</host>
-               <port>8080</port>
+               <port>4848</port>
             </remote>
             <authentication>
                <username>admin</username>

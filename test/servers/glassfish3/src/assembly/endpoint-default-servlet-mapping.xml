@@ -27,12 +27,18 @@
         <include>org.jboss.unit:portal-test</include>
         <include>org.jboss.remoting:jboss-remoting</include>
         <!-- jboss-microcontainer -->
+        <include>org.jboss.microcontainer:jboss-kernel</include>
         <include>org.jboss.microcontainer:jboss-dependency</include>
         <include>org.jboss:jboss-reflect</include>
         <include>org.jboss:jboss-common-core</include>
         <include>org.jboss:jboss-mdr</include>
         <include>javax.xml.bind:jaxb-api</include>
         <include>org.jboss:jbossxb</include>
+        <!-- others -->
+        <include>log4j:log4j</include>
+        <include>apache-xerces:xercesImpl</include>
+        <include>apache-xerces:xml-apis</include>
+        <include>concurrent:concurrent</include>
       </includes>
     </dependencySet>
   </dependencySets>
