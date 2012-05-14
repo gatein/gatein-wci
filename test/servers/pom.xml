@@ -67,6 +67,7 @@
         <module>tomcat7</module>
         <module>jboss51</module>
         <module>jboss6</module>
+        <module>jboss7</module>
         <module>jetty6</module>
       </modules>
     </profile>
@@ -77,6 +78,7 @@
         <module>tomcat7</module>
         <module>jboss42</module>
         <module>jboss51</module>
+        <module>jboss7</module>
         <module>jetty6</module>
       </modules>
     </profile>
@@ -118,11 +120,18 @@
       </modules>
     </profile>
     <profile>
+      <id>jboss7</id>
+      <modules>
+        <module>jboss7</module>
+      </modules>
+    </profile>
+    <profile>
       <id>jboss</id>
       <modules>
         <module>jboss42</module>
         <module>jboss51</module>
         <module>jboss6</module>
+        <module>jboss7</module>
       </modules>
     </profile>
     <profile>

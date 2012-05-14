@@ -1,0 +1,18 @@
+<assembly>
+  <id>jboss-as-integration</id>
+  <formats>
+    <format>jar</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+
+  <fileSets>
+    <fileSet>
+      <directory>target/test-classes/integration</directory>
+      <outputDirectory></outputDirectory>
+    </fileSet>
+  </fileSets>
+  <dependencySets>
+  </dependencySets>
+
+</assembly>
+
