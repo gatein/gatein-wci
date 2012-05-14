@@ -48,11 +48,11 @@
   </target>
 
   <target name="test-generic" if="test.generic.enable">
-    <property name="test.archive.path" value="${test.apps.dir}/${test.server.name}-${test.server.version}-generic"/>
-    <!-- setup the generic tests -->
-    <mkdir dir="${test.archive.path}"/>
-    <copy file="${test.generic.portlet.war}" tofile="${test.archive.path}/test-spi-app.war"/>
-    <copy file="${test.generic.server.war}" tofile="${test.archive.path}/test-spi-server.war"/>
+      <property name="test.archive.path" value="${test.apps.dir}/${test.server.name}-${test.server.version}-generic"/>
+      <!-- setup the generic tests -->
+      <mkdir dir="${test.archive.path}"/>
+      <copy file="${test.generic.portlet.war}" tofile="${test.archive.path}/test-spi-app.war"/>
+      <copy file="${test.generic.server.war}" tofile="${test.archive.path}/test-spi-server.war"/>
 
       <antcall target="tests.execute">
          <param name="test.id" value="${test.remote.server.name}-spi-generic"/>
@@ -63,15 +63,15 @@
   </target>
 
   <target name="test-native" if="test.native.enable">
-    <property name="test.archive.path" value="${test.apps.dir}/${test.server.name}-${test.server.version}-native"/>
-    <!-- setup the native tests -->
-    <mkdir dir="${test.archive.path}"/>
-    <copy file="${test.native.portlet.war}" tofile="${test.archive.path}/test-spi-app.war"/>
-    <copy file="${test.native.server.war}" tofile="${test.archive.path}/test-spi-server.war"/>
-    <copy file="${test.generic.portlet.war}" tofile="${test.archive.path}/test-generic-app.war"/>
-    <copy file="${test.exo.portlet.war}" tofile="${test.archive.path}/test-exo-app.war"/>
-    <copy file="${test.native-skip.portlet.war}" tofile="${test.archive.path}/test-native-skip-app.war"/>
-    <copy file="${test.native-skip-with-gateinservlet.portlet.war}" tofile="${test.archive.path}/test-native-skip-with-gateinservlet-app.war"/>
+      <property name="test.archive.path" value="${test.apps.dir}/${test.server.name}-${test.server.version}-native"/>
+      <!-- setup the native tests -->
+      <mkdir dir="${test.archive.path}"/>
+      <copy file="${test.native.portlet.war}" tofile="${test.archive.path}/test-spi-app.war"/>
+      <copy file="${test.native.server.war}" tofile="${test.archive.path}/test-spi-server.war"/>
+      <copy file="${test.generic.portlet.war}" tofile="${test.archive.path}/test-generic-app.war"/>
+      <copy file="${test.exo.portlet.war}" tofile="${test.archive.path}/test-exo-app.war"/>
+      <copy file="${test.native-skip.portlet.war}" tofile="${test.archive.path}/test-native-skip-app.war"/>
+      <copy file="${test.native-skip-with-gateinservlet.portlet.war}" tofile="${test.archive.path}/test-native-skip-with-gateinservlet-app.war"/>
 
       <antcall target="tests.execute">
          <param name="test.id" value="${test.remote.server.name}-spi-native"/>
@@ -82,11 +82,11 @@
   </target>
 
   <target name="test-exo" if="test.exo.enable">
-    <property name="test.archive.path" value="${test.apps.dir}/${test.server.name}-${test.server.version}-exo"/>
-    <!-- setup the exo tests -->
-    <mkdir dir="${test.archive.path}"/>
-    <copy file="${test.exo.portlet.war}" tofile="${test.archive.path}/test-spi-app.war"/>
-    <copy file="${test.exo.server.war}" tofile="${test.archive.path}/test-spi-server.war"/>
+      <property name="test.archive.path" value="${test.apps.dir}/${test.server.name}-${test.server.version}-exo"/>
+      <!-- setup the exo tests -->
+      <mkdir dir="${test.archive.path}"/>
+      <copy file="${test.exo.portlet.war}" tofile="${test.archive.path}/test-spi-app.war"/>
+      <copy file="${test.exo.server.war}" tofile="${test.archive.path}/test-spi-server.war"/>
 
 
       <antcall target="tests.execute">
@@ -132,35 +132,29 @@
       </antcall>
       <antcall target="cargo.stop">
       </antcall>
-   </target>
+  </target>
 
-   <target name="tests.remote">
-
+  <target name="tests.remote">
       <echo message="test.remote.archive.path : ${test.remote.archive.path}"/>
-
       <taskdef name="jboss-unit" classname="org.jboss.unit.tooling.ant.JBossUnitTask" classpath="${plugin_classpath}"/>
 
-      <jboss-unit failOnError="true">
-
-        <tests config="${target.dir}/test-classes/config/remote-jboss-unit.xml">
-                    <property name="archivePath" value="${test.archive.path}"/>
-                                <property name="serverName" value="${test.remote.server.name}"/>
-                                        </tests>
+      <jboss-unit failOnError="true"> <!-- jpda="true" jpdaPort="9001" -->
+         <tests config="${target.dir}/test-classes/config/remote-jboss-unit.xml">
+             <property name="archivePath" value="${test.archive.path}"/>
+             <property name="serverName" value="${test.remote.server.name}"/>
+         </tests>
 
          <reports>
-                     <xml toDir="${target.dir}/test/reports/${test.id}/xml/local"/>
-                                 <html toDir="${target.dir}/test/reports/${test.id}/html/local"/>
-                                          </reports>
+             <xml toDir="${target.dir}/test/reports/${test.id}/xml/local"/>
+             <html toDir="${target.dir}/test/reports/${test.id}/html/local"/>
+         </reports>
 
          <classpath>
-                     <pathelement location="${target.dir}/test-classes/config"/>
-                                 <pathelement location="${target.dir}/classes"/>
-                                             <pathelement location="${target.dir}/test-classes"/>
-
-            <pathelement path="${test_classpath}"/>
-                     </classpath>
-
+             <pathelement location="${target.dir}/test-classes/config"/>
+             <pathelement location="${target.dir}/classes"/>
+             <pathelement location="${target.dir}/test-classes"/>
+             <pathelement path="${test_classpath}"/>
+         </classpath>
       </jboss-unit>
-
-   </target>
+  </target>
 </project>   

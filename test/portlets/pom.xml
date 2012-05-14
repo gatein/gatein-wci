@@ -9,6 +9,22 @@
    <packaging>pom</packaging>
    <name>GateIn - WCI Tomcat compatibility component</name>
 
+   <build>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <configuration>
+               <archive>
+                  <manifestEntries>
+                     <Dependencies>org.gatein.wci.integration-tests.shared</Dependencies>
+                  </manifestEntries>
+               </archive>
+            </configuration>
+         </plugin>
+      </plugins>
+   </build>
+
    <modules>
       <module>exo-portlet</module>
       <module>gatein-portlet</module>

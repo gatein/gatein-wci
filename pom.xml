@@ -107,6 +107,11 @@
       </dependency>
       <dependency>
         <groupId>org.gatein.wci</groupId>
+        <artifactId>wci-jboss7</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.gatein.wci</groupId>
         <artifactId>wci-jetty</artifactId>
         <version>${project.version}</version>
       </dependency>

@@ -24,31 +24,25 @@ package org.gatein.wci.api;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.ServletContext;
 
-import org.gatein.wci.ServletContainer;
-import org.gatein.wci.impl.DefaultServletContainer;
-import org.gatein.wci.impl.DefaultServletContainerFactory;
-import org.gatein.wci.impl.generic.GenericWebAppContext;
 import org.gatein.wci.spi.ServletContainerContext;
-import org.gatein.wci.spi.ServletContainerContext.Registration;
 import org.gatein.wci.spi.WebAppContext;
 
 /**
  * @author <a href="mailto:mwringe@redhat.com">Matt Wringe</a>
+ * @author <a href="mailto:mstrukel@redhat.com">Marko Strukelj</a>
  * @version $Revision$
  */
 public class GateInServletRegistrations
 {
    /** . */
    private static final Map<String, WebAppContext> pendingContexts = Collections.synchronizedMap(new LinkedHashMap<String, WebAppContext>(16, 0.5f, false));
-   private static HashMap<ServletContext, String> requestDispatchMap = new HashMap<ServletContext, String>();
+   private static Map<ServletContext, String> requestDispatchMap = new ConcurrentHashMap<ServletContext, String>();
    
    private static ServletContainerContext servletContainerContext;
    
@@ -78,19 +72,20 @@ public class GateInServletRegistrations
       }
       
       //
-      if (pendingContexts.containsKey(contextPath))
-      {
-         pendingContexts.remove(contextPath);
-      }
+      pendingContexts.remove(contextPath);
    }
    
    public static void setServletContainerContext(ServletContainerContext context)
    {
       servletContainerContext = context;
-      
-      for (String contextPath : pendingContexts.keySet())
+      ArrayList<WebAppContext> pendingCtxs;
+
+      synchronized (pendingContexts)
       {
-         WebAppContext webAppContext = pendingContexts.get(contextPath);
+         pendingCtxs = new ArrayList<WebAppContext>(pendingContexts.values());
+      }
+      for (WebAppContext webAppContext : pendingCtxs)
+      {
          String dispatcherPath = requestDispatchMap.get(webAppContext.getServletContext());
          servletContainerContext.registerWebApp(webAppContext, dispatcherPath);
       }

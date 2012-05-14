@@ -354,26 +354,36 @@ public class DefaultServletContainer implements ServletContainer
          {
             throw new IllegalStateException("Disposed registration");
          }
-         synchronized (container.lock)
-         {
-            if (webAppId == null)
-            {
-               throw new IllegalArgumentException("No null web app id accepted");
-            }
 
-            //
-            WebAppImpl webApp = container.webAppMap.remove(webAppId);
-            if (webApp != null)
+         if (webAppId == null)
+         {
+            throw new IllegalArgumentException("No null web app id accepted");
+         }
+
+         WebAppImpl webApp = container.webAppMap.get(webAppId);
+         if (webApp == null)
+         {
+            log.debug("Web application " + webAppId + " was not registered");
+            return false;
+         }
+         // lock context before locking container to prevent deadlocks
+         synchronized (webApp.context)
+         {
+            synchronized (container.lock)
             {
-               log.debug("Web application " + webAppId + " cleanup");
-               container.fireEvent(new WebAppLifeCycleEvent(webApp, WebAppLifeCycleEvent.REMOVED));
-               webApp.context.stop();
-               return true;
-            }
-            else
-            {
-               log.debug("Web application " + webAppId + " was not registered");
-               return false;
+               webApp = container.webAppMap.remove(webAppId);
+               if (webApp != null)
+               {
+                  log.debug("Web application " + webAppId + " cleanup");
+                  container.fireEvent(new WebAppLifeCycleEvent(webApp, WebAppLifeCycleEvent.REMOVED));
+                  webApp.context.stop();
+                  return true;
+               }
+               else
+               {
+                  log.debug("Web application " + webAppId + " was not registered");
+                  return false;
+               }
             }
          }
       }

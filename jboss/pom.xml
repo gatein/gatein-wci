@@ -11,5 +11,6 @@
 
    <modules>
       <module>jboss6</module>
+      <module>jboss7</module>
    </modules>
 </project>
