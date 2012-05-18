@@ -2,7 +2,7 @@
    <parent>
       <groupId>org.gatein.wci</groupId>
       <artifactId>wci-test-server-parent</artifactId>
-      <version>2.2.0-Beta01-SNAPSHOT</version>
+      <version>2.2.0-Beta01</version>
    </parent>
    <modelVersion>4.0.0</modelVersion>
    <artifactId>wci-test-jboss7</artifactId>
@@ -428,14 +428,14 @@
                   <configuration>
                      <tasks>
 
-                        <dependencyfilesets/>
+                        <dependencyfilesets />
                         <path id="jbossunit.classpath">
-                           <fileset refid="junit:junit:jar"/>
-                           <fileset refid="org.jboss.unit:jboss-unit:jar"/>
-                           <fileset refid="org.jboss.unit:jboss-unit-remote:jar"/>
-                           <fileset refid="org.jboss.unit:jboss-unit-tooling-ant:jar"/>
-                           <fileset refid="org.jboss.unit:portal-test:jar"/>
-                           <fileset refid="org.jboss.unit:portal-test-generic:jar"/>
+                           <fileset refid="junit:junit:jar" />
+                           <fileset refid="org.jboss.unit:jboss-unit:jar" />
+                           <fileset refid="org.jboss.unit:jboss-unit-remote:jar" />
+                           <fileset refid="org.jboss.unit:jboss-unit-tooling-ant:jar" />
+                           <fileset refid="org.jboss.unit:portal-test:jar" />
+                           <fileset refid="org.jboss.unit:portal-test-generic:jar" />
 
                         </path>
 
