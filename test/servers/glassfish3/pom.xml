@@ -264,7 +264,8 @@
         <executions>
           <execution>
             <id>copy-common-build.xml</id>
-            <phase>process-resources</phase>
+            <!--phase>process-resources</phase-->
+            <phase>none</phase>
             <goals>
               <goal>copy</goal>
             </goals>
@@ -349,7 +350,8 @@
            <executions>
              <execution>
              <id>integration-testing</id>
-             <phase>integration-test</phase>
+             <!--phase>integration-test</phase-->
+             <phase>none</phase>
              <configuration>
                <tasks>
                 
@@ -431,6 +433,7 @@
      </plugins>
    </build>
    <properties>
+     <maven.test.skip>true</maven.test.skip>
    </properties>
 
    <profiles>
