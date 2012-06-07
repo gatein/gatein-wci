@@ -25,6 +25,8 @@ import org.apache.catalina.Context;
 import org.apache.catalina.Manager;
 import org.apache.catalina.Session;
 import org.apache.catalina.Wrapper;
+import org.gatein.common.logging.Logger;
+import org.gatein.common.logging.LoggerFactory;
 import org.gatein.wci.command.CommandServlet;
 import org.gatein.wci.spi.WebAppContext;
 
@@ -37,6 +39,8 @@ import java.io.InputStream;
  */
 public class JB7WebAppContext implements WebAppContext
 {
+   private final static Logger log = LoggerFactory.getLogger(JB7WebAppContext.class);
+
    /**
     * .
     */
@@ -76,10 +80,20 @@ public class JB7WebAppContext implements WebAppContext
    {
       try
       {
+         String className = CommandServlet.class.getName();
+         try
+         {
+            loader.loadClass(className);
+         }
+         catch(Exception ex)
+         {
+            log.warn("WCI integration skipped for context: " + context);
+            return;
+         }
          commandServlet = context.createWrapper();
          commandServlet.setName("TomcatGateInServlet");
          commandServlet.setLoadOnStartup(0);
-         commandServlet.setServletClass(CommandServlet.class.getName());
+         commandServlet.setServletClass(className);
          context.addChild(commandServlet);
          context.addServletMapping("/tomcatgateinservlet", "TomcatGateInServlet");
       }

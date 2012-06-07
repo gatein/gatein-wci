@@ -34,7 +34,7 @@ import org.jboss.msc.value.InjectedValue;
  */
 public class GateInWCIService implements Service<GateInWCIService>
 {
-   static final ServiceName NAME = ServiceName.JBOSS.append("gatein-wci");
+   public static final ServiceName NAME = ServiceName.of("org", "gatein", "wci");
 
    private CatalinaIntegration integration;
 
