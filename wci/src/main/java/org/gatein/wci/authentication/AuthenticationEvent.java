@@ -19,7 +19,6 @@
 
 package org.gatein.wci.authentication;
 
-import org.gatein.wci.ServletContainer;
 import org.gatein.wci.security.Credentials;
 import org.gatein.wci.spi.ServletContainerContext;
 
@@ -32,62 +31,52 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class AuthenticationEvent
 {
+
+   /** . */
+   private final AuthenticationEventType type;
+
+   /** . */
    private final HttpServletRequest request;
+
+   /** . */
    private final HttpServletResponse response;
-   private final Credentials credentials;
+
+   /** . */
+   private final String userName;
+
+   /** . */
    private final ServletContainerContext containerContext;
 
-   public AuthenticationEvent(HttpServletRequest request, HttpServletResponse response, ServletContainerContext containerContext)
+   public AuthenticationEvent(AuthenticationEventType type, HttpServletRequest request, HttpServletResponse response, String userName, ServletContainerContext containerContext)
    {
-
+      if (type == null)
+      {
+         throw new IllegalArgumentException("type is null");
+      }
       if (request == null)
       {
          throw new IllegalArgumentException("request is null");
       }
-
       if (response == null)
       {
          throw new IllegalArgumentException("response is null");
       }
-
-      if (containerContext == null)
-      {
-         throw new IllegalArgumentException("containerContext is null");
-      }
-
-      this.request = request;
-      this.response = response;
-      this.credentials = null;
-      this.containerContext = containerContext;
-  }
-
-   public AuthenticationEvent(HttpServletRequest request, HttpServletResponse response, Credentials credentials, ServletContainerContext containerContext)
-   {
-
-      if (request == null)
-      {
-         throw new IllegalArgumentException("request is null");
-      }
-
-      if (response == null)
-      {
-         throw new IllegalArgumentException("response is null");
-      }
-
-      if (credentials == null)
-      {
-         throw new IllegalArgumentException("credentials is null");
-      }
-
       if (containerContext == null)
       {
          throw new IllegalArgumentException("container is null");
       }
 
+      //
+      this.type = type;
       this.request = request;
       this.response = response;
-      this.credentials = credentials;
+      this.userName = userName;
       this.containerContext = containerContext;
+   }
+
+   public AuthenticationEventType getType()
+   {
+      return type;
    }
 
    public HttpServletRequest getRequest()
@@ -100,13 +89,19 @@ public class AuthenticationEvent
       return response;
    }
 
-   public Credentials getCredentials()
+   public String getUserName()
    {
-      return credentials;
+      return userName;
    }
 
    public ServletContainerContext getContainerContext()
    {
       return containerContext;
+   }
+
+   @Override
+   public String toString()
+   {
+      return "AuthenticationEvent[type=" + type.name() + ",userName=" + userName + ",uri=" + request.getRequestURI() + "]";
    }
 }

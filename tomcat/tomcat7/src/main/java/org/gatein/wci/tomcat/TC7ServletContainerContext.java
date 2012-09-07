@@ -36,19 +36,16 @@ import org.apache.catalina.core.StandardContext;
 import org.gatein.common.logging.Logger;
 import org.gatein.common.logging.LoggerFactory;
 import org.gatein.wci.RequestDispatchCallback;
+import org.gatein.wci.ServletContainer;
+import org.gatein.wci.ServletContainerFactory;
 import org.gatein.wci.ServletContainerVisitor;
 import org.gatein.wci.WebApp;
 
-import org.gatein.wci.api.GateInServlet;
-import org.gatein.wci.api.GateInServletRegistrations;
-import org.gatein.wci.authentication.GenericAuthentication;
+import org.gatein.wci.authentication.AuthenticationException;
 
-import org.gatein.wci.authentication.TicketService;
 import org.gatein.wci.command.CommandDispatcher;
-import org.gatein.wci.impl.DefaultServletContainerFactory;
 import org.gatein.wci.security.Credentials;
 import org.gatein.wci.spi.ServletContainerContext;
-import org.gatein.wci.spi.WebAppContext;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -119,7 +116,6 @@ public class TC7ServletContainerContext implements ServletContainerContext, Cont
    public void setCallback(Registration registration)
    {
       this.registration = registration;
-      GateInServletRegistrations.setServletContainerContext(this);
    }
 
    public void unsetCallback(Registration registration)
@@ -132,35 +128,16 @@ public class TC7ServletContainerContext implements ServletContainerContext, Cont
       crossContextLogout = val;
    }
 
-   public void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials, long validityMillis) throws ServletException, IOException
+   public void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials) throws ServletException, IOException
    {
-      login(request, response, credentials, validityMillis, null);
-   }
-
-   public void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials, long validityMillis, String initialURI) throws ServletException, IOException
-   {
-      if (initialURI == null)
-      {
-         initialURI = request.getRequestURI();
-      }
+      request.getSession();
       try
       {
          request.login(credentials.getUsername(), credentials.getPassword());
-         response.sendRedirect(response.encodeRedirectURL(initialURI));
       }
       catch (ServletException se)
       {
-         try
-         {
-            String ticket = GenericAuthentication.TICKET_SERVICE.createTicket(new Credentials(credentials.getUsername(), credentials.getPassword()), TicketService.DEFAULT_VALIDITY);
-            String url = "j_security_check?j_username=" + credentials.getUsername() + "&j_password=" + ticket + "&initialURI=" + initialURI;
-            url = response.encodeRedirectURL(url);
-            response.sendRedirect(url);
-            response.flushBuffer();
-         }
-         catch (Exception ignore)
-         {
-         }
+         throw new AuthenticationException(se);
       }
    }
 
@@ -176,7 +153,7 @@ public class TC7ServletContainerContext implements ServletContainerContext, Cont
          return;
 
       final String sessId = sess.getId();
-      DefaultServletContainerFactory.getInstance().getServletContainer().visit(new ServletContainerVisitor()
+      ServletContainerFactory.getServletContainer().visit(new ServletContainerVisitor()
       {
          public void accept(WebApp webApp)
          {
@@ -242,7 +219,7 @@ public class TC7ServletContainerContext implements ServletContainerContext, Cont
 
    void start()
    {
-      DefaultServletContainerFactory.registerContext(this);
+      ServletContainerFactory.registerContext(this);
 
       //
       Container[] childrenContainers = engine.findChildren();
@@ -369,7 +346,7 @@ public class TC7ServletContainerContext implements ServletContainerContext, Cont
       {
          // skip if the webapp has explicitly stated it doesn't want native registration
          // usefull when portlets are dependent on servlet ordering
-         if (!isDisabledNativeRegistration(context.getServletContext()))
+         if (!ServletContainer.isDisabledNativeRegistration(context.getServletContext()))
          {
             log.debug("Context added " + context.getPath());
             TC7WebAppContext webAppContext = new TC7WebAppContext(context);
@@ -393,7 +370,7 @@ public class TC7ServletContainerContext implements ServletContainerContext, Cont
       {
          // skip if the webapp has explicitly stated it doesn't want native registration
          // usefull when portlets are dependent on servlet ordering
-         if (!isDisabledNativeRegistration(context.getServletContext()))
+         if (!ServletContainer.isDisabledNativeRegistration(context.getServletContext()))
          {
             if (registration != null)
             {
@@ -405,50 +382,5 @@ public class TC7ServletContainerContext implements ServletContainerContext, Cont
       {
          e.printStackTrace();
       }
-   }
-   
-   private boolean isDisabledNativeRegistration(ServletContext servletContext)
-   {
-      if (servletContext != null)
-      {
-         String disableWCINativeRegistration = servletContext.getInitParameter(GateInServlet.WCIDISABLENATIVEREGISTRATION);
-         if (disableWCINativeRegistration != null && disableWCINativeRegistration.equalsIgnoreCase("true"))
-         {
-            return true;
-         }
-         else
-         {
-            return false;
-         }
-      }
-      else
-      {
-         return false;
-      }
-   }
-
-   @Override
-   public void registerWebApp(WebAppContext webappContext, String dispatchPath)
-   {
-      if (isDisabledNativeRegistration(webappContext.getServletContext()))
-      {
-         this.manualMonitoredContexts.put(webappContext.getServletContext().getServletContextName(), dispatchPath);
-         registration.registerWebApp(webappContext);
-      }
-   }
-
-   @Override
-   public void unregisterWebApp(ServletContext servletContext)
-   {
-	   if (isDisabledNativeRegistration(servletContext))
-	   {
-		   this.manualMonitoredContexts.remove(servletContext.getServletContextName());
-		   //if the registration is null, then this ServletContainerContext has been stopped already
-		   //and all the registrations have already been removed.
-		   if (registration != null)
-		   {
-			   registration.unregisterWebApp(servletContext.getContextPath());
-		   }
-	   }
    }
 }

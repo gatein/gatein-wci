@@ -22,20 +22,42 @@
  ******************************************************************************/
 package org.gatein.wci;
 
+import org.gatein.wci.spi.ServletContainerContext;
+
 /**
  * It's rather a provider rather than a real factory. But I prefer the factory name than the provider name.
  *
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
  * @version $Revision: 1.1 $
  */
-public interface ServletContainerFactory
+public final class ServletContainerFactory
 {
 
-   /**
-    * Returns the servlet container.
-    *
-    * @return
-    */
-   ServletContainer getServletContainer();
+   /** . */
+   public static final ServletContainerFactory instance = new ServletContainerFactory();
 
+   /** . */
+   private final ServletContainer container = new ServletContainer();
+
+   /**
+    * Returns the singleton instance.
+    *
+    * @return the singleton instance
+    */
+   public static ServletContainer getServletContainer()
+   {
+      return instance.container;
+   }
+
+   /**
+    * Registers a servlet container context. The registration is considered as successful if no existing context is
+    * already registered.
+    *
+    * @param context the servlet container context to register
+    * @throws IllegalArgumentException if the context is null
+    */
+   public static void registerContext(ServletContainerContext context) throws IllegalArgumentException
+   {
+      instance.container.register(context);
+   }
 }

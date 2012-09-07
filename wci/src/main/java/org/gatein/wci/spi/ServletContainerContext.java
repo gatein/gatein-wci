@@ -30,13 +30,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.gatein.wci.RequestDispatchCallback;
+import org.gatein.wci.authentication.AuthenticationException;
 import org.gatein.wci.security.Credentials;
 
 /**
  * Defines the service provider interface for a servlet container. It is an attempt to abstract the non
  * portable services required by a portal with respect to the web container layer.
- *
- * @todo add session invalidation mechanism
  *
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
  * @version $Revision: 1.1 $
@@ -76,39 +75,19 @@ public interface ServletContainerContext
    void unsetCallback(Registration registration);
 
    /**
-    * Manually register a webapp with this ServletContainerContext.
-    *
-    * @param webappContext the WebAppContext associated with the application
-    * @param dispathPath the path to be used
-    */
-   void registerWebApp(WebAppContext webappContext, String dispatchPath);
-
-   /**
-    * Manually unregister a webapp associated with this ServletContainerContext.
-    *
-    * @param servletContext the servletContext of the application to be deregistered
-    */
-   void unregisterWebApp(ServletContext servletContext);
-
-   /**
     * Authentication support.
     *
     * @param request the request valid in the current servlet context
     * @param response the response valid in the current servlet context
     * @param credentials the credentials which try to authenticate
-    * @param validityMillis the validity of the authentication
+    * @throws AuthenticationException when authentication fails
+    * @throws ServletException any servlet exception that would prevent authentication to be performed
+    * @throws IOException any io exception that would prevent authentication to be performed
     */
-   void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials, long validityMillis) throws ServletException, IOException;
-
-   /**
-    * Authentication support.
-    *
-    * @param request the request valid in the current servlet context
-    * @param response the response valid in the current servlet context
-    * @param credentials the credentials which try to authenticate
-    * @param validityMillis the validity of the authentication
-    */
-   void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials, long validityMillis, String initialURI) throws ServletException, IOException;
+   void login(
+      HttpServletRequest request,
+      HttpServletResponse response,
+      Credentials credentials) throws AuthenticationException, ServletException, IOException;
 
    /**
     * Authentication support.

@@ -1,5 +1,0 @@
-<tomcat-users>
-  <role rolename="test"/>
-  <user name="manager" password="manager" roles="manager-script"/>
-  <user name="foo" password="bar" roles="test"/>
-</tomcat-users>

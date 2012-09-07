@@ -22,14 +22,12 @@
  ******************************************************************************/
 package org.gatein.wci.api;
 
+import org.gatein.wci.ServletContainerFactory;
 import org.gatein.wci.command.CommandServlet;
-import org.gatein.wci.impl.generic.GenericServletContainerContext;
-import org.gatein.wci.impl.generic.GenericWebAppContext;
+import org.gatein.wci.spi.SimpleWebAppContext;
 import org.gatein.wci.spi.WebAppContext;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletContext;
-import java.lang.reflect.Method;
 
 /**
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
@@ -39,29 +37,17 @@ public class GateInServlet extends CommandServlet
 {
 
    /** . */
-   private String contextPath;
-   
-   private ServletContext servletContext;
-   
    public static final String WCIDISABLENATIVEREGISTRATION = "gatein.wci.native.DisableRegistration";
+
+   /** . */
+   private WebAppContext webAppContext;
 
    public void init() throws ServletException
    {
       try
       {
-         Method m = ServletContext.class.getMethod("getContextPath");
-         ServletContext servletContext = getServletContext();
-
-         //
-         String contextPath = (String)m.invoke(servletContext);
-         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-         
-         WebAppContext webAppContext = new GenericWebAppContext(servletContext, contextPath, classLoader);
-
-         GateInServletRegistrations.register(webAppContext, "/gateinservlet");
-
-         this.contextPath = contextPath;
-         this.servletContext = servletContext;
+         webAppContext = new SimpleWebAppContext(getServletContext());
+         ServletContainerFactory.getServletContainer().registerWebApp(webAppContext, "/gateinservlet");
       }
       catch (Exception e)
       {
@@ -71,9 +57,9 @@ public class GateInServlet extends CommandServlet
 
    public void destroy()
    {
-      if (contextPath != null)
+      if (webAppContext != null)
       {
-         GateInServletRegistrations.unregister(servletContext);
+         ServletContainerFactory.getServletContainer().unregisterWebApp(getServletContext());
       }
    }
 }

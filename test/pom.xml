@@ -2,71 +2,15 @@
    <parent>
       <groupId>org.gatein.wci</groupId>
       <artifactId>wci-parent</artifactId>
-      <version>2.2.0-Beta03-SNAPSHOT</version>
+      <version>2.3.0-Alpha01-SNAPSHOT</version>
    </parent>
    <modelVersion>4.0.0</modelVersion>
    <artifactId>wci-test-parent</artifactId>
    <packaging>pom</packaging>
    <name>GateIn - WCI test parent</name>
 
-   <dependencyManagement>
-     <dependencies>
-
-       <dependency>
-         <groupId>commons-httpclient</groupId>
-         <artifactId>commons-httpclient</artifactId>
-         <version>3.1</version>
-       </dependency>
-
-       <dependency>
-         <groupId>org.gatein.wci</groupId>
-         <artifactId>wci-test-core</artifactId>
-         <version>${project.version}</version>
-       </dependency>
-
-      <dependency>
-        <groupId>org.gatein.wci</groupId>
-        <artifactId>wci-test-native-portlet</artifactId>
-        <type>war</type>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.gatein.wci</groupId>
-        <artifactId>wci-test-native-skipped-portlet</artifactId>
-        <type>war</type>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.gatein.wci</groupId>
-        <artifactId>wci-test-native-skipped-with-gateinservlet-portlet</artifactId>
-        <type>war</type>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.gatein.wci</groupId>
-        <artifactId>wci-test-gatein-portlet</artifactId>
-        <type>war</type>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.gatein.wci</groupId>
-        <artifactId>wci-test-exo-portlet</artifactId>
-        <type>war</type>
-        <version>${project.version}</version>
-      </dependency>
-     </dependencies>
-   </dependencyManagement>
-
-   <dependencies>
-      <dependency>
-        <groupId>commons-httpclient</groupId>
-        <artifactId>commons-httpclient</artifactId>
-      </dependency>
-   </dependencies>
-
    <modules>
      <module>core</module>
-     <module>portlets</module>
      <module>servers</module>
    </modules>
 

@@ -25,6 +25,5 @@ package org.gatein.wci.authentication;
  */
 public interface AuthenticationListener
 {
-  void onLogin(AuthenticationEvent ae);
-  void onLogout(AuthenticationEvent ae);
+  void onEvent(AuthenticationEvent event);
 }

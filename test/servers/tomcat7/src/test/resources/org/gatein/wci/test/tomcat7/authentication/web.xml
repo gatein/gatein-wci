@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+  <servlet>
+     <servlet-name>ContainerServlet</servlet-name>
+     <servlet-class>org.gatein.wci.tomcat.TC7ContainerServlet</servlet-class>
+     <load-on-startup>0</load-on-startup>
+  </servlet>
+  <servlet>
+    <servlet-name>AuthenticationServlet</servlet-name>
+    <servlet-class>org.gatein.wci.test.authentication.AuthenticationServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AuthenticationServlet</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+
+  <login-config>
+    <auth-method>BASIC</auth-method>
+    <realm-name>MyUserDatabase</realm-name>
+  </login-config>
+
+  <security-role>
+    <role-name>myrole</role-name>
+  </security-role>
+
+  <session-config>
+    <tracking-mode>URL</tracking-mode>
+  </session-config>
+
+</web-app>

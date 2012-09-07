@@ -30,17 +30,14 @@ import org.apache.catalina.LifecycleException;
 import org.apache.catalina.LifecycleListener;
 import org.apache.catalina.core.StandardContext;
 import org.gatein.wci.RequestDispatchCallback;
+import org.gatein.wci.ServletContainerFactory;
 import org.gatein.wci.ServletContainerVisitor;
 import org.gatein.wci.WebApp;
-import org.gatein.wci.api.GateInServlet;
-import org.gatein.wci.authentication.GenericAuthentication;
+import org.gatein.wci.authentication.AuthenticationException;
 import org.gatein.wci.command.CommandDispatcher;
-import org.gatein.wci.impl.DefaultServletContainerFactory;
 import org.gatein.wci.security.Credentials;
 import org.gatein.wci.spi.ServletContainerContext;
-import org.gatein.wci.spi.WebAppContext;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import javax.servlet.ServletContext;
@@ -62,15 +59,11 @@ public class GF3ServletContainerContext implements ServletContainerContext, Cont
 
    private final Set<String> monitoredContexts = new HashSet<String>();
 
-   private static HashMap<String, String> manualMonitoredContexts = new HashMap<String, String>();
-
    private final Engine engine;
 
    private Registration registration;
 
    private boolean crossContextLogout = true;
-
-   private GenericAuthentication authentication = new GenericAuthentication();
 
    public GF3ServletContainerContext(Engine engine)
    {
@@ -79,16 +72,7 @@ public class GF3ServletContainerContext implements ServletContainerContext, Cont
 
    public Object include(ServletContext targetServletContext, HttpServletRequest request, HttpServletResponse response, RequestDispatchCallback callback, Object handback) throws ServletException, IOException
    {
-      if (manualMonitoredContexts.containsKey(targetServletContext.getServletContextName()))
-      {
-         String dispatherPath = manualMonitoredContexts.get(targetServletContext.getServletContextName());
-         CommandDispatcher dispatcher = new CommandDispatcher(dispatherPath);
-         return dispatcher.include(targetServletContext, request, response, callback, handback);
-      }
-      else
-      {
-         return dispatcher.include(targetServletContext, request, response, callback, handback);
-      }
+      return dispatcher.include(targetServletContext, request, response, callback, handback);
    }
 
    public void setCallback(Registration registration)
@@ -106,14 +90,18 @@ public class GF3ServletContainerContext implements ServletContainerContext, Cont
       crossContextLogout = val;
    }
 
-   public void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials, long validityMillis) throws ServletException, IOException
+   @Override
+   public void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials) throws AuthenticationException, ServletException, IOException
    {
-      authentication.login(credentials, request, response, validityMillis);
-   }
-
-   public void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials, long l, String initialURI) throws ServletException, IOException
-   {
-      authentication.login(credentials, request, response, l, initialURI);
+      request.getSession();
+      try
+      {
+         request.login(credentials.getUsername(), credentials.getPassword());
+      }
+      catch (ServletException se)
+      {
+         throw new AuthenticationException(se);
+      }
    }
 
    public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException
@@ -129,7 +117,7 @@ public class GF3ServletContainerContext implements ServletContainerContext, Cont
          return;
 
       final String sessId = sess.getId();
-      DefaultServletContainerFactory.getInstance().getServletContainer().visit(new ServletContainerVisitor()
+      ServletContainerFactory.getServletContainer().visit(new ServletContainerVisitor()
       {
          public void accept(WebApp webApp)
          {
@@ -283,7 +271,7 @@ public class GF3ServletContainerContext implements ServletContainerContext, Cont
 
    void start()
    {
-      DefaultServletContainerFactory.registerContext(this);
+      ServletContainerFactory.registerContext(this);
       Container[] childrenContainers = engine.findChildren();
       for (Container childContainer : childrenContainers)
       {
@@ -310,48 +298,5 @@ public class GF3ServletContainerContext implements ServletContainerContext, Cont
       }
       registration.cancel();
       registration = null;
-   }
-
-   public void registerWebApp(WebAppContext webappContext, String dispatchPath)
-   {
-      if (isDisabledNativeRegistration(webappContext.getServletContext()))
-      {
-         this.manualMonitoredContexts.put(webappContext.getServletContext().getServletContextName(), dispatchPath);
-         registration.registerWebApp(webappContext);
-      }
-   }
-
-   public void unregisterWebApp(ServletContext servletContext)
-   {
-	   if (isDisabledNativeRegistration(servletContext))
-	   {
-		   this.manualMonitoredContexts.remove(servletContext.getServletContextName());
-		   //if the registration is null, then this ServletContainerContext has been stopped already
-		   //and all the registrations have already been removed.
-		   if (registration != null)
-		   {
-			   registration.unregisterWebApp(servletContext.getContextPath());
-		   }
-	   }
-   }
-
-   private boolean isDisabledNativeRegistration(ServletContext servletContext)
-   {
-      if (servletContext != null)
-      {
-         String disableWCINativeRegistration = servletContext.getInitParameter(GateInServlet.WCIDISABLENATIVEREGISTRATION);
-         if (disableWCINativeRegistration != null && disableWCINativeRegistration.equalsIgnoreCase("true"))
-         {
-            return true;
-         }
-         else
-         {
-            return false;
-         }
-      }
-      else
-      {
-         return false;
-      }
    }
 }

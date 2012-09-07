@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+  <servlet>
+     <servlet-name>ContainerServlet</servlet-name>
+     <servlet-class>org.gatein.wci.jboss.JB7ContainerServlet</servlet-class>
+     <load-on-startup>0</load-on-startup>
+  </servlet>
+  <servlet>
+    <servlet-name>CrossContextServlet</servlet-name>
+    <servlet-class>org.gatein.wci.test.crosscontext.CrossContextServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CrossContextServlet</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+
+  <!--
+    This is a dummy security constraint the seem required otherwise we get
+
+    javax.servlet.ServletException: No authenticator available for programmatic login
+    at org.apache.catalina.connector.Request.login(Request.java:3254) [jbossweb-7.0.13.Final.jar:]
+    at org.apache.catalina.connector.RequestFacade.login(RequestFacade.java:1082) [jbossweb-7.0.13.Final.jar:]
+    at org.gatein.wci.jboss.JB7ServletContainerContext.login(JB7ServletContainerContext.java:150) [wci-jboss7-2.2.0-Beta03-SNAPSHOT.jar:2.2.0-Beta03-SNAPSHOT]
+    at org.gatein.wci.jboss.JB7ServletContainerContext.login(JB7ServletContainerContext.java:154) [wci-jboss7-2.2.0-Beta03-SNAPSHOT.jar:2.2.0-Beta03-SNAPSHOT]
+
+    cf https://community.jboss.org/thread/161511
+  -->
+  <security-constraint>
+    <web-resource-collection>
+     <web-resource-name>All resources</web-resource-name>
+     <description>Protects all resources</description>
+     <url-pattern>/foo/*</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>myrole</role-name>
+    </auth-constraint>
+  </security-constraint>
+
+  <login-config>
+    <auth-method>BASIC</auth-method>
+    <realm-name>MyUserDatabase</realm-name>
+  </login-config>
+
+  <security-role>
+    <role-name>myrole</role-name>
+  </security-role>
+
+</web-app>

@@ -2,7 +2,7 @@
    <parent>
       <groupId>org.gatein.wci</groupId>
       <artifactId>wci-jboss</artifactId>
-      <version>2.2.0-Beta03-SNAPSHOT</version>
+      <version>2.3.0-Alpha01-SNAPSHOT</version>
    </parent>
 
    <modelVersion>4.0.0</modelVersion>
@@ -12,7 +12,6 @@
 
    <properties>
       <version.jboss.as>7.1.1.Final</version.jboss.as>
-      <version.junit>4.10</version.junit>
    </properties>
 
    <dependencies>
@@ -31,18 +30,13 @@
        <groupId>org.jboss.as</groupId>
        <artifactId>jboss-as-controller</artifactId>
        <version>${version.jboss.as}</version>
+       <scope>provided</scope>
      </dependency>
      <dependency>
        <groupId>org.jboss.as</groupId>
        <artifactId>jboss-as-web</artifactId>
        <version>${version.jboss.as}</version>
-     </dependency>
-
-     <dependency>
-       <groupId>junit</groupId>
-       <artifactId>junit</artifactId>
-       <version>${version.junit}</version>
-       <scope>test</scope>
+       <scope>provided</scope>
      </dependency>
    </dependencies>
 

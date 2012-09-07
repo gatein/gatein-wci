@@ -1,0 +1,5 @@
+<Context debug="0" reloadable="true">
+
+  <Realm className="org.gatein.wci.test.tomcat7.AuthenticationRealm"/>
+
+</Context>

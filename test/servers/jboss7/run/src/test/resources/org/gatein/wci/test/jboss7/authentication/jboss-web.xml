@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<jboss-web>
+  <security-domain>other</security-domain>
+  <disable-audit>true</disable-audit>
+</jboss-web>
