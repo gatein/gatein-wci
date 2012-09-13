@@ -12,7 +12,7 @@
   <parent>
     <groupId>org.gatein</groupId>
     <artifactId>gatein-parent</artifactId>
-    <version>1.2.0.Alpha02</version>
+    <version>1.2.0.Alpha03</version>
   </parent>
   
   <scm>
@@ -22,19 +22,10 @@
   </scm>
   
   <properties>
-    <version.gatein.common>2.1.0.Alpha01</version.gatein.common>
+    <version.gatein.common>2.1.0.Alpha02</version.gatein.common>
 
     <version.junit>4.8.2</version.junit>
 
-    <!-- maven-release-plugin -->
-    <useReleaseProfile>false</useReleaseProfile>
-    <arguments>-Prelease</arguments>
-    <version.release.plugin>2.2.1</version.release.plugin>
-    <pushChanges>false</pushChanges>
-    <autoVersionSubmodules>true</autoVersionSubmodules>
-      
-    <!-- buildnumber-maven-plugin : needs 1.0 for git -->
-    <version.buildnumber.plugin>1.0</version.buildnumber.plugin>
   </properties>
   
   <dependencyManagement>
@@ -43,7 +34,7 @@
       <dependency>
         <groupId>org.gatein</groupId>
         <artifactId>gatein-dep</artifactId>
-        <version>1.2.0.Alpha02</version>
+        <version>1.2.0.Alpha03</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -110,11 +101,7 @@
         <groupId>junit</groupId>
         <version>${version.junit}</version>
       </dependency>
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>javax.servlet-api</artifactId>
-        <version>3.0.1</version>
-      </dependency>
+
 
     </dependencies>
   </dependencyManagement>
