@@ -4,7 +4,7 @@
       <!-- THIS POM DEPENDS ON wci-parent FOR A SPECIFIC PURPOSE (to only get the dependency management) -->
      <groupId>org.gatein.wci</groupId>
       <artifactId>wci-parent</artifactId>
-      <version>2.3.0-Alpha01-SNAPSHOT</version>
+      <version>2.3.0.Alpha01-SNAPSHOT</version>
       <relativePath>../../../../pom.xml</relativePath>
    </parent>
    <modelVersion>4.0.0</modelVersion>
