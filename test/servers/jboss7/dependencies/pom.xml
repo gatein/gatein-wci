@@ -4,7 +4,7 @@
    <groupId>org.gatein.wci</groupId>
    <artifactId>wci-test-jboss7-dependencies</artifactId>
    <packaging>jar</packaging>
-   <version>2.3.0.Alpha02</version>
+   <version>2.3.0.Alpha03-SNAPSHOT</version>
    <name>GateIn - WCI test JBoss 7 (dependencies)</name>
 
   <dependencies>
