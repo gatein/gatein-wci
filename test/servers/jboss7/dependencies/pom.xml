@@ -1,21 +1,17 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-   <parent>
-      <!-- THIS POM DEPENDS ON wci-parent FOR A SPECIFIC PURPOSE (to only get the dependency management) -->
-     <groupId>org.gatein.wci</groupId>
-      <artifactId>wci-parent</artifactId>
-      <version>2.3.0.Alpha02-SNAPSHOT</version>
-      <relativePath>../../../../pom.xml</relativePath>
-   </parent>
    <modelVersion>4.0.0</modelVersion>
+   <groupId>org.gatein.wci</groupId>
    <artifactId>wci-test-jboss7-dependencies</artifactId>
    <packaging>jar</packaging>
+   <version>2.3.0.Alpha02-SNAPSHOT</version>
    <name>GateIn - WCI test JBoss 7 (dependencies)</name>
 
   <dependencies>
     <dependency>
       <groupId>org.gatein.wci</groupId>
       <artifactId>wci-jboss7</artifactId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 

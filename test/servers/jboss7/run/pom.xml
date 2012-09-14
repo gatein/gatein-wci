@@ -69,30 +69,6 @@
         </plugin>
       </plugins>
     </pluginManagement>
-    <plugins>
-      <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>unpack-jboss7-dependencies</id>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>org.gatein.wci</groupId>
-                  <artifactId>wci-test-jboss7-dependencies</artifactId>
-                </artifactItem>
-              </artifactItems>
-              <includes>META-INF/maven/org.gatein.wci/wci-test-jboss7-dependencies/pom.xml</includes>
-              <outputDirectory>${project.build.directory}</outputDirectory>
-            </configuration>
-            <goals>
-              <goal>unpack</goal>
-            </goals>
-            <phase>generate-test-resources</phase>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
   </build>
 
 </project>

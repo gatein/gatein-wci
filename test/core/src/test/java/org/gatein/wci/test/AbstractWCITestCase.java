@@ -38,7 +38,7 @@ public abstract class AbstractWCITestCase
       war.addAsResource("META-INF/services/org.jboss.msc.service.ServiceActivator");
       war.addAsLibraries(DependencyResolvers.
          use(MavenDependencyResolver.class).
-         loadEffectivePom("target/META-INF/maven/org.gatein.wci/wci-test-jboss7-dependencies/pom.xml").importAllDependencies().
+         loadEffectivePom("../dependencies/pom.xml").importAllDependencies().
          resolveAsFiles());
       war.addClass(AbstractWCITestCase.class);
       return war;
