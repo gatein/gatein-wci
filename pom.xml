@@ -106,6 +106,10 @@
     </dependencies>
   </dependencyManagement>
   
+  <dependencies>
+    <!-- NO DEPENDENCIES HERE -->
+  </dependencies>
+
   <modules>
     <module>wci</module>
     <module>tomcat</module>

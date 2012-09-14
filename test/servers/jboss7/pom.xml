@@ -14,4 +14,8 @@
      <module>run</module>
    </modules>
 
+  <dependencies>
+    <!-- NO DEPENDENCIES HERE -->
+  </dependencies>
+
 </project>
