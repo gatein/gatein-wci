@@ -11,8 +11,9 @@ JBoss7 integration tests require two configurations steps.
 
 * The environment variable JBOSS_HOME must point to JBoss AS 7.1.1
 * The JBoss 7 installation must contain an application user named 'foo' with password 'bar' :
-** run "add-user.sh"
-** chose option b) for the user type (Application User)
-** leave default realm option (just press enter)
-** username : 'foo'
-** password : 'bar' (twice)
+run "add-user.sh"
+use option b) for the user type (Application User)
+leave default realm option (just press enter)
+username : 'foo'
+password : 'bar' (twice)
+role : 'myrole'
