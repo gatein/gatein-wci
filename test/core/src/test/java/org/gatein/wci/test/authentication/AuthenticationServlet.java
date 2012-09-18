@@ -23,6 +23,7 @@ import org.gatein.wci.ServletContainerFactory;
 import org.gatein.wci.authentication.AuthenticationEvent;
 import org.gatein.wci.authentication.AuthenticationException;
 import org.gatein.wci.authentication.AuthenticationListener;
+import org.gatein.wci.authentication.AuthenticationStatus;
 import org.gatein.wci.security.Credentials;
 
 import javax.servlet.ServletException;
@@ -46,7 +47,10 @@ public class AuthenticationServlet extends HttpServlet
    ServletContainer sc;
 
    /** . */
-   static LinkedList<AuthenticationEvent> events = new LinkedList<AuthenticationEvent>();
+   static LinkedList<AuthenticationEvent> successAuthEvents = new LinkedList<AuthenticationEvent>();
+
+   /** . */
+   static LinkedList<AuthenticationEvent> failureAuthEvents = new LinkedList<AuthenticationEvent>();
 
    @Override
    public void init() throws ServletException
@@ -57,7 +61,14 @@ public class AuthenticationServlet extends HttpServlet
          @Override
          public void onEvent(AuthenticationEvent event)
          {
-            events.addLast(event);
+            if (event.getStatus() == AuthenticationStatus.SUCCESS)
+            {
+               successAuthEvents.addLast(event);
+            }
+            else
+            {
+               failureAuthEvents.addLast(event);
+            }
          }
       });
    }

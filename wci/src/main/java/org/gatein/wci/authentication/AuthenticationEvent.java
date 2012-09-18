@@ -36,6 +36,9 @@ public class AuthenticationEvent
    private final AuthenticationEventType type;
 
    /** . */
+   private final AuthenticationStatus status;
+
+   /** . */
    private final HttpServletRequest request;
 
    /** . */
@@ -45,13 +48,21 @@ public class AuthenticationEvent
    private final String userName;
 
    /** . */
+   private final Credentials credentials;
+
+   /** . */
    private final ServletContainerContext containerContext;
 
-   public AuthenticationEvent(AuthenticationEventType type, HttpServletRequest request, HttpServletResponse response, String userName, ServletContainerContext containerContext)
+   public AuthenticationEvent(AuthenticationEventType type, AuthenticationStatus status, HttpServletRequest request,
+                              HttpServletResponse response, String userName, Credentials credentials, ServletContainerContext containerContext)
    {
       if (type == null)
       {
          throw new IllegalArgumentException("type is null");
+      }
+      if (status == null)
+      {
+         throw new IllegalArgumentException("status is null");
       }
       if (request == null)
       {
@@ -68,15 +79,22 @@ public class AuthenticationEvent
 
       //
       this.type = type;
+      this.status = status;
       this.request = request;
       this.response = response;
       this.userName = userName;
+      this.credentials = credentials;
       this.containerContext = containerContext;
    }
 
    public AuthenticationEventType getType()
    {
       return type;
+   }
+
+   public AuthenticationStatus getStatus()
+   {
+      return status;
    }
 
    public HttpServletRequest getRequest()
@@ -94,6 +112,11 @@ public class AuthenticationEvent
       return userName;
    }
 
+   public Credentials getCredentials()
+   {
+      return credentials;
+   }
+
    public ServletContainerContext getContainerContext()
    {
       return containerContext;
@@ -102,6 +125,7 @@ public class AuthenticationEvent
    @Override
    public String toString()
    {
-      return "AuthenticationEvent[type=" + type.name() + ",userName=" + userName + ",uri=" + request.getRequestURI() + "]";
+      return "AuthenticationEvent[type=" + type.name() + ",status=" + status.name() + ",userName=" + userName +
+            ",uri=" + request.getRequestURI() + "]";
    }
 }
