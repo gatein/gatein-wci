@@ -68,7 +68,7 @@ public abstract class AbstractAuthenticationTestCase extends AbstractWCITestCase
    public void testUserIsNotAuthenticated()
    {
       Assert.assertNull(AuthenticationServlet.remoteUser);
-      Assert.assertEquals(Collections.emptyList(), AuthenticationServlet.events);
+      Assert.assertEquals(Collections.emptyList(), AuthenticationServlet.authEvents);
       AuthenticationServlet.status = 1;
    }
 
@@ -88,10 +88,15 @@ public abstract class AbstractAuthenticationTestCase extends AbstractWCITestCase
    public void testUserIsAuthenticated()
    {
       Assert.assertEquals("foo", AuthenticationServlet.remoteUser);
-      Assert.assertEquals(1, AuthenticationServlet.events.size());
-      AuthenticationEvent event = AuthenticationServlet.events.removeFirst();
-      Assert.assertEquals(AuthenticationEventType.LOGIN, event.getType());
+      Assert.assertEquals(2, AuthenticationServlet.authEvents.size());
+      AuthenticationEvent event = AuthenticationServlet.authEvents.removeFirst();
+      Assert.assertEquals(AuthenticationEventType.FAILED, event.getType());
       Assert.assertEquals("foo", event.getUserName());
+      Assert.assertEquals("foo", event.getCredentials().getPassword());
+      event = AuthenticationServlet.authEvents.removeFirst();
+      Assert.assertEquals(AuthenticationEventType.LOGIN, event.getType());
+      Assert.assertEquals("foo", event.getCredentials().getUsername());
+      Assert.assertEquals("bar", event.getCredentials().getPassword());
       AuthenticationServlet.status = 2;
    }
 
@@ -111,7 +116,7 @@ public abstract class AbstractAuthenticationTestCase extends AbstractWCITestCase
    public void testUserRemainsAuthenticated()
    {
       Assert.assertEquals("foo", AuthenticationServlet.remoteUser);
-      Assert.assertEquals(Collections.emptyList(), AuthenticationServlet.events);
+      Assert.assertEquals(Collections.emptyList(), AuthenticationServlet.authEvents);
       AuthenticationServlet.status = 3;
    }
 
@@ -130,10 +135,7 @@ public abstract class AbstractAuthenticationTestCase extends AbstractWCITestCase
    public void testUserIsLoggeOut()
    {
       Assert.assertNull(AuthenticationServlet.remoteUser);
-      Assert.assertEquals(1, AuthenticationServlet.events.size());
-      AuthenticationEvent event = AuthenticationServlet.events.removeFirst();
-      Assert.assertEquals(AuthenticationEventType.LOGOUT, event.getType());
-      Assert.assertEquals("foo", event.getUserName());
+      Assert.assertEquals(0, AuthenticationServlet.authEvents.size());
       AuthenticationServlet.status = 4;
    }
 }

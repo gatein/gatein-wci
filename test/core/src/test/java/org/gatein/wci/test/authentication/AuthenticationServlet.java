@@ -46,7 +46,7 @@ public class AuthenticationServlet extends HttpServlet
    ServletContainer sc;
 
    /** . */
-   static LinkedList<AuthenticationEvent> events = new LinkedList<AuthenticationEvent>();
+   static LinkedList<AuthenticationEvent> authEvents = new LinkedList<AuthenticationEvent>();
 
    @Override
    public void init() throws ServletException
@@ -57,7 +57,7 @@ public class AuthenticationServlet extends HttpServlet
          @Override
          public void onEvent(AuthenticationEvent event)
          {
-            events.addLast(event);
+            authEvents.addLast(event);
          }
       });
    }

@@ -45,9 +45,13 @@ public class AuthenticationEvent
    private final String userName;
 
    /** . */
+   private final Credentials credentials;
+
+   /** . */
    private final ServletContainerContext containerContext;
 
-   public AuthenticationEvent(AuthenticationEventType type, HttpServletRequest request, HttpServletResponse response, String userName, ServletContainerContext containerContext)
+   public AuthenticationEvent(AuthenticationEventType type, HttpServletRequest request,
+                              HttpServletResponse response, String userName, Credentials credentials, ServletContainerContext containerContext)
    {
       if (type == null)
       {
@@ -71,6 +75,7 @@ public class AuthenticationEvent
       this.request = request;
       this.response = response;
       this.userName = userName;
+      this.credentials = credentials;
       this.containerContext = containerContext;
    }
 
@@ -94,6 +99,11 @@ public class AuthenticationEvent
       return userName;
    }
 
+   public Credentials getCredentials()
+   {
+      return credentials;
+   }
+
    public ServletContainerContext getContainerContext()
    {
       return containerContext;
@@ -102,6 +112,7 @@ public class AuthenticationEvent
    @Override
    public String toString()
    {
-      return "AuthenticationEvent[type=" + type.name() + ",userName=" + userName + ",uri=" + request.getRequestURI() + "]";
+      return "AuthenticationEvent[type=" + type.name() + ",userName=" + userName +
+            ",uri=" + request.getRequestURI() + "]";
    }
 }

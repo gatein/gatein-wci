@@ -22,6 +22,6 @@ package org.gatein.wci.authentication;
 public enum AuthenticationEventType
 {
 
-   LOGIN, LOGOUT
+   LOGIN, FAILED
 
 }
