@@ -27,7 +27,9 @@ import org.gatein.common.logging.LoggerFactory;
 import org.gatein.wci.api.GateInServlet;
 import org.gatein.wci.authentication.AuthenticationEvent;
 import org.gatein.wci.authentication.AuthenticationEventType;
+import org.gatein.wci.authentication.AuthenticationException;
 import org.gatein.wci.authentication.AuthenticationListener;
+import org.gatein.wci.authentication.AuthenticationStatus;
 import org.gatein.wci.command.CommandDispatcher;
 import org.gatein.wci.security.Credentials;
 import org.gatein.wci.spi.ServletContainerContext;
@@ -165,8 +167,18 @@ public final class ServletContainer
       String remoteUser = request.getRemoteUser();
       if (remoteUser  == null)
       {
-         registration.context.login(request, response, credentials);
-         fireEvent(new AuthenticationEvent(AuthenticationEventType.LOGIN, request, response, credentials.getUsername(), registration.context));
+         try
+         {
+            registration.context.login(request, response, credentials);
+            fireEvent(new AuthenticationEvent(AuthenticationEventType.LOGIN, AuthenticationStatus.SUCCESS,
+                  request, response, credentials.getUsername(), credentials, registration.context));
+         }
+         catch (AuthenticationException ae)
+         {
+            fireEvent(new AuthenticationEvent(AuthenticationEventType.LOGIN, AuthenticationStatus.FAILURE,
+                  request, response, credentials.getUsername(), credentials, registration.context));
+            throw ae;
+         }
       }
       else
       {
@@ -189,7 +201,7 @@ public final class ServletContainer
          try
          {
             registration.context.logout(request, response);
-            fireEvent(new AuthenticationEvent(AuthenticationEventType.LOGOUT, request, response, remoteUser, registration.context));
+            fireEvent(new AuthenticationEvent(AuthenticationEventType.LOGOUT, AuthenticationStatus.SUCCESS, request, response, remoteUser, null, registration.context));
          }
          catch (ServletException ignore)
          {
