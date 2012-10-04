@@ -18,6 +18,9 @@
  */
 package org.gatein.wci.jetty;
 
+import org.eclipse.jetty.security.authentication.SessionAuthentication;
+import org.eclipse.jetty.server.Request;
+import org.eclipse.jetty.server.Response;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.component.Container;
 import org.eclipse.jetty.util.component.LifeCycle;
@@ -117,14 +120,29 @@ public class Jetty8ServletContainerContext implements ServletContainerContext, C
    @Override
    public void login(HttpServletRequest request, HttpServletResponse response, Credentials credentials) throws AuthenticationException, ServletException, IOException
    {
-      request.getSession(true);
       try
       {
-         request.login(credentials.getUsername(), credentials.getPassword());
+         _login((Request)request, (Response)response, credentials);
       }
       catch (ServletException se)
       {
          throw new AuthenticationException(se);
+      }
+   }
+
+   private void _login(Request req, Response resp, Credentials credentials) throws ServletException
+   {
+      HttpSession session = req.getSession();
+      if(session.getAttribute(SessionAuthentication.__J_AUTHENTICATED) == null)
+      {
+         synchronized (session)
+         {
+            if(session.getAttribute(SessionAuthentication.__J_AUTHENTICATED) == null)
+            {
+               req.login(credentials.getUsername(), credentials.getPassword());
+               session.setAttribute(SessionAuthentication.__J_AUTHENTICATED, req.getAuthentication());
+            }
+         }
       }
    }
 
