@@ -12,6 +12,7 @@
    <modules>
      <module>tomcat7</module>
      <module>jboss7</module>
+     <module>jetty8</module>
    </modules>
 
   <dependencies>

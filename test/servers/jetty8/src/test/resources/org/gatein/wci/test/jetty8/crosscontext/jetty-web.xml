@@ -1,0 +1,18 @@
+<?xml version="1.0"  encoding="ISO-8859-1"?>
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure.dtd">
+
+<Configure class="org.eclipse.jetty.webapp.WebAppContext">
+
+  <Get id="serverObject" name="server"/>
+
+  <New id="jettySetup" class="org.gatein.wci.test.jetty8.BeanInjector">
+    <Arg><Ref id="serverObject"/></Arg>
+  </New>
+
+  <Get name="securityHandler">
+    <Set name="loginService">
+      <New class="org.gatein.wci.test.jetty8.BasicLoginService"/>
+    </Set>
+  </Get>
+
+</Configure>

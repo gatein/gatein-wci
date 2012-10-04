@@ -19,6 +19,7 @@
 package org.gatein.wci.test.authentication;
 
 import junit.framework.Assert;
+import org.gatein.common.util.Base64;
 import org.gatein.wci.authentication.AuthenticationEvent;
 import org.gatein.wci.authentication.AuthenticationEventType;
 import org.gatein.wci.test.AbstractWCITestCase;
@@ -26,7 +27,6 @@ import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.InSequence;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.junit.Test;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -79,33 +79,26 @@ public abstract class AbstractAuthenticationTestCase extends AbstractWCITestCase
    {
       HttpURLConnection conn = (HttpURLConnection)deploymentURL.openConnection();
       conn.connect();
-      Assert.assertEquals(200, conn.getResponseCode());
-      url = readURL(conn.getInputStream());
+      Assert.assertEquals(401, conn.getResponseCode());
    }
 
    @Test
    @InSequence(3)
-   public void testUserIsAuthenticated()
+   public void testAuthenticationFailure()
    {
-      Assert.assertEquals("foo", AuthenticationServlet.remoteUser);
-      Assert.assertEquals(2, AuthenticationServlet.authEvents.size());
+      Assert.assertNull(AuthenticationServlet.remoteUser);
+      Assert.assertEquals(1, AuthenticationServlet.authEvents.size());
       AuthenticationEvent event = AuthenticationServlet.authEvents.removeFirst();
       Assert.assertEquals(AuthenticationEventType.FAILED, event.getType());
-      Assert.assertEquals("foo", event.getUserName());
-      Assert.assertEquals("foo", event.getCredentials().getPassword());
-      event = AuthenticationServlet.authEvents.removeFirst();
-      Assert.assertEquals(AuthenticationEventType.LOGIN, event.getType());
-      Assert.assertEquals("foo", event.getCredentials().getUsername());
-      Assert.assertEquals("bar", event.getCredentials().getPassword());
       AuthenticationServlet.status = 2;
    }
 
    @Test
    @RunAsClient
    @InSequence(4)
-   public void testFoo3() throws Exception
+   public void testFoo3(@ArquillianResource URL deploymentURL) throws Exception
    {
-      HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+      HttpURLConnection conn = (HttpURLConnection)deploymentURL.openConnection();
       conn.connect();
       Assert.assertEquals(200, conn.getResponseCode());
       url = readURL(conn.getInputStream());
@@ -113,10 +106,14 @@ public abstract class AbstractAuthenticationTestCase extends AbstractWCITestCase
 
    @Test
    @InSequence(5)
-   public void testUserRemainsAuthenticated()
+   public void testUserIsAuthenticated()
    {
       Assert.assertEquals("foo", AuthenticationServlet.remoteUser);
-      Assert.assertEquals(Collections.emptyList(), AuthenticationServlet.authEvents);
+      Assert.assertEquals(1, AuthenticationServlet.authEvents.size());
+      AuthenticationEvent event = AuthenticationServlet.authEvents.removeFirst();
+      Assert.assertEquals(AuthenticationEventType.LOGIN, event.getType());
+      Assert.assertEquals("foo", event.getCredentials().getUsername());
+      Assert.assertEquals("bar", event.getCredentials().getPassword());
       AuthenticationServlet.status = 3;
    }
 
@@ -128,14 +125,34 @@ public abstract class AbstractAuthenticationTestCase extends AbstractWCITestCase
       HttpURLConnection conn = (HttpURLConnection)url.openConnection();
       conn.connect();
       Assert.assertEquals(200, conn.getResponseCode());
+      url = readURL(conn.getInputStream());
    }
 
    @Test
    @InSequence(7)
+   public void testUserRemainsAuthenticated()
+   {
+      Assert.assertEquals("foo", AuthenticationServlet.remoteUser);
+      Assert.assertEquals(Collections.emptyList(), AuthenticationServlet.authEvents);
+      AuthenticationServlet.status = 4;
+   }
+
+   @Test
+   @RunAsClient
+   @InSequence(8)
+   public void testFoo5() throws Exception
+   {
+      HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+      conn.connect();
+      Assert.assertEquals(200, conn.getResponseCode());
+   }
+
+   @Test
+   @InSequence(9)
    public void testUserIsLoggeOut()
    {
       Assert.assertNull(AuthenticationServlet.remoteUser);
       Assert.assertEquals(0, AuthenticationServlet.authEvents.size());
-      AuthenticationServlet.status = 4;
+      AuthenticationServlet.status = 5;
    }
 }
