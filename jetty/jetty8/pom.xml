@@ -23,17 +23,14 @@
      <dependency>
        <groupId>org.eclipse.jetty</groupId>
        <artifactId>jetty-server</artifactId>
-       <version>${version.jetty8}</version>
      </dependency>
      <dependency>
        <groupId>org.eclipse.jetty</groupId>
        <artifactId>jetty-servlet</artifactId>
-       <version>${version.jetty8}</version>
      </dependency>
      <dependency>
        <groupId>org.eclipse.jetty</groupId>
        <artifactId>jetty-webapp</artifactId>
-       <version>${version.jetty8}</version>
      </dependency>
    </dependencies>
 </project>

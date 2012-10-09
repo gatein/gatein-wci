@@ -10,10 +10,6 @@
    <packaging>jar</packaging>
    <name>GateIn - WCI JBoss 7 compatibility component</name>
 
-   <properties>
-      <version.jboss.as>7.1.1.Final</version.jboss.as>
-   </properties>
-
    <dependencies>
      <dependency>
        <groupId>org.gatein.wci</groupId>

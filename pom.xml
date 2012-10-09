@@ -23,22 +23,24 @@
   
   <properties>
     <version.gatein.common>2.1.0.Alpha05</version.gatein.common>
-
+    <version.org.slf4j>1.6.1</version.org.slf4j>
     <version.junit>4.8.2</version.junit>
+    <version.servlet>3.0.1</version.servlet>
 
+    <!-- Servers -->
+    <version.jboss.as>7.1.1.Final</version.jboss.as>
+    <version.jetty8>8.1.7.v20120910</version.jetty8>
+    <version.tomcat7>7.0.19</version.tomcat7>
+
+    <!-- For testing only -->
+    <version.arquillian>1.0.0.CR7</version.arquillian>
+    <version.shrinkwrap>1.0.0-cr-1</version.shrinkwrap>
+    <version.shrinkwrap.resolver>2.0.0-alpha-1</version.shrinkwrap.resolver>
   </properties>
   
   <dependencyManagement>
     <dependencies>
-      <!-- Import dependency management configuration -->
-      <dependency>
-        <groupId>org.gatein</groupId>
-        <artifactId>gatein-dep</artifactId>
-        <version>1.2.0.Alpha03</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      
+
       <!-- Internal dependencies -->
       <dependency>
         <groupId>org.gatein.common</groupId>
@@ -75,7 +77,6 @@
         <artifactId>wci-jetty8</artifactId>
         <version>${project.version}</version>
       </dependency>
-
       <dependency>
         <groupId>org.gatein.wci</groupId>
         <artifactId>wci-test-core</artifactId>
@@ -100,13 +101,105 @@
         <version>${project.version}</version>
       </dependency>
 
-      <!-- External dependencies -->
+      <!-- Spec dependencies -->
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>${version.servlet}</version>
+      </dependency>
+
+      <!-- Test dependencies -->
       <dependency>
         <artifactId>junit</artifactId>
         <groupId>junit</groupId>
         <version>${version.junit}</version>
       </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-simple</artifactId>
+        <version>${version.org.slf4j}</version>
+      </dependency>
 
+      <!-- Arquillian/Shrinkwrap stack -->
+      <dependency>
+        <groupId>org.jboss.arquillian.container</groupId>
+        <artifactId>arquillian-container-spi</artifactId>
+        <version>${version.arquillian}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.arquillian.junit</groupId>
+        <artifactId>arquillian-junit-container</artifactId>
+        <version>${version.arquillian}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.shrinkwrap</groupId>
+        <artifactId>shrinkwrap-api</artifactId>
+        <version>${version.shrinkwrap}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.shrinkwrap</groupId>
+        <artifactId>shrinkwrap-impl-base</artifactId>
+        <version>${version.shrinkwrap}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.shrinkwrap.resolver</groupId>
+        <artifactId>shrinkwrap-resolver-api-maven</artifactId>
+        <version>${version.shrinkwrap.resolver}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.shrinkwrap.resolver</groupId>
+        <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+        <version>${version.shrinkwrap.resolver}</version>
+      </dependency>
+
+      <!-- Jetty8 -->
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-webapp</artifactId>
+        <version>${version.jetty8}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-plus</artifactId>
+        <version>${version.jetty8}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-security</artifactId>
+        <version>${version.jetty8}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-server</artifactId>
+        <version>${version.jetty8}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-servlet</artifactId>
+        <version>${version.jetty8}</version>
+      </dependency>
+
+      <!-- Tomcat7 -->
+      <dependency>
+        <groupId>org.apache.tomcat</groupId>
+        <artifactId>tomcat-catalina</artifactId>
+        <version>${version.tomcat7}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.tomcat.embed</groupId>
+        <artifactId>tomcat-embed-core</artifactId>
+        <version>${version.tomcat7}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.tomcat.embed</groupId>
+        <artifactId>tomcat-embed-jasper</artifactId>
+        <version>${version.tomcat7}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.tomcat.embed</groupId>
+        <artifactId>tomcat-embed-logging-juli</artifactId>
+        <version>${version.tomcat7}</version>
+      </dependency>
 
     </dependencies>
   </dependencyManagement>
