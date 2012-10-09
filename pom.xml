@@ -118,8 +118,7 @@
   <modules>
     <module>wci</module>
     <module>tomcat</module>
-    <module>jetty/jetty8</module>
-    <module>jetty/exo/security</module>
+    <module>jetty</module>
     <module>jboss</module>
     <module>glassfish</module>
     <module>test</module>
