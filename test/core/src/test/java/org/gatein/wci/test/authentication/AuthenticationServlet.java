@@ -86,6 +86,9 @@ public class AuthenticationServlet extends HttpServlet
             catch (AuthenticationException ignore)
             {
             }
+            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            break;
+         case 2 :
             sc.login(req, resp, new Credentials("foo", "bar"));
             try
             {
@@ -100,14 +103,14 @@ public class AuthenticationServlet extends HttpServlet
             resp.setContentType("text/plain");
             resp.getWriter().write(getURL(req, resp));
             break;
-         case 2:
+         case 3:
             req.getSession();
             remoteUser = req.getRemoteUser();
             resp.setStatus(200);
             resp.setContentType("text/plain");
             resp.getWriter().write(getURL(req, resp));
             break;
-         case 3:
+         case 4:
             sc.logout(req, resp);
             try
             {

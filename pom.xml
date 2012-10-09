@@ -70,6 +70,11 @@
         <artifactId>wci-glassfish3</artifactId>
         <version>${project.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.gatein.wci</groupId>
+        <artifactId>wci-jetty8</artifactId>
+        <version>${project.version}</version>
+      </dependency>
 
       <dependency>
         <groupId>org.gatein.wci</groupId>
@@ -113,6 +118,7 @@
   <modules>
     <module>wci</module>
     <module>tomcat</module>
+    <module>jetty</module>
     <module>jboss</module>
     <module>glassfish</module>
     <module>test</module>
