@@ -84,6 +84,8 @@ public class CatalinaIntegration
       for (Service service : services)
       {
          Engine engine = (Engine) service.getContainer();
+         JB7ServletContainerContext containerContext = containerContexts.get(engine);
+         containerContext.stop();
          containerContexts.remove(engine);
       }
    }

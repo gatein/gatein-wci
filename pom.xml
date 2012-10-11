@@ -31,6 +31,7 @@
     <version.jboss.as>7.1.1.Final</version.jboss.as>
     <version.jetty8>8.1.7.v20120910</version.jetty8>
     <version.tomcat7>7.0.19</version.tomcat7>
+    <version.jboss7>7.1.1.Final</version.jboss7>
 
     <!-- For testing only -->
     <version.arquillian>1.0.0.CR7</version.arquillian>
@@ -199,6 +200,14 @@
         <groupId>org.apache.tomcat.embed</groupId>
         <artifactId>tomcat-embed-logging-juli</artifactId>
         <version>${version.tomcat7}</version>
+      </dependency>
+
+      <!-- JBoss 7 -->
+      <dependency>
+        <groupId>org.jboss.as</groupId>
+        <artifactId>jboss-as-dist</artifactId>
+        <version>${version.jboss7}</version>
+        <type>zip</type>
       </dependency>
 
     </dependencies>
