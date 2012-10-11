@@ -7,8 +7,11 @@
   <defaultProtocol type="Servlet 3.0" />
   <container qualifier="jbossas-managed" default="true">
     <configuration>
-        <!--<property name="jbossHome">target/jboss-as-7.1.1.Final</property>-->
+        <property name="jbossHome">${JBOSS_HOME}</property>
       <!--<property name="javaVmArguments">-Xmx512m -XX:MaxPermSize=128m -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=y</property>-->
     </configuration>
   </container>
+  <engine>
+    <property name="deploymentExportPath">target/arquillian-archives</property>
+  </engine>
 </arquillian>

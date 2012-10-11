@@ -115,7 +115,7 @@ public class JB7WebAppContext implements WebAppContext
       {
          try
          {
-            context.removeServletMapping("tomcatgateinservlet");
+            context.removeServletMapping("/tomcatgateinservlet");
             context.removeChild(commandServlet);
          }
          catch (Exception e)
