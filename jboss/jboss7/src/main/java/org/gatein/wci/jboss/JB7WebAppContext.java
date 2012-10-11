@@ -87,7 +87,7 @@ public class JB7WebAppContext implements WebAppContext
          }
          catch(Exception ex)
          {
-            log.warn("WCI integration skipped for context: " + context);
+            log.debug("WCI integration skipped for context: " + context);
             return;
          }
          commandServlet = context.createWrapper();
