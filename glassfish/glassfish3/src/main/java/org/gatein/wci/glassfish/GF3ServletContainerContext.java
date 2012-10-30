@@ -30,6 +30,7 @@ import org.apache.catalina.LifecycleException;
 import org.apache.catalina.LifecycleListener;
 import org.apache.catalina.core.StandardContext;
 import org.gatein.wci.RequestDispatchCallback;
+import org.gatein.wci.ServletContainer;
 import org.gatein.wci.ServletContainerFactory;
 import org.gatein.wci.ServletContainerVisitor;
 import org.gatein.wci.WebApp;
@@ -226,10 +227,13 @@ public class GF3ServletContainerContext implements ServletContainerContext, Cont
    {
       try
       {
-         GF3WebAppContext webAppContext = new GF3WebAppContext(context);
-         if (registration != null)
+         if (!ServletContainer.isDisabledNativeRegistration(context.getServletContext()))
          {
-            registration.registerWebApp(webAppContext);
+            GF3WebAppContext webAppContext = new GF3WebAppContext(context);
+            if (registration != null)
+            {
+               registration.registerWebApp(webAppContext);
+            }
          }
       }
       catch (Exception e)
@@ -242,9 +246,12 @@ public class GF3ServletContainerContext implements ServletContainerContext, Cont
    {
       try
       {
-         if (registration != null)
+         if (!ServletContainer.isDisabledNativeRegistration(context.getServletContext()))
          {
-            registration.unregisterWebApp(context.getPath());
+            if (registration != null)
+            {
+               registration.unregisterWebApp(context.getPath());
+            }
          }
       }
       catch (Exception e)

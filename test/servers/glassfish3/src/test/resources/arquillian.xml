@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<arquillian xmlns="http://jboss.com/arquillian" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <container qualifier="glassfish">
+    <configuration>
+      <property name="configurationXml">src/test/resources/domain.xml</property>
+    </configuration>
+   </container>
+</arquillian>
