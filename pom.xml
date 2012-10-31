@@ -213,7 +213,7 @@
     <module>tomcat</module>
     <module>jetty</module>
     <module>jboss</module>
-    <module>glassfish</module>
+    <module>glassfish/glassfish3</module>
     <module>test</module>
   </modules>
   

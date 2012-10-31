@@ -35,8 +35,6 @@ import javax.servlet.ServletContext;
  */
 public class GF3WebAppContext implements WebAppContext
 {
-   private Document descriptor;
-
    private ServletContext servletContext;
 
    private ClassLoader loader;
