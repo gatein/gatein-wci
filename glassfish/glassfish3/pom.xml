@@ -32,6 +32,12 @@
         <groupId>org.glassfish.web</groupId>
         <artifactId>web-core</artifactId>
         <version>3.1</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>javax.persistence</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
    </dependencies>
 </project>
