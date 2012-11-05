@@ -18,16 +18,17 @@
  */
 package org.gatein.wci.glassfish;
 
+import org.apache.catalina.Container;
 import org.apache.catalina.Context;
 import org.apache.catalina.Manager;
 import org.apache.catalina.Session;
 import org.apache.catalina.Wrapper;
 import org.gatein.wci.command.CommandServlet;
 import org.gatein.wci.spi.WebAppContext;
-import org.w3c.dom.Document;
+
+import javax.servlet.ServletContext;
 import java.io.IOException;
 import java.io.InputStream;
-import javax.servlet.ServletContext;
 
 /**
  * @author <a href="hoang281283@gmail.com">Minh Hoang TO</a>
@@ -35,6 +36,8 @@ import javax.servlet.ServletContext;
  */
 public class GF3WebAppContext implements WebAppContext
 {
+   private static final String GATEIN_SERVLET_NAME = "TomcatGateInServlet";
+
    private ServletContext servletContext;
 
    private ClassLoader loader;
@@ -56,19 +59,24 @@ public class GF3WebAppContext implements WebAppContext
 
    public void start() throws Exception
    {
-      try
+      // only add the command servlet if it hasn't already been added to the context
+      final Container child = context.findChild(GATEIN_SERVLET_NAME);
+      if (child == null)
       {
-         commandServlet = context.createWrapper();
-         commandServlet.setName("TomcatGateInServlet");
-         commandServlet.setLoadOnStartup(0);
-         commandServlet.setServletClassName(CommandServlet.class.getName());
-         context.addChild(commandServlet);
-         context.addServletMapping("/tomcatgateinservlet", "TomcatGateInServlet");
-      }
-      catch (Exception e)
-      {
-         cleanup();
-         throw e;
+         try
+         {
+            commandServlet = context.createWrapper();
+            commandServlet.setName(GATEIN_SERVLET_NAME);
+            commandServlet.setLoadOnStartup(0);
+            commandServlet.setServletClassName(CommandServlet.class.getName());
+            context.addChild(commandServlet);
+            context.addServletMapping("/tomcatgateinservlet", GATEIN_SERVLET_NAME);
+         }
+         catch (Exception e)
+         {
+            cleanup();
+            throw e;
+         }
       }
    }
 
@@ -83,7 +91,7 @@ public class GF3WebAppContext implements WebAppContext
       {
          try
          {
-            context.removeServletMapping("tomcatgateinservlet");
+            context.removeServletMapping("/tomcatgateinservlet");
             context.removeChild(commandServlet);
          }
          catch (Exception e)
