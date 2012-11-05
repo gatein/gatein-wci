@@ -21,6 +21,7 @@
  */
 package org.gatein.wci.jboss;
 
+import org.apache.catalina.Container;
 import org.apache.catalina.Context;
 import org.apache.catalina.Manager;
 import org.apache.catalina.Session;
@@ -40,6 +41,7 @@ import java.io.InputStream;
 public class JB7WebAppContext implements WebAppContext
 {
    private final static Logger log = LoggerFactory.getLogger(JB7WebAppContext.class);
+   private static final String GATEIN_SERVLET_NAME = "TomcatGateInServlet";
 
    /**
     * .
@@ -78,29 +80,34 @@ public class JB7WebAppContext implements WebAppContext
 
    public void start() throws Exception
    {
-      try
+      // only add the command servlet if it hasn't already been added to the context
+      final Container child = context.findChild(GATEIN_SERVLET_NAME);
+      if (child == null)
       {
-         String className = CommandServlet.class.getName();
          try
          {
-            loader.loadClass(className);
+            String className = CommandServlet.class.getName();
+            try
+            {
+               loader.loadClass(className);
+            }
+            catch(Exception ex)
+            {
+               log.debug("WCI integration skipped for context: " + context);
+               return;
+            }
+            commandServlet = context.createWrapper();
+            commandServlet.setName(GATEIN_SERVLET_NAME);
+            commandServlet.setLoadOnStartup(0);
+            commandServlet.setServletClass(className);
+            context.addChild(commandServlet);
+            context.addServletMapping("/tomcatgateinservlet", GATEIN_SERVLET_NAME);
          }
-         catch(Exception ex)
+         catch (Exception e)
          {
-            log.debug("WCI integration skipped for context: " + context);
-            return;
+            cleanup();
+            throw e;
          }
-         commandServlet = context.createWrapper();
-         commandServlet.setName("TomcatGateInServlet");
-         commandServlet.setLoadOnStartup(0);
-         commandServlet.setServletClass(className);
-         context.addChild(commandServlet);
-         context.addServletMapping("/tomcatgateinservlet", "TomcatGateInServlet");
-      }
-      catch (Exception e)
-      {
-         cleanup();
-         throw e;
       }
    }
 
@@ -115,7 +122,7 @@ public class JB7WebAppContext implements WebAppContext
       {
          try
          {
-            context.removeServletMapping("tomcatgateinservlet");
+            context.removeServletMapping("tomcatgateinservlet"); // is it normal that the pattern used to remove the mapping is not the same as the one used to add it?
             context.removeChild(commandServlet);
          }
          catch (Exception e)
