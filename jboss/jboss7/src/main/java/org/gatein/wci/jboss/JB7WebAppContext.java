@@ -21,7 +21,6 @@
  */
 package org.gatein.wci.jboss;
 
-import org.apache.catalina.Container;
 import org.apache.catalina.Context;
 import org.apache.catalina.Manager;
 import org.apache.catalina.Session;
@@ -42,7 +41,8 @@ public class JB7WebAppContext implements WebAppContext
 {
    private final static Logger log = LoggerFactory.getLogger(JB7WebAppContext.class);
    private static final String GATEIN_SERVLET_NAME = "TomcatGateInServlet";
-
+   private static final String GATEIN_SERVLET_PATH = "/tomcatgateinservlet";
+   
    /**
     * .
     */
@@ -80,34 +80,29 @@ public class JB7WebAppContext implements WebAppContext
 
    public void start() throws Exception
    {
-      // only add the command servlet if it hasn't already been added to the context
-      final Container child = context.findChild(GATEIN_SERVLET_NAME);
-      if (child == null)
+      try
       {
+         String className = CommandServlet.class.getName();
          try
          {
-            String className = CommandServlet.class.getName();
-            try
-            {
-               loader.loadClass(className);
-            }
-            catch(Exception ex)
-            {
-               log.debug("WCI integration skipped for context: " + context);
-               return;
-            }
-            commandServlet = context.createWrapper();
-            commandServlet.setName(GATEIN_SERVLET_NAME);
-            commandServlet.setLoadOnStartup(0);
-            commandServlet.setServletClass(className);
-            context.addChild(commandServlet);
-            context.addServletMapping("/tomcatgateinservlet", GATEIN_SERVLET_NAME);
+            loader.loadClass(className);
          }
-         catch (Exception e)
+         catch(Exception ex)
          {
-            cleanup();
-            throw e;
+            log.debug("WCI integration skipped for context: " + context);
+            return;
          }
+         commandServlet = context.createWrapper();
+         commandServlet.setName(GATEIN_SERVLET_NAME);
+         commandServlet.setLoadOnStartup(0);
+         commandServlet.setServletClass(className);
+         context.addChild(commandServlet);
+         context.addServletMapping(GATEIN_SERVLET_PATH, GATEIN_SERVLET_NAME);
+      }
+      catch (Exception e)
+      {
+         cleanup();
+         throw e;
       }
    }
 
@@ -122,7 +117,7 @@ public class JB7WebAppContext implements WebAppContext
       {
          try
          {
-            context.removeServletMapping("/tomcatgateinservlet");
+            context.removeServletMapping(GATEIN_SERVLET_PATH);
             context.removeChild(commandServlet);
          }
          catch (Exception e)
