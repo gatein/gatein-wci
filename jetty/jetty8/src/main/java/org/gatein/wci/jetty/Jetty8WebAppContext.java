@@ -33,6 +33,9 @@ import javax.servlet.http.HttpSession;
  */
 public class Jetty8WebAppContext implements WebAppContext
 {
+   private static final String GATEIN_SERVLET_NAME = "CommandServlet"; //TODO: why is Jetty the only one calling this 'CommandServlet'?
+   private static final String GATEIN_SERVLET_PATH = "/jetty8gateinservlet";
+   
    private ServletHolder commandServlet;
 
    private final ServletContextHandler contextHandler;
@@ -57,10 +60,10 @@ public class Jetty8WebAppContext implements WebAppContext
       try
       {
          commandServlet = new ServletHolder();
-         commandServlet.setName("CommandServlet");
+         commandServlet.setName(GATEIN_SERVLET_NAME);
          commandServlet.setInitOrder(0);
          commandServlet.setClassName(CommandServlet.class.getName());
-         contextHandler.addServlet(commandServlet, "/jetty8gateinservlet");
+         contextHandler.addServlet(commandServlet, GATEIN_SERVLET_PATH);
       }
       catch (Exception ex)
       {

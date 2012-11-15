@@ -22,7 +22,6 @@
  ******************************************************************************/
 package org.gatein.wci.tomcat;
 
-import org.apache.catalina.Container;
 import org.apache.catalina.Context;
 import org.apache.catalina.Manager;
 import org.apache.catalina.Session;
@@ -42,6 +41,7 @@ import java.io.InputStream;
 public class TC7WebAppContext implements WebAppContext
 {
    private static final String GATEIN_SERVLET_NAME = "TomcatGateInServlet";
+   private static final String GATEIN_SERVLET_PATH = "/tomcatgateinservlet";
 
    /** . */
    private Document descriptor;
@@ -73,24 +73,19 @@ public class TC7WebAppContext implements WebAppContext
 
    public void start() throws Exception
    {
-      // only add the command servlet if it hasn't already been added to the context
-      final Container child = context.findChild(GATEIN_SERVLET_NAME);
-      if (child == null)
+      try
       {
-         try
-         {
-            commandServlet = context.createWrapper();
-            commandServlet.setName(GATEIN_SERVLET_NAME);
-            commandServlet.setLoadOnStartup(0);
-            commandServlet.setServletClass(CommandServlet.class.getName());
-            context.addChild(commandServlet);
-            context.addServletMapping("/tomcatgateinservlet", GATEIN_SERVLET_NAME);
-         }
-         catch (Exception e)
-         {
-            cleanup();
-            throw e;
-         }
+         commandServlet = context.createWrapper();
+         commandServlet.setName(GATEIN_SERVLET_NAME);
+         commandServlet.setLoadOnStartup(0);
+         commandServlet.setServletClass(CommandServlet.class.getName());
+         context.addChild(commandServlet);
+         context.addServletMapping(GATEIN_SERVLET_PATH, GATEIN_SERVLET_NAME);
+      }
+      catch (Exception e)
+      {
+         cleanup();
+         throw e;
       }
    }
 
@@ -105,7 +100,7 @@ public class TC7WebAppContext implements WebAppContext
       {
          try
          {
-            context.removeServletMapping("/tomcatgateinservlet"); 
+            context.removeServletMapping(GATEIN_SERVLET_PATH); 
             context.removeChild(commandServlet);
          }
          catch (Exception e)
