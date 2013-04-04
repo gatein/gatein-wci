@@ -26,35 +26,16 @@ import org.apache.catalina.Context;
 import org.apache.catalina.Manager;
 import org.apache.catalina.Session;
 import org.apache.catalina.Wrapper;
-import org.gatein.wci.command.CommandServlet;
-import org.gatein.wci.spi.WebAppContext;
-import org.w3c.dom.Document;
+import org.gatein.wci.spi.CatalinaWebAppContext;
 
-import javax.servlet.ServletContext;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * @author <a href="mailto:alain.defrance@exoplatform.com">Alain Defrance</a>
  * @version $Revision: 1.0 $
  */
-public class TC7WebAppContext implements WebAppContext
+public class TC7WebAppContext extends CatalinaWebAppContext
 {
-   private static final String GATEIN_SERVLET_NAME = "TomcatGateInServlet";
-   private static final String GATEIN_SERVLET_PATH = "/tomcatgateinservlet";
-
-   /** . */
-   private Document descriptor;
-
-   /** . */
-   private ServletContext servletContext;
-
-   /** . */
-   private ClassLoader loader;
-
-   /** . */
-   private String contextPath;
-
    /** . */
    private final Context context;
 
@@ -63,22 +44,24 @@ public class TC7WebAppContext implements WebAppContext
 
    TC7WebAppContext(Context context) throws Exception
    {
-      this.context = context;
+      super(context.getServletContext(), context.getLoader().getClassLoader(), context.getPath());
 
-      //
-      servletContext = context.getServletContext();
-      loader = context.getLoader().getClassLoader();
-      contextPath = context.getPath();
+      this.context = context;
    }
 
-   public void start() throws Exception
+   protected void performStartup() throws Exception
    {
       try
       {
+         String className = getCommandServletClassName();
+         if (null == className) {
+            return;
+         }
+
          commandServlet = context.createWrapper();
          commandServlet.setName(GATEIN_SERVLET_NAME);
-         commandServlet.setLoadOnStartup(0);
-         commandServlet.setServletClass(CommandServlet.class.getName());
+         commandServlet.setLoadOnStartup(GATEIN_SERVLET_LOAD_ON_STARTUP);
+         commandServlet.setServletClass(className);
          context.addChild(commandServlet);
          context.addServletMapping(GATEIN_SERVLET_PATH, GATEIN_SERVLET_NAME);
       }
@@ -89,44 +72,19 @@ public class TC7WebAppContext implements WebAppContext
       }
    }
 
-   public void stop()
-   {
-      cleanup();
-   }
-
-   private void cleanup()
+   protected void cleanup()
    {
       if (commandServlet != null)
       {
          try
          {
-            context.removeServletMapping(GATEIN_SERVLET_PATH); 
+            context.removeServletMapping(GATEIN_SERVLET_PATH);
             context.removeChild(commandServlet);
          }
          catch (Exception e)
          {
          }
       }
-   }
-
-   public ServletContext getServletContext()
-   {
-      return servletContext;
-   }
-
-   public ClassLoader getClassLoader()
-   {
-      return loader;
-   }
-
-   public String getContextPath()
-   {
-      return contextPath;
-   }
-
-   public boolean importFile(String parentDirRelativePath, String name, InputStream source, boolean overwrite) throws IOException
-   {
-      return false;
    }
 
    public boolean invalidateSession(String sessId)
