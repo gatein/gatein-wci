@@ -4,6 +4,8 @@ import org.gatein.common.logging.Logger;
 import org.gatein.common.logging.LoggerFactory;
 import org.gatein.wci.command.CommandServlet;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,6 +46,16 @@ public abstract class CatalinaWebAppContext implements WebAppContext {
     @Override
     public void start() throws Exception {
         performStartup();
+
+        // Add BeanManager to ServletContext
+        try {
+            Object beanMgr = new InitialContext().lookup("java:comp/BeanManager");
+            if (null != beanMgr) {
+                servletContext.setAttribute(BEAN_MGR_ATTR, beanMgr);
+            }
+        } catch (NamingException e) {
+            // Ignored
+        }
     }
 
     @Override
