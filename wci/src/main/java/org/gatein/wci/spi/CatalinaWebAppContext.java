@@ -89,7 +89,8 @@ public abstract class CatalinaWebAppContext implements WebAppContext {
             className = CommandServlet.class.getName();
             classLoader.loadClass(className);
         } catch(Exception ex) {
-            log.debug("WCI integration skipped for context: " + contextPath);
+            className = null;
+            log.debug("WCI integration skipped for context: /" + contextPath);
         }
         return className;
     }
