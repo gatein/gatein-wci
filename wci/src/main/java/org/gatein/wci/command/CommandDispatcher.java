@@ -38,7 +38,7 @@ public class CommandDispatcher
 {
 
    /** . */
-   private final String servletPath;
+   protected final String servletPath;
 
    public CommandDispatcher(String servletPath)
    {

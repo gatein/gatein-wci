@@ -40,10 +40,9 @@ import org.gatein.wci.ServletContainer;
 import org.gatein.wci.ServletContainerFactory;
 import org.gatein.wci.ServletContainerVisitor;
 import org.gatein.wci.WebApp;
-
 import org.gatein.wci.authentication.AuthenticationException;
-
 import org.gatein.wci.command.CommandDispatcher;
+import org.gatein.wci.command.TomcatCommandDispatcher;
 import org.gatein.wci.security.Credentials;
 import org.gatein.wci.spi.ServletContainerContext;
 
@@ -69,14 +68,14 @@ public class TC7ServletContainerContext implements ServletContainerContext, Cont
    private final static Logger log = LoggerFactory.getLogger(TC7ServletContainerContext.class);
 
    /** . */
-   private final CommandDispatcher dispatcher = new CommandDispatcher("/tomcatgateinservlet");
+   private final CommandDispatcher dispatcher = new TomcatCommandDispatcher("/tomcatgateinservlet");
 
    /** The monitored hosts. */
    private final Set<String> monitoredHosts = new HashSet<String>();
 
    /** The monitored contexts. */
    private final Set<String> monitoredContexts = new HashSet<String>();
-   
+
    /** The monitored contexts which were manually added. */
    private static Map<String, String> manualMonitoredContexts = new HashMap<String, String>();
 
@@ -104,7 +103,7 @@ public class TC7ServletContainerContext implements ServletContainerContext, Cont
       if (manualMonitoredContexts.containsKey(targetServletContext.getServletContextName()))
       {
          String dispatherPath = manualMonitoredContexts.get(targetServletContext.getServletContextName());
-         CommandDispatcher dispatcher = new CommandDispatcher(dispatherPath);
+         CommandDispatcher dispatcher = new TomcatCommandDispatcher(dispatherPath);
          return dispatcher.include(targetServletContext, request, response, callback, handback);
       }
       else
