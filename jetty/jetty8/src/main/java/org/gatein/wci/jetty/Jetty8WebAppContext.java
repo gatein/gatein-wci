@@ -22,9 +22,11 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.gatein.wci.command.CommandServlet;
 import org.gatein.wci.spi.WebAppContext;
+
 import java.io.IOException;
 import java.io.InputStream;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -35,7 +37,7 @@ public class Jetty8WebAppContext implements WebAppContext
 {
    private static final String GATEIN_SERVLET_NAME = "CommandServlet"; //TODO: why is Jetty the only one calling this 'CommandServlet'?
    private static final String GATEIN_SERVLET_PATH = "/jetty8gateinservlet";
-   
+
    private ServletHolder commandServlet;
 
    private final ServletContextHandler contextHandler;
@@ -125,5 +127,17 @@ public class Jetty8WebAppContext implements WebAppContext
          return true;
       }
       return false;
+   }
+
+   @Override
+   public void fireRequestDestroyed(ServletRequest servletRequest)
+   {
+      //Do Nothing
+   }
+
+   @Override
+   public void fireRequestInitialized(ServletRequest servletRequest)
+   {
+      //Do Nothing
    }
 }

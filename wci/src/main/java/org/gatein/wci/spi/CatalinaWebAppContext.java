@@ -7,6 +7,7 @@ import org.gatein.wci.command.CommandServlet;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -93,6 +94,18 @@ public abstract class CatalinaWebAppContext implements WebAppContext {
             log.debug("WCI integration skipped for context: /" + contextPath);
         }
         return className;
+    }
+
+    @Override
+    public void fireRequestDestroyed(ServletRequest servletRequest)
+    {
+       //Do Nothing
+    }
+
+    @Override
+    public void fireRequestInitialized(ServletRequest servletRequest)
+    {
+       //Do Nothing
     }
 
     protected abstract void performStartup() throws Exception;

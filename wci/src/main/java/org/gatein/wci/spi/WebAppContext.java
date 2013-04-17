@@ -23,6 +23,7 @@
 package org.gatein.wci.spi;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletRequest;
 import java.io.InputStream;
 import java.io.IOException;
 
@@ -94,4 +95,8 @@ public interface WebAppContext
     * @return true if session was found, false otherwise
     */
    boolean invalidateSession(String sessId);
+
+   public void fireRequestInitialized(ServletRequest servletRequest);
+
+   public void fireRequestDestroyed(ServletRequest servletRequest);
 }

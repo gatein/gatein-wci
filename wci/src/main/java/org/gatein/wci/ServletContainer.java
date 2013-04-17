@@ -36,6 +36,7 @@ import org.gatein.wci.spi.WebAppContext;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -582,6 +583,18 @@ public final class ServletContainer
       public boolean invalidateSession(String sessId)
       {
          return context.invalidateSession(sessId);
+      }
+
+      @Override
+      public void fireRequestInitialized(ServletRequest servletRequest)
+      {
+         context.fireRequestInitialized(servletRequest);
+      }
+
+      @Override
+      public void fireRequestDestroyed(ServletRequest servletRequest)
+      {
+         context.fireRequestDestroyed(servletRequest);
       }
    }
 }

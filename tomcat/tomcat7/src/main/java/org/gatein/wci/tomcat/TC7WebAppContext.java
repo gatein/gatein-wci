@@ -26,8 +26,12 @@ import org.apache.catalina.Context;
 import org.apache.catalina.Manager;
 import org.apache.catalina.Session;
 import org.apache.catalina.Wrapper;
+import org.gatein.wci.command.CommandServlet;
 import org.gatein.wci.spi.CatalinaWebAppContext;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletRequestEvent;
+import javax.servlet.ServletRequestListener;
 import java.io.IOException;
 
 /**
@@ -54,7 +58,8 @@ public class TC7WebAppContext extends CatalinaWebAppContext
       try
       {
          String className = getCommandServletClassName();
-         if (null == className) {
+         if (null == className)
+         {
             return;
          }
 
@@ -106,5 +111,65 @@ public class TC7WebAppContext extends CatalinaWebAppContext
          }
       }
       return false;
+   }
+
+   @Override
+   public void fireRequestDestroyed(ServletRequest servletRequest)
+   {
+      Object instances[] = context.getApplicationEventListeners();
+      if (null != instances && instances.length > 0)
+      {
+         ServletRequestEvent event = new ServletRequestEvent(context.getServletContext(), servletRequest);
+         for (int i = instances.length - 1; i >= 0; i--)
+         {
+            if (null == instances[i])
+            {
+               continue;
+            }
+            if (!(instances[i] instanceof ServletRequestListener))
+            {
+               continue;
+            }
+            ServletRequestListener listener = (ServletRequestListener) instances[i];
+            try
+            {
+               listener.requestDestroyed(event);
+            }
+            catch (Throwable t)
+            {
+               log.warn("Error calling requestDestroyed() for " + listener.toString(), t);
+            }
+         }
+      }
+   }
+
+   @Override
+   public void fireRequestInitialized(ServletRequest servletRequest)
+   {
+      Object instances[] = context.getApplicationEventListeners();
+      if (null != instances && instances.length > 0)
+      {
+         ServletRequestEvent event = new ServletRequestEvent(context.getServletContext(), servletRequest);
+         for (int i = 0; i < instances.length; i++)
+         {
+            if (null == instances[i])
+            {
+               continue;
+            }
+            if (!(instances[i] instanceof ServletRequestListener))
+            {
+               continue;
+            }
+            ServletRequestListener listener = (ServletRequestListener) instances[i];
+            try
+            {
+               listener.requestInitialized(event);
+            }
+            catch (Throwable t)
+            {
+               log.warn("Error calling requestInitialized() for " + listener.toString(), t);
+            }
+         }
+      }
    }
 }
