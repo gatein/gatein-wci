@@ -139,6 +139,11 @@ public class JB7ServletContainerContext implements ServletContainerContext, Cont
    public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException
    {
       HttpSession sess = request.getSession(false);
+
+      // call session.invalidate() before calling request.logout() to work around AS7-5728
+      if (sess != null)
+         sess.invalidate();
+
       request.logout();
 
       if (sess == null)
