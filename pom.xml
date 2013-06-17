@@ -6,7 +6,7 @@
   
   <groupId>org.gatein.wci</groupId>
   <artifactId>wci-parent</artifactId>
-  <version>2.3.1.CR06-SNAPSHOT</version>
+  <version>2.3.1.Final</version>
   <packaging>pom</packaging>
   
   <parent>
