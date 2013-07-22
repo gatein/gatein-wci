@@ -25,6 +25,8 @@ import org.apache.catalina.Engine;
 import org.apache.catalina.Server;
 import org.apache.catalina.Service;
 import org.apache.catalina.core.StandardServer;
+import org.gatein.common.logging.Logger;
+import org.gatein.common.logging.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -36,6 +38,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class CatalinaIntegration
 {
+   private static final Logger log = LoggerFactory.getLogger(CatalinaIntegration.class);
+
+   /**
+    * System property name that can be used to turn off cross-context logout
+    */
+   private static final String CROSS_CONTEXT_LOGOUT_KEY = "org.gatein.wci.cross_context_logout";
+
    private StandardServer server;
 
    protected final AtomicBoolean start = new AtomicBoolean(false);
@@ -63,7 +72,7 @@ public class CatalinaIntegration
       {
          Engine engine = (Engine) service.getContainer();
          JB7ServletContainerContext containerContext = new JB7ServletContainerContext(engine);
-         containerContext.setCrossContextLogout(true);
+         containerContext.setCrossContextLogout(getCrossContextLogoutConfig());
          containerContext.start();
          containerContexts.put(engine, containerContext);
       }
@@ -88,5 +97,22 @@ public class CatalinaIntegration
          containerContext.stop();
          containerContexts.remove(engine);
       }
+   }
+
+   private boolean getCrossContextLogoutConfig()
+   {
+      String val = System.getProperty(CROSS_CONTEXT_LOGOUT_KEY);
+      if (val == null || Boolean.valueOf(val))
+      {
+         return true;
+      }
+
+      if (!"false".equalsIgnoreCase(val))
+      {
+         log.warn("System property " + CROSS_CONTEXT_LOGOUT_KEY + " value is invalid: [" + val + "] - falling back to: [false]");
+      }
+
+      log.info("Cross-context session invalidation on logout disabled");
+      return false;
    }
 }

@@ -32,7 +32,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
 /**
+ * This servlet class has been deprecated.
+ * <p></p>
+ * Its functionality is performed by {@link CatalinaIntegration} which is bootstrapped in AS7 via {@link GateInWCIServiceActivator}.
+ *
  * @author <a href="mailto:mstrukel@redhat.com">Marko Strukelj</a>
+ * @deprecated
  */
 public class JB7ContainerServlet extends HttpServlet implements ContainerServlet
 {
