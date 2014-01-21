@@ -29,6 +29,8 @@ import org.gatein.wci.spi.CatalinaWebAppContext;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * @author <a href="mailto:mstrukel@redhat.com">Marko Strukelj</a>
  */
@@ -89,7 +91,7 @@ public class JB7WebAppContext extends CatalinaWebAppContext
       }
    }
 
-   public boolean invalidateSession(String sessId)
+   public HttpSession getHttpSession(String sessId)
    {
       Manager mgr = context.getManager();
       if (mgr != null)
@@ -99,14 +101,14 @@ public class JB7WebAppContext extends CatalinaWebAppContext
             Session sess = mgr.findSession(sessId);
             if (sess != null)
             {
-               sess.expire();
-               return true;
+               return sess.getSession();
             }
          }
          catch (IOException ignored)
          {
          }
       }
-      return false;
+
+      return null;
    }
 }

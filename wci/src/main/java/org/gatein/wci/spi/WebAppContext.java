@@ -24,6 +24,8 @@ package org.gatein.wci.spi;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpSession;
+
 import java.io.InputStream;
 import java.io.IOException;
 
@@ -88,13 +90,12 @@ public interface WebAppContext
     */
    boolean importFile(String parentDirRelativePath, String name, InputStream source, boolean overwrite) throws IOException;
 
-   /**
-    * Invalidate session for the specified id.
-    *
-    * @param sessId Session id
-    * @return true if session was found, false otherwise
-    */
-   boolean invalidateSession(String sessId);
+    /**
+     * Returns Http session in case that session with sessId exists for this web application
+     * @param sessId
+     * @return session with given ID or null if session with this ID doesn't exist
+     */
+   HttpSession getHttpSession(String sessId);
 
    public void fireRequestInitialized(ServletRequest servletRequest);
 

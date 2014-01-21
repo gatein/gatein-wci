@@ -39,6 +39,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -580,9 +582,9 @@ public final class ServletContainer
          return context.importFile(parentDirRelativePath, name, source, overwrite);
       }
 
-      public boolean invalidateSession(String sessId)
+      public HttpSession getHttpSession(String sessId)
       {
-         return context.invalidateSession(sessId);
+         return context.getHttpSession(sessId);
       }
 
       @Override

@@ -32,6 +32,7 @@ import org.gatein.wci.spi.CatalinaWebAppContext;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletRequestEvent;
 import javax.servlet.ServletRequestListener;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -92,7 +93,7 @@ public class TC7WebAppContext extends CatalinaWebAppContext
       }
    }
 
-   public boolean invalidateSession(String sessId)
+   public HttpSession getHttpSession(String sessId)
    {
       Manager mgr = context.getManager();
       if (mgr != null)
@@ -102,15 +103,15 @@ public class TC7WebAppContext extends CatalinaWebAppContext
             Session sess = mgr.findSession(sessId);
             if (sess != null)
             {
-               sess.expire();
-               return true;
+               return sess.getSession();
             }
          }
          catch (IOException ignored)
          {
          }
       }
-      return false;
+
+      return null;
    }
 
    @Override

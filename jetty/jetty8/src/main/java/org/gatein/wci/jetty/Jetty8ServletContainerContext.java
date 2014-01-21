@@ -35,6 +35,8 @@ import org.gatein.wci.WebApp;
 import org.gatein.wci.authentication.AuthenticationException;
 import org.gatein.wci.command.CommandDispatcher;
 import org.gatein.wci.security.Credentials;
+import org.gatein.wci.session.SessionTask;
+import org.gatein.wci.session.SessionTaskVisitor;
 import org.gatein.wci.spi.ServletContainerContext;
 import java.io.IOException;
 import java.util.HashMap;
@@ -159,13 +161,16 @@ public class Jetty8ServletContainerContext implements ServletContainerContext, C
       { return; }
 
       final String sessId = sess.getId();
-      ServletContainerFactory.getServletContainer().visit(new ServletContainerVisitor()
+      ServletContainerFactory.getServletContainer().visit(new SessionTaskVisitor(sessId, new SessionTask()
       {
-         public void accept(WebApp webApp)
+         @Override
+         public boolean executeTask(HttpSession session)
          {
-            webApp.invalidateSession(sessId);
+            session.invalidate();
+            return true;
          }
-      });
+
+      }));
    }
 
    @Override
