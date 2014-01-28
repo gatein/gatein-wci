@@ -118,15 +118,9 @@ public class Jetty8WebAppContext implements WebAppContext
    }
 
    @Override
-   public boolean invalidateSession(String sessId)
+   public HttpSession getHttpSession(String sessId)
    {
-      HttpSession session = contextHandler.getSessionHandler().getSessionManager().getHttpSession(sessId);
-      if (session != null)
-      {
-         session.invalidate();
-         return true;
-      }
-      return false;
+      return contextHandler.getSessionHandler().getSessionManager().getHttpSession(sessId);
    }
 
    @Override

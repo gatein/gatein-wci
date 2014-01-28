@@ -44,6 +44,8 @@ import org.gatein.wci.authentication.AuthenticationException;
 import org.gatein.wci.command.CommandDispatcher;
 import org.gatein.wci.command.TomcatCommandDispatcher;
 import org.gatein.wci.security.Credentials;
+import org.gatein.wci.session.SessionTask;
+import org.gatein.wci.session.SessionTaskVisitor;
 import org.gatein.wci.spi.ServletContainerContext;
 
 import javax.servlet.ServletContext;
@@ -152,13 +154,16 @@ public class TC7ServletContainerContext implements ServletContainerContext, Cont
          return;
 
       final String sessId = sess.getId();
-      ServletContainerFactory.getServletContainer().visit(new ServletContainerVisitor()
+      ServletContainerFactory.getServletContainer().visit(new SessionTaskVisitor(sessId, new SessionTask()
       {
-         public void accept(WebApp webApp)
+         @Override
+         public boolean executeTask(HttpSession session)
          {
-            webApp.invalidateSession(sessId);
+            session.invalidate();
+            return true;
          }
-      });
+
+      }));
    }
 
    public String getContainerInfo()

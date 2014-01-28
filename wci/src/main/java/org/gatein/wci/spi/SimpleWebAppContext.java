@@ -26,6 +26,7 @@ import org.gatein.wci.spi.WebAppContext;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.InputStream;
 import java.io.IOException;
 
@@ -72,9 +73,9 @@ public class SimpleWebAppContext implements WebAppContext
       return false;
    }
 
-   public boolean invalidateSession(String sessId)
+   public HttpSession getHttpSession(String sessId)
    {
-      return false;
+      return null;
    }
 
    @Override
