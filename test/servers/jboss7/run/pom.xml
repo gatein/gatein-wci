@@ -60,7 +60,7 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <configuration>
             <systemPropertyVariables>
-              <JBOSS_HOME>${project.build.directory}/servers/jboss-as-${version.jboss7}</JBOSS_HOME>
+              <JBOSS_HOME>${project.build.directory}/servers/jboss-as-${version.jboss.as}</JBOSS_HOME>
             </systemPropertyVariables>
          </configuration>
           <executions>
@@ -110,7 +110,7 @@
             </goals>
             <phase>process-test-resources</phase>
             <configuration>
-              <outputDirectory>${project.build.directory}/servers/jboss-as-${version.jboss7}/standalone/configuration</outputDirectory>
+              <outputDirectory>${project.build.directory}/servers/jboss-as-${version.jboss.as}/standalone/configuration</outputDirectory>
               <overwrite>true</overwrite>
               <resources>
                 <resource>
