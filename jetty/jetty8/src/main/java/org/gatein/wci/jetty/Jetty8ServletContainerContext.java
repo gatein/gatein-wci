@@ -166,7 +166,13 @@ public class Jetty8ServletContainerContext implements ServletContainerContext, C
          @Override
          public boolean executeTask(HttpSession session)
          {
+            ClassLoader portalContainerCL = Thread.currentThread().getContextClassLoader();
+            ClassLoader webAppCL = session.getServletContext().getClassLoader();
+
+            Thread.currentThread().setContextClassLoader(webAppCL);
             session.invalidate();
+            Thread.currentThread().setContextClassLoader(portalContainerCL);
+
             return true;
          }
 
