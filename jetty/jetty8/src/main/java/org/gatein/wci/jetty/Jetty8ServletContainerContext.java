@@ -170,8 +170,14 @@ public class Jetty8ServletContainerContext implements ServletContainerContext, C
             ClassLoader webAppCL = session.getServletContext().getClassLoader();
 
             Thread.currentThread().setContextClassLoader(webAppCL);
-            session.invalidate();
-            Thread.currentThread().setContextClassLoader(portalContainerCL);
+            try {
+                session.invalidate();
+            } catch (IllegalStateException e) {
+                LOG.debug("Was not able to invalidate web app session");
+                e.printStackTrace();
+            } finally {
+                Thread.currentThread().setContextClassLoader(portalContainerCL);
+            }
 
             return true;
          }
