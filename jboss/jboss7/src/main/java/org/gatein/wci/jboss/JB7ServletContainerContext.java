@@ -170,9 +170,6 @@ public class JB7ServletContainerContext implements ServletContainerContext, Cont
             Thread.currentThread().setContextClassLoader(webAppCL);
             try {
                 session.invalidate();
-            } catch (IllegalStateException e) {
-                log.debug("Was not able to invalidate web app session");
-                e.printStackTrace();
             } finally {
                 Thread.currentThread().setContextClassLoader(portalContainerCL);
             }

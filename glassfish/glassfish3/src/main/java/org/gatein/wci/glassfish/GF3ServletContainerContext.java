@@ -131,8 +131,6 @@ public class GF3ServletContainerContext implements ServletContainerContext, Cont
             Thread.currentThread().setContextClassLoader(webAppCL);
             try {
                 session.invalidate();
-            } catch (IllegalStateException e) {
-                e.printStackTrace();
             } finally {
                 Thread.currentThread().setContextClassLoader(portalContainerCL);
             }
